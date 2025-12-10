@@ -51,10 +51,11 @@ const SkillCard = ({
 
   return (
     <motion.div
-      className={`relative group overflow-hidden rounded-xl p-4 sm:p-5 md:p-6 transition-all duration-300 h-full ${currentTheme === "dark"
-        ? "bg-slate-800/70 border border-teal-900/50 hover:bg-slate-800/90"
-        : "bg-white border border-teal-100 hover:bg-slate-50"
-        } backdrop-blur-sm shadow-lg hover:shadow-xl hover:shadow-teal-500/10 transform hover:-translate-y-1`}
+      className={`relative group overflow-hidden rounded-xl p-4 sm:p-5 md:p-6 transition-all duration-300 h-full ${
+        currentTheme === "dark"
+          ? "bg-slate-800/70 border border-teal-900/50 hover:bg-slate-800/90"
+          : "bg-white border border-teal-100 hover:bg-slate-50"
+      } backdrop-blur-sm shadow-lg hover:shadow-xl hover:shadow-teal-500/10 transform hover:-translate-y-1`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -75,8 +76,9 @@ const SkillCard = ({
             />
           ) : (
             <div
-              className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center ${currentTheme === "dark" ? "bg-teal-900/50" : "bg-teal-50"
-                } border-2 border-teal-500/30`}
+              className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center ${
+                currentTheme === "dark" ? "bg-teal-900/50" : "bg-teal-50"
+              } border-2 border-teal-500/30`}
             >
               {getCategoryIcon(skill.category)}
             </div>
@@ -86,16 +88,18 @@ const SkillCard = ({
 
         {/* Skill name and category */}
         <h3
-          className={`text-base sm:text-lg md:text-xl font-bold text-center ${currentTheme === "dark" ? "text-white" : "text-slate-800"
-            } group-hover:text-teal-500 transition-colors duration-300 line-clamp-2`}
+          className={`text-base sm:text-lg md:text-xl font-bold text-center ${
+            currentTheme === "dark" ? "text-white" : "text-slate-800"
+          } group-hover:text-teal-500 transition-colors duration-300 line-clamp-2`}
         >
           {skill.name}
         </h3>
         <span
-          className={`text-xs px-2 py-1 rounded-full mt-1 md:mt-2 ${currentTheme === "dark"
-            ? "bg-teal-900/40 text-teal-300"
-            : "bg-teal-100 text-teal-700"
-            }`}
+          className={`text-xs px-2 py-1 rounded-full mt-1 md:mt-2 ${
+            currentTheme === "dark"
+              ? "bg-teal-900/40 text-teal-300"
+              : "bg-teal-100 text-teal-700"
+          }`}
         >
           {skill.category}
         </span>
@@ -104,10 +108,11 @@ const SkillCard = ({
         <div className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mt-3 md:mt-4">
           <svg className="w-full h-full" viewBox="0 0 100 100">
             <circle
-              className={`${currentTheme === "dark"
-                ? "stroke-slate-700"
-                : "stroke-slate-200"
-                }`}
+              className={`${
+                currentTheme === "dark"
+                  ? "stroke-slate-700"
+                  : "stroke-slate-200"
+              }`}
               cx="50"
               cy="50"
               r="40"
@@ -129,8 +134,9 @@ const SkillCard = ({
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
             <span
-              className={`text-xs sm:text-sm font-semibold ${currentTheme === "dark" ? "text-teal-400" : "text-teal-600"
-                }`}
+              className={`text-xs sm:text-sm font-semibold ${
+                currentTheme === "dark" ? "text-teal-400" : "text-teal-600"
+              }`}
             >
               {skill.level}
             </span>
@@ -143,10 +149,11 @@ const SkillCard = ({
         <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 flex gap-1 sm:gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
             onClick={() => handleEdit(skill)}
-            className={`p-1.5 sm:p-2 rounded-full ${currentTheme === "dark"
-              ? "bg-slate-700/80 hover:bg-amber-900/70 text-amber-400"
-              : "bg-white/90 hover:bg-amber-100 text-amber-600"
-              } shadow-lg transition-colors duration-200`}
+            className={`p-1.5 sm:p-2 rounded-full ${
+              currentTheme === "dark"
+                ? "bg-slate-700/80 hover:bg-amber-900/70 text-amber-400"
+                : "bg-white/90 hover:bg-amber-100 text-amber-600"
+            } shadow-lg transition-colors duration-200`}
             aria-label="Edit skill"
           >
             <Edit size={14} className="sm:hidden" />
@@ -154,10 +161,11 @@ const SkillCard = ({
           </button>
           <button
             onClick={() => handleDelete(skill.id)}
-            className={`p-1.5 sm:p-2 rounded-full ${currentTheme === "dark"
-              ? "bg-slate-700/80 hover:bg-red-900/70 text-red-400"
-              : "bg-white/90 hover:bg-red-100 text-red-600"
-              } shadow-lg transition-colors duration-200`}
+            className={`p-1.5 sm:p-2 rounded-full ${
+              currentTheme === "dark"
+                ? "bg-slate-700/80 hover:bg-red-900/70 text-red-400"
+                : "bg-white/90 hover:bg-red-100 text-red-600"
+            } shadow-lg transition-colors duration-200`}
             aria-label="Delete skill"
           >
             <Trash2 size={14} className="sm:hidden" />
@@ -216,7 +224,7 @@ const Skills = () => {
     name: "",
     level: "Beginner",
     category: "Frontend",
-   iconFile: null,
+    iconUrl: "",
   });
   const [filterCategory, setFilterCategory] = useState("All");
   const [isInView, setIsInView] = useState(false);
@@ -317,7 +325,7 @@ const Skills = () => {
       name: skill.name,
       level: skill.level,
       category: skill.category,
-      iconFile: null,
+      iconUrl: skill.iconUrl || "",
     });
     setIsModalOpen(true);
   };
@@ -328,43 +336,39 @@ const Skills = () => {
       const token = localStorage.getItem("jwtToken");
       if (!token) throw new Error("Authentication token not found");
 
-      const form = new FormData();
-      form.append("name", formData.name);
-      form.append("level", formData.level);
-      form.append("category", formData.category);
-      if (formData.iconFile) {
-        form.append("icon", formData.iconFile);
-      }
+      const skillData = {
+        name: formData.name,
+        level: formData.level,
+        category: formData.category,
+        iconUrl: formData.iconUrl || null,
+      };
 
       let response;
       if (editingSkill) {
         response = await axios.put(
           `/api/skills/${editingSkill.id}`,
-          form,
+          skillData,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
       } else {
-        response = await axios.post("/api/skills", form, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-          baseURL: BACKEND_URL,
+        response = await axios.post("/api/skills", skillData, {
+          headers: { Authorization: `Bearer ${token}` },
+          baseURL: import.meta.env.VITE_BACKEND_URL,
         });
       }
 
-      toast.success(editingSkill ? "Skill updated successfully!" : "Skill added successfully!");
+      toast.success(
+        editingSkill
+          ? "Skill updated successfully!"
+          : "Skill added successfully!"
+      );
       setIsModalOpen(false);
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to save skill");
     }
   };
-
 
   const handleDelete = async (skillId) => {
     if (window.confirm("Are you sure you want to delete this skill?")) {
@@ -391,8 +395,9 @@ const Skills = () => {
   if (loading) {
     return (
       <div
-        className={`min-h-screen flex justify-center items-center ${currentTheme === "dark" ? "bg-slate-900" : "bg-white"
-          } transition-colors duration-300`}
+        className={`min-h-screen flex justify-center items-center ${
+          currentTheme === "dark" ? "bg-slate-900" : "bg-white"
+        } transition-colors duration-300`}
       >
         <div className="relative">
           <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-teal-100 border-solid rounded-full"></div>
@@ -405,18 +410,21 @@ const Skills = () => {
   if (error) {
     return (
       <div
-        className={`min-h-screen flex justify-center items-center p-4 sm:p-6 ${currentTheme === "dark" ? "bg-slate-900" : "bg-white"
-          } transition-colors duration-300`}
+        className={`min-h-screen flex justify-center items-center p-4 sm:p-6 ${
+          currentTheme === "dark" ? "bg-slate-900" : "bg-white"
+        } transition-colors duration-300`}
       >
         <div
-          className={`rounded-lg p-4 sm:p-6 max-w-lg w-full ${currentTheme === "dark"
-            ? "bg-slate-800 border-l-4 border-teal-500"
-            : "bg-white border-l-4 border-teal-500 shadow-lg"
-            }`}
+          className={`rounded-lg p-4 sm:p-6 max-w-lg w-full ${
+            currentTheme === "dark"
+              ? "bg-slate-800 border-l-4 border-teal-500"
+              : "bg-white border-l-4 border-teal-500 shadow-lg"
+          }`}
         >
           <h2
-            className={`text-lg sm:text-xl font-semibold mb-2 ${currentTheme === "dark" ? "text-teal-400" : "text-teal-600"
-              }`}
+            className={`text-lg sm:text-xl font-semibold mb-2 ${
+              currentTheme === "dark" ? "text-teal-400" : "text-teal-600"
+            }`}
           >
             Error Loading Skills
           </h2>
@@ -429,10 +437,11 @@ const Skills = () => {
           </p>
           <button
             onClick={() => window.location.reload()}
-            className={`mt-4 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md ${currentTheme === "dark"
-              ? "bg-teal-500/20 text-teal-400 hover:bg-teal-500/30"
-              : "bg-teal-50 text-teal-700 hover:bg-teal-100"
-              } transition-colors duration-300`}
+            className={`mt-4 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md ${
+              currentTheme === "dark"
+                ? "bg-teal-500/20 text-teal-400 hover:bg-teal-500/30"
+                : "bg-teal-50 text-teal-700 hover:bg-teal-100"
+            } transition-colors duration-300`}
           >
             Try Again
           </button>
@@ -443,8 +452,9 @@ const Skills = () => {
 
   return (
     <div
-      className={`relative min-h-screen pt-16 sm:pt-18 md:pt-20 pb-12 sm:pb-14 md:pb-16 transition-colors duration-300 overflow-hidden ${currentTheme === "dark" ? "bg-slate-900" : "bg-white"
-        }`}
+      className={`relative min-h-screen pt-16 sm:pt-18 md:pt-20 pb-12 sm:pb-14 md:pb-16 transition-colors duration-300 overflow-hidden ${
+        currentTheme === "dark" ? "bg-slate-900" : "bg-white"
+      }`}
     >
       <ToastContainer
         position="top-right"
@@ -457,22 +467,26 @@ const Skills = () => {
       <div
         ref={gradientRef}
         data-rotation="0"
-        className={`absolute inset-0 w-full h-full ${currentTheme === "dark" ? "opacity-40" : "opacity-20"
-          }`}
+        className={`absolute inset-0 w-full h-full ${
+          currentTheme === "dark" ? "opacity-40" : "opacity-20"
+        }`}
       />
       <div
-        className={`absolute inset-0 w-full h-full ${currentTheme === "dark"
-          ? "bg-[radial-gradient(ellipse_at_30%_20%,rgba(20,184,166,0.2),transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(6,182,212,0.25),transparent_60%)]"
-          : "bg-[radial-gradient(ellipse_at_30%_20%,rgba(20,184,166,0.1),transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(6,182,212,0.15),transparent_60%)]"
-          }`}
+        className={`absolute inset-0 w-full h-full ${
+          currentTheme === "dark"
+            ? "bg-[radial-gradient(ellipse_at_30%_20%,rgba(20,184,166,0.2),transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(6,182,212,0.25),transparent_60%)]"
+            : "bg-[radial-gradient(ellipse_at_30%_20%,rgba(20,184,166,0.1),transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(6,182,212,0.15),transparent_60%)]"
+        }`}
       />
       <div
-        className={`absolute -top-20 -right-20 w-64 h-64 bg-teal-500 rounded-full filter blur-3xl ${currentTheme === "dark" ? "opacity-10" : "opacity-5"
-          } animate-pulse`}
+        className={`absolute -top-20 -right-20 w-64 h-64 bg-teal-500 rounded-full filter blur-3xl ${
+          currentTheme === "dark" ? "opacity-10" : "opacity-5"
+        } animate-pulse`}
       ></div>
       <div
-        className={`absolute -bottom-16 -left-16 w-72 h-72 bg-cyan-500 rounded-full filter blur-3xl ${currentTheme === "dark" ? "opacity-10" : "opacity-5"
-          } animate-pulse-slow`}
+        className={`absolute -bottom-16 -left-16 w-72 h-72 bg-cyan-500 rounded-full filter blur-3xl ${
+          currentTheme === "dark" ? "opacity-10" : "opacity-5"
+        } animate-pulse-slow`}
       ></div>
 
       {/* Particles */}
@@ -482,8 +496,9 @@ const Skills = () => {
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 relative z-10">
         <div className="text-center mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto">
           <h2
-            className={`text-3xl sm:text-4xl md:text-5xl font-bold ${currentTheme === "dark" ? "text-white" : "text-slate-800"
-              } inline-block relative`}
+            className={`text-3xl sm:text-4xl md:text-5xl font-bold ${
+              currentTheme === "dark" ? "text-white" : "text-slate-800"
+            } inline-block relative`}
           >
             My{" "}
             <span className="text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 bg-clip-text">
@@ -492,8 +507,9 @@ const Skills = () => {
             <span className="absolute -bottom-1 left-0 h-1 w-full bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 opacity-70"></span>
           </h2>
           <p
-            className={`text-base sm:text-lg mt-3 sm:mt-4 mx-auto max-w-2xl ${currentTheme === "dark" ? "text-slate-300" : "text-slate-600"
-              }`}
+            className={`text-base sm:text-lg mt-3 sm:mt-4 mx-auto max-w-2xl ${
+              currentTheme === "dark" ? "text-slate-300" : "text-slate-600"
+            }`}
           >
             A curated collection of my technical expertise, showcasing
             proficiency across various domains.
@@ -506,14 +522,15 @@ const Skills = () => {
             <button
               key={category}
               onClick={() => setFilterCategory(category)}
-              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm sm:text-base font-medium transition-all duration-300 ${filterCategory === category
-                ? currentTheme === "dark"
-                  ? "bg-teal-600 text-white shadow-lg shadow-teal-500/20"
-                  : "bg-teal-500 text-white shadow-lg shadow-teal-500/20"
-                : currentTheme === "dark"
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm sm:text-base font-medium transition-all duration-300 ${
+                filterCategory === category
+                  ? currentTheme === "dark"
+                    ? "bg-teal-600 text-white shadow-lg shadow-teal-500/20"
+                    : "bg-teal-500 text-white shadow-lg shadow-teal-500/20"
+                  : currentTheme === "dark"
                   ? "bg-slate-700 text-slate-300 hover:bg-teal-700"
                   : "bg-slate-100 text-slate-700 hover:bg-teal-100"
-                }`}
+              }`}
             >
               {category}
             </button>
@@ -537,24 +554,27 @@ const Skills = () => {
         {/* Skills grid */}
         {filteredSkills.length === 0 ? (
           <div
-            className={`text-center py-12 sm:py-16 md:py-20 px-4 sm:px-6 rounded-xl ${currentTheme === "dark"
-              ? "bg-slate-800/50 border border-slate-700"
-              : "bg-slate-50 border border-slate-100"
-              } backdrop-blur-sm`}
+            className={`text-center py-12 sm:py-16 md:py-20 px-4 sm:px-6 rounded-xl ${
+              currentTheme === "dark"
+                ? "bg-slate-800/50 border border-slate-700"
+                : "bg-slate-50 border border-slate-100"
+            } backdrop-blur-sm`}
           >
             <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center bg-gradient-to-br from-teal-500 to-cyan-400 shadow-lg shadow-teal-500/20">
               <Plus size={20} className="sm:hidden text-white" />
               <Plus size={24} className="hidden sm:block text-white" />
             </div>
             <h3
-              className={`text-lg sm:text-xl font-semibold mb-2 ${currentTheme === "dark" ? "text-white" : "text-slate-700"
-                }`}
+              className={`text-lg sm:text-xl font-semibold mb-2 ${
+                currentTheme === "dark" ? "text-white" : "text-slate-700"
+              }`}
             >
               No Skills Found
             </h3>
             <p
-              className={`max-w-md mx-auto text-sm sm:text-base ${currentTheme === "dark" ? "text-slate-400" : "text-slate-500"
-                }`}
+              className={`max-w-md mx-auto text-sm sm:text-base ${
+                currentTheme === "dark" ? "text-slate-400" : "text-slate-500"
+              }`}
             >
               No skills match the selected category. Try another category or add
               a new skill.
@@ -587,10 +607,11 @@ const Skills = () => {
             onClick={() => setIsModalOpen(false)}
           >
             <motion.div
-              className={`w-full max-w-lg rounded-xl p-4 sm:p-6 ${currentTheme === "dark"
-                ? "bg-slate-800 border border-slate-700"
-                : "bg-white border border-slate-100"
-                } shadow-2xl shadow-teal-900/20 transition-all duration-300 max-h-[90vh] overflow-y-auto`}
+              className={`w-full max-w-lg rounded-xl p-4 sm:p-6 ${
+                currentTheme === "dark"
+                  ? "bg-slate-800 border border-slate-700"
+                  : "bg-white border border-slate-100"
+              } shadow-2xl shadow-teal-900/20 transition-all duration-300 max-h-[90vh] overflow-y-auto`}
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
@@ -598,8 +619,9 @@ const Skills = () => {
             >
               <div className="flex justify-between items-center mb-4 sm:mb-6">
                 <h2
-                  className={`text-xl sm:text-2xl font-bold ${currentTheme === "dark" ? "text-white" : "text-slate-800"
-                    }`}
+                  className={`text-xl sm:text-2xl font-bold ${
+                    currentTheme === "dark" ? "text-white" : "text-slate-800"
+                  }`}
                 >
                   <span className="text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 bg-clip-text">
                     {editingSkill ? "Edit Skill" : "Add New Skill"}
@@ -607,10 +629,11 @@ const Skills = () => {
                 </h2>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className={`p-1.5 sm:p-2 rounded-full ${currentTheme === "dark"
-                    ? "bg-slate-700 hover:bg-slate-600 text-slate-300"
-                    : "bg-slate-100 hover:bg-slate-200 text-slate-700"
-                    } transition-colors duration-200`}
+                  className={`p-1.5 sm:p-2 rounded-full ${
+                    currentTheme === "dark"
+                      ? "bg-slate-700 hover:bg-slate-600 text-slate-300"
+                      : "bg-slate-100 hover:bg-slate-200 text-slate-700"
+                  } transition-colors duration-200`}
                 >
                   <X size={16} className="sm:hidden" />
                   <X size={18} className="hidden sm:block" />
@@ -620,10 +643,11 @@ const Skills = () => {
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                 <div>
                   <label
-                    className={`block text-xs sm:text-sm font-medium mb-1 ${currentTheme === "dark"
-                      ? "text-slate-300"
-                      : "text-slate-700"
-                      }`}
+                    className={`block text-xs sm:text-sm font-medium mb-1 ${
+                      currentTheme === "dark"
+                        ? "text-slate-300"
+                        : "text-slate-700"
+                    }`}
                     htmlFor="name"
                   >
                     Skill Name
@@ -634,10 +658,11 @@ const Skills = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className={`w-full px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base ${currentTheme === "dark"
-                      ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
-                      : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
-                      } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
+                    className={`w-full px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base ${
+                      currentTheme === "dark"
+                        ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
+                        : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
+                    } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
                     required
                     placeholder="Enter skill name"
                   />
@@ -645,10 +670,11 @@ const Skills = () => {
 
                 <div>
                   <label
-                    className={`block text-xs sm:text-sm font-medium mb-1 ${currentTheme === "dark"
-                      ? "text-slate-300"
-                      : "text-slate-700"
-                      }`}
+                    className={`block text-xs sm:text-sm font-medium mb-1 ${
+                      currentTheme === "dark"
+                        ? "text-slate-300"
+                        : "text-slate-700"
+                    }`}
                     htmlFor="level"
                   >
                     Level
@@ -658,10 +684,11 @@ const Skills = () => {
                     name="level"
                     value={formData.level}
                     onChange={handleChange}
-                    className={`w-full px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base ${currentTheme === "dark"
-                      ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
-                      : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
-                      } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
+                    className={`w-full px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base ${
+                      currentTheme === "dark"
+                        ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
+                        : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
+                    } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
                     required
                   >
                     <option value="Beginner">Beginner</option>
@@ -672,10 +699,11 @@ const Skills = () => {
 
                 <div>
                   <label
-                    className={`block text-xs sm:text-sm font-medium mb-1 ${currentTheme === "dark"
-                      ? "text-slate-300"
-                      : "text-slate-700"
-                      }`}
+                    className={`block text-xs sm:text-sm font-medium mb-1 ${
+                      currentTheme === "dark"
+                        ? "text-slate-300"
+                        : "text-slate-700"
+                    }`}
                     htmlFor="category"
                   >
                     Category
@@ -685,10 +713,11 @@ const Skills = () => {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className={`w-full px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-base ${currentTheme === "dark"
-                      ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
-                      : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
-                      } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
+                    className={`w-full px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-base ${
+                      currentTheme === "dark"
+                        ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
+                        : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
+                    } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
                     required
                   >
                     <option value="Frontend">Frontend</option>
@@ -699,36 +728,39 @@ const Skills = () => {
 
                 <div>
                   <label
-                    className={`block text-xs sm:text-sm font-medium mb-1 ${currentTheme === "dark" ? "text-slate-300" : "text-slate-700"
-                      }`}
-                    htmlFor="iconFile"
+                    className={`block text-xs sm:text-sm font-medium mb-1 ${
+                      currentTheme === "dark"
+                        ? "text-slate-300"
+                        : "text-slate-700"
+                    }`}
+                    htmlFor="iconUrl"
                   >
-                    Icon Upload (Optional)
+                    Icon URL (Optional)
                   </label>
                   <input
-                    type="file"
-                    id="iconFile"
-                    name="iconFile"
-                    accept="image/*"
-                    onChange={(e) =>
-                      setFormData({ ...formData, iconFile: e.target.files[0] })
-                    }
-                    className={`w-full px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-base ${currentTheme === "dark"
+                    type="text"
+                    id="iconUrl"
+                    name="iconUrl"
+                    value={formData.iconUrl}
+                    onChange={handleChange}
+                    className={`w-full px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-base ${
+                      currentTheme === "dark"
                         ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
                         : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
-                      } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
+                    } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
+                    placeholder="Enter icon URL (optional)"
                   />
                 </div>
-
 
                 <div className="flex justify-end pt-2 sm:pt-3">
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg mr-2 sm:mr-3 text-xs sm:text-sm font-medium ${currentTheme === "dark"
-                      ? "bg-slate-700 text-slate-300 hover:bg-slate-600"
-                      : "bg-slate-200 text-slate-700 hover:bg-slate-300"
-                      } transition-colors duration-200`}
+                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg mr-2 sm:mr-3 text-xs sm:text-sm font-medium ${
+                      currentTheme === "dark"
+                        ? "bg-slate-700 text-slate-300 hover:bg-slate-600"
+                        : "bg-slate-200 text-slate-700 hover:bg-slate-300"
+                    } transition-colors duration-200`}
                   >
                     Cancel
                   </button>
