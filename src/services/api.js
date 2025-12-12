@@ -1,7 +1,18 @@
 import axios from "axios";
 
+// ==================== ENVIRONMENT CONFIGURATION ====================
+// Uncomment the environment you want to use
+
+// PRODUCTION - Use this for deployed version
+const BASE_URL = "https://my-portfolio-backend-69gv.onrender.com/api";
+
+// DEVELOPMENT - Use this for local development
+// const BASE_URL = "http://localhost:5000/api";
+
+// ===================================================================
+
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

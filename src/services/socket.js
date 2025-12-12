@@ -1,11 +1,22 @@
 import { io } from 'socket.io-client';
 
+// ==================== ENVIRONMENT CONFIGURATION ====================
+// Uncomment the environment you want to use
+
+// PRODUCTION - Use this for deployed version
+const SOCKET_URL = "https://my-portfolio-backend-69gv.onrender.com";
+
+// DEVELOPMENT - Use this for local development
+// const SOCKET_URL = "http://localhost:5000";
+
+// ===================================================================
+
 let socket;
 let connectSocket;
 let disconnectSocket;
 
 try {
-  socket = io('http://localhost:5000', {
+  socket = io(SOCKET_URL, {
     path: '/socket.io',
     transports: ['websocket', 'polling'],
     autoConnect: false, // Don't connect automatically
@@ -66,4 +77,4 @@ try {
   };
 }
 
-export { socket as default, connectSocket, disconnectSocket }; 
+export { socket as default, connectSocket, disconnectSocket };
