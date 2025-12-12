@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 // Uncomment the environment you want to use
 
 // PRODUCTION - Use this for deployed version
-const SOCKET_URL = "https://my-portfolio-backend-69gv.onrender.com";
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
 // DEVELOPMENT - Use this for local development
 // const SOCKET_URL = "http://localhost:5000";
