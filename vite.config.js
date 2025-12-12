@@ -1,12 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// ==================== ENVIRONMENT CONFIGURATION ====================
-// Uncomment the environment you want to use
-
-// PRODUCTION - Use this for deployed version (no proxy needed)
 export default defineConfig({
   plugins: [react()],
+  envPrefix: 'VITE_',
   server: {
     port: 5173,
     cors: true
