@@ -13,7 +13,7 @@ let disconnectSocket;
 try {
   socket = io(SOCKET_URL, {
     path: '/socket.io/',
-    transports: ['websocket', 'polling'],
+    transports: ["websocket"],
     autoConnect: true,
     reconnection: true,
     reconnectionAttempts: 5,
