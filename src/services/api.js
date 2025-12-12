@@ -1,4 +1,4 @@
-// api.js - Fixed version with proper error handling
+// api.js - FIXED VERSION with proper error handling
 import axios from "axios";
 
 // Use environment variable with proper fallback
@@ -41,6 +41,7 @@ api.interceptors.response.use(
     if (error.response) {
       console.error(`❌ API Error [${error.response.status}]:`, error.response.data);
       
+      // Handle authentication errors
       if (error.response.status === 401) {
         localStorage.removeItem("jwtToken");
         if (window.location.pathname !== '/admin-login') {
