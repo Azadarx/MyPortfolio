@@ -10,8 +10,8 @@ import { useTheme } from "../context/ThemeContext.jsx";
 const BACKEND_URL =
   typeof process !== "undefined" &&
   import.meta.env &&
-  import.meta.env.REACT_APP_BACKEND_URL
-    ? import.meta.env.REACT_APP_BACKEND_URL
+  import.meta.env.VITE_BACKEND_URL
+    ? import.meta.env.VITE_BACKEND_URL
     : "http://localhost:5000";
 
 const socket = io();
