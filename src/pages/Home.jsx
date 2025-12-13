@@ -574,27 +574,6 @@ const Portfolio = () => {
     };
     fetchSkills();
 
-    // Real-time updates for skills
-    socket.on('skillAdded', (newSkill) => {
-      setSkills((prev) => [newSkill, ...prev]);
-      toast.success('New skill added!');
-    });
-    socket.on('skillUpdated', (updatedSkill) => {
-      setSkills((prev) => prev.map((s) => (s.id === updatedSkill.id ? updatedSkill : s)));
-      toast.success('Skill updated!');
-    });
-    socket.on('skillDeleted', ({ id }) => {
-      setSkills((prev) => prev.filter((s) => s.id !== id));
-      toast.success('Skill deleted!');
-    });
-
-    return () => {
-      socket.off('skillAdded');
-      socket.off('skillUpdated');
-      socket.off('skillDeleted');
-    };
-  }, []);
-
   // Fetch journey from backend
   useEffect(() => {
     const fetchJourney = async () => {
