@@ -601,17 +601,17 @@ const Portfolio = () => {
   }, []);
 
   // Fetch GitHub stats from backend
-  // useEffect(() => {
-  //   const fetchGithubStats = async () => {
-  //     try {
-  //       const response = await api.get('/stats/github');
-  //       setGithubStats(response.data);
-  //     } catch (error) {
-  //       setGithubStats(null);
-  //     }
-  //   };
-  //   fetchGithubStats();
-  // }, []);
+  useEffect(() => {
+    const fetchGithubStats = async () => {
+      try {
+        const response = await api.get('/stats/github');
+        setGithubStats(response.data);
+      } catch (error) {
+        setGithubStats(null);
+      }
+    };
+    fetchGithubStats();
+  }, []);
 
   // Fetch real-time stats from backend
   useEffect(() => {
