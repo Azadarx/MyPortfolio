@@ -1,7 +1,6 @@
-// api.js - FIXED VERSION with proper error handling
+// api.js - Clean REST API client
 import axios from "axios";
 
-// Use environment variable with proper fallback
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://my-portfolio-backend-69gv.onrender.com/api';
 
 console.log('🔧 API Base URL:', BASE_URL);
