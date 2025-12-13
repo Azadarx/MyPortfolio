@@ -822,8 +822,8 @@ const Portfolio = () => {
           <ContactInfo currentTheme={currentTheme} githubStats={githubStats} />
         </div>
       </section>
-    </div>
+       </div>
   );
-};
+}
 
 export default Portfolio;
