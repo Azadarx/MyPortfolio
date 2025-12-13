@@ -6,8 +6,6 @@ import { Edit, Trash2, Plus, X, Code, Layout, Server } from "lucide-react";
 import axios from "axios";
 import { useTheme } from "../context/ThemeContext.jsx";
 
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL?.replace('/api', '') || "http://localhost:5000";
-
 const SkillCard = ({
   skill,
   handleEdit,
