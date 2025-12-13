@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
-  Code2, Database, Cpu, Github, ExternalLink, MapPin, Mail, Briefcase
+  Code2, Database, Cpu, Github, ExternalLink, MapPin, Mail, Briefcase,Code
 } from 'lucide-react';
 import axios from 'axios';
 import api from "../services/api";
