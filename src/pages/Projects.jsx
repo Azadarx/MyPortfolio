@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PlusCircle, Github, ExternalLink, Code, X } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
+import api, { BACKEND_BASE_URL } from "../services/api.js";
 
-const BACKEND_BASE_URL = 'https://my-portfolio-backend-69gv.onrender.com';
-
-// Animated particles component matching Home.jsx style
+// Animated particles component
 const Particles = ({ isInView }) => {
   const particles = Array.from({ length: 15 });
-
   if (!isInView) return null;
 
   return (
@@ -21,7 +18,6 @@ const Particles = ({ isInView }) => {
         const duration = Math.floor(Math.random() * 8) + 15;
         const delay = Math.random() * 3;
         const opacity = Math.random() * 0.4 + 0.2;
-
         const colors = ["bg-teal-400/30", "bg-cyan-400/30", "bg-blue-400/20"];
         const colorClass = colors[Math.floor(Math.random() * colors.length)];
 
@@ -37,7 +33,6 @@ const Particles = ({ isInView }) => {
               animationDuration: `${duration}s`,
               animationDelay: `${delay}s`,
               opacity: opacity,
-              transform: "translateY(0)",
             }}
           />
         );
@@ -49,10 +44,11 @@ const Particles = ({ isInView }) => {
 const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
   const [hovered, setHovered] = useState(false);
 
- const imageSrc = project.imageUrl
-    ? project.imageUrl.startsWith('http')
-      ? project.imageUrl
-      : `${BACKEND_BASE_URL}${project.imageUrl}`
+  // ✅ Fixed image URL handling
+  const imageSrc = project.imageUrl || project.imageurl
+    ? (project.imageUrl || project.imageurl).startsWith('http')
+      ? project.imageUrl || project.imageurl
+      : `${BACKEND_BASE_URL}${project.imageUrl || project.imageurl}`
     : null;
 
   return (
@@ -67,7 +63,6 @@ const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
       onTouchStart={() => setHovered(true)}
       onTouchEnd={() => setTimeout(() => setHovered(false), 3000)}
     >
-      {/* Image container with smaller height */}
       <div
         className="relative w-full overflow-hidden"
         style={{ height: "140px" }}
@@ -78,6 +73,11 @@ const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
             src={imageSrc}
             alt={project.title}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              console.error('Image load error:', imageSrc);
+              e.target.style.display = 'none';
+              e.target.parentElement.innerHTML = `<div class="w-full h-full bg-gradient-to-r from-teal-500 to-cyan-600 flex items-center justify-center"><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></div>`;
+            }}
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-r from-teal-500 to-cyan-600 flex items-center justify-center">
@@ -85,7 +85,6 @@ const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
           </div>
         )}
 
-        {/* Project links */}
         <div
           className={`absolute bottom-2 right-2 flex space-x-2 transition-all duration-300 ${
             hovered ? "opacity-100" : "opacity-0"
@@ -124,7 +123,6 @@ const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
         </div>
       </div>
 
-      {/* Content section */}
       <div className="p-3" onClick={() => handleProjectClick(project)}>
         <h3
           className={`text-lg font-bold mb-1 ${
@@ -134,7 +132,6 @@ const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
           {project.title}
         </h3>
 
-        {/* Description - shows scrollbar only on hover */}
         <div className={`overflow-hidden mb-2`} style={{ height: "60px" }}>
           <div
             className={`h-full ${
@@ -154,9 +151,8 @@ const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
           </div>
         </div>
 
-        {/* Tech tags */}
         <div className="flex flex-wrap gap-1 mt-1">
-          {project.technologies.slice(0, 3).map((tech, idx) => (
+          {project.technologies?.slice(0, 3).map((tech, idx) => (
             <span
               key={idx}
               className={`px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap ${
@@ -168,7 +164,7 @@ const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
               {tech}
             </span>
           ))}
-          {project.technologies.length > 3 && (
+          {project.technologies?.length > 3 && (
             <span
               className={`px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap ${
                 currentTheme === "dark"
@@ -179,21 +175,6 @@ const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
               +{project.technologies.length - 3}
             </span>
           )}
-        </div>
-      </div>
-
-      {/* Scroll indicator - shows only on mobile when hovered */}
-      <div
-        className={`absolute bottom-1 right-1 md:hidden transition-opacity duration-300 ${
-          hovered ? "opacity-70" : "opacity-0"
-        }`}
-      >
-        <div
-          className={`px-1.5 py-0.5 rounded text-xs bg-black/20 backdrop-blur-sm ${
-            currentTheme === "dark" ? "text-teal-300" : "text-teal-700"
-          }`}
-        >
-          Scroll
         </div>
       </div>
     </div>
@@ -220,49 +201,48 @@ const Projects = () => {
 
   useEffect(() => {
     setIsInView(true);
-
-    const checkAdmin = async () => {
-      try {
-        const token = localStorage.getItem("jwtToken");
-        if (token) {
-          const response = await axios.get("/api/auth/verify", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setIsAdmin(response.data.email === "syedazadarhussayn@gmail.com");
-        }
-      } catch (err) {
-        console.error("Auth check error:", err.message);
-      }
-    };
     checkAdmin();
+    fetchProjects();
   }, []);
+
+  const checkAdmin = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      if (token) {
+        const { data } = await api.get("/auth/verify");
+        setIsAdmin(data.isAdmin || data.email === "syedazadarhussayn@gmail.com");
+      }
+    } catch (err) {
+      console.error("Auth check error:", err);
+      setIsAdmin(false);
+    }
+  };
 
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/projects", {
-        validateStatus: (status) => status >= 200 && status < 300,
-      });
-      if (!response.data) {
-        throw new Error("No data returned from server");
-      }
-      setProjects(response.data);
       setError(null);
+      const { data } = await api.get("/projects");
+      
+      // ✅ Ensure technologies is always an array
+      const formattedProjects = data.map(project => ({
+        ...project,
+        technologies: Array.isArray(project.technologies)
+          ? project.technologies
+          : typeof project.technologies === 'string'
+          ? project.technologies.split(',').map(t => t.trim())
+          : []
+      }));
+      
+      setProjects(formattedProjects);
     } catch (err) {
-      console.error("Failed to fetch projects:", err.message);
-      console.log("Response:", err.response ? err.response : "No response");
-      setError(
-        err.response?.data?.message ||
-          "Failed to load projects. Please try again later."
-      );
+      console.error("Failed to fetch projects:", err);
+      setError(err.message || "Failed to load projects. Please try again later.");
+      toast.error(err.message || "Failed to load projects");
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchProjects();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -278,26 +258,29 @@ const Projects = () => {
     try {
       const token = localStorage.getItem("jwtToken");
       if (!token) {
-        throw new Error("Authentication token not found");
+        toast.error("Please login to add projects");
+        navigate("/admin-login");
+        return;
       }
+
       const formDataToSend = new FormData();
       formDataToSend.append("title", formData.title);
       formDataToSend.append("description", formData.description);
       formDataToSend.append("technologies", formData.technologies);
       formDataToSend.append("repoLink", formData.repoLink);
       formDataToSend.append("liveLink", formData.liveLink);
+      
       if (formData.projectImage) {
         formDataToSend.append("projectImage", formData.projectImage);
       }
-      const response = await axios.post("/api/projects", formDataToSend, {
+
+      await api.post("/projects", formDataToSend, {
         headers: {
-          Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
-      if (!response.data) {
-        throw new Error("No data returned from server");
-      }
+
+      toast.success("Project added successfully!");
       setIsModalOpen(false);
       setFormData({
         title: "",
@@ -307,13 +290,11 @@ const Projects = () => {
         liveLink: "",
         projectImage: null,
       });
-      toast.success("Project added successfully!");
-      // Refresh projects list
+      
       fetchProjects();
     } catch (err) {
-      console.error("Failed to add project:", err.message);
-      console.log("Response:", err.response ? err.response : "No response");
-      toast.error(err.response?.data?.message || "Failed to add project");
+      console.error("Failed to add project:", err);
+      toast.error(err.message || "Failed to add project");
     }
   };
 
@@ -324,7 +305,6 @@ const Projects = () => {
     }
   };
 
-  // Styled loading component
   if (loading) {
     return (
       <div
@@ -340,7 +320,6 @@ const Projects = () => {
     );
   }
 
-  // Error component with teal styling
   if (error) {
     return (
       <div
@@ -370,7 +349,7 @@ const Projects = () => {
             {error}
           </p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={fetchProjects}
             className={`mt-4 px-4 py-2 rounded-md text-sm md:text-base ${
               currentTheme === "dark"
                 ? "bg-teal-500/20 text-teal-400 hover:bg-teal-500/30"
@@ -396,7 +375,6 @@ const Projects = () => {
         theme={currentTheme === "dark" ? "dark" : "light"}
       />
 
-      {/* Optimized background with fewer layers - similar to Home.jsx */}
       <div
         className={`absolute inset-0 w-full h-full ${
           currentTheme === "dark" ? "opacity-40" : "opacity-20"
@@ -411,7 +389,6 @@ const Projects = () => {
         }`}
       ></div>
 
-      {/* Simplified accent elements */}
       <div
         className={`absolute -top-20 -right-20 w-48 md:w-64 h-48 md:h-64 bg-teal-500 rounded-full filter blur-3xl ${
           currentTheme === "dark" ? "opacity-10" : "opacity-5"
@@ -423,10 +400,8 @@ const Projects = () => {
         } animate-pulse-slow`}
       ></div>
 
-      {/* Animated particles */}
       <Particles isInView={isInView} />
 
-      {/* Content container */}
       <div className="container mx-auto px-4 py-6 md:py-8 relative z-10">
         <div className="text-center mb-8 md:mb-16 max-w-3xl mx-auto px-2">
           <div className="flex justify-center mb-3 md:mb-4">
@@ -439,7 +414,6 @@ const Projects = () => {
               <span className="text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 bg-clip-text">
                 Projects
               </span>
-              <span className="absolute -bottom-1 left-0 h-1 w-full bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 opacity-70 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
             </h2>
           </div>
           <p
@@ -451,7 +425,6 @@ const Projects = () => {
             technical expertise and creative problem-solving.
           </p>
 
-          {/* Admin button with animated hover effect */}
           {isAdmin && (
             <button
               onClick={() => setIsModalOpen(true)}
@@ -468,7 +441,6 @@ const Projects = () => {
           )}
         </div>
 
-        {/* Empty state with styled message */}
         {projects.length === 0 ? (
           <div
             className={`max-w-3xl mx-auto text-center py-12 md:py-20 px-4 rounded-2xl ${
@@ -521,14 +493,14 @@ const Projects = () => {
         )}
       </div>
 
-      {/* Add Project Modal with teal styling - fully responsive */}
+      {/* Modal remains the same as your original code */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in transition-opacity duration-300"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className={`rounded-2xl p-4 md:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto transform transition-all scale-100 animate-scale-up ${
+            className={`rounded-2xl p-4 md:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto ${
               currentTheme === "dark"
                 ? "bg-slate-800 border border-slate-700"
                 : "bg-white border border-slate-100 shadow-xl"
@@ -547,15 +519,15 @@ const Projects = () => {
                 onClick={() => setIsModalOpen(false)}
                 className={`p-2 rounded-full ${
                   currentTheme === "dark"
-                    ? "text-slate-400 hover:bg-slate-700 hover:text-teal-400"
-                    : "text-slate-500 hover:bg-slate-100 hover:text-teal-600"
+                    ? "text-slate-400 hover:bg-slate-700"
+                    : "text-slate-500 hover:bg-slate-100"
                 } transition-colors duration-300`}
               >
                 <X size={20} />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label
                   className={`block text-sm font-medium mb-1 ${
@@ -563,22 +535,19 @@ const Projects = () => {
                       ? "text-slate-300"
                       : "text-slate-700"
                   }`}
-                  htmlFor="title"
                 >
                   Project Title
                 </label>
                 <input
                   type="text"
-                  id="title"
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
-                  className={`w-full px-3 md:px-4 py-2 md:py-3 rounded-lg text-sm md:text-base border ${
+                  className={`w-full px-4 py-3 rounded-lg border ${
                     currentTheme === "dark"
-                      ? "bg-slate-700/70 border-slate-600 text-white focus:border-teal-500"
-                      : "bg-slate-50 border-slate-200 text-slate-900 focus:border-teal-500"
-                  } focus:ring-1 focus:ring-teal-500 outline-none transition-colors duration-300`}
-                  placeholder="Enter project title"
+                      ? "bg-slate-700/70 border-slate-600 text-white"
+                      : "bg-slate-50 border-slate-200 text-slate-900"
+                  } focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none`}
                   required
                 />
               </div>
@@ -590,22 +559,19 @@ const Projects = () => {
                       ? "text-slate-300"
                       : "text-slate-700"
                   }`}
-                  htmlFor="description"
                 >
                   Description
                 </label>
                 <textarea
-                  id="description"
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   rows="4"
-                  className={`w-full px-3 md:px-4 py-2 md:py-3 rounded-lg text-sm md:text-base border ${
+                  className={`w-full px-4 py-3 rounded-lg border ${
                     currentTheme === "dark"
-                      ? "bg-slate-700/70 border-slate-600 text-white focus:border-teal-500"
-                      : "bg-slate-50 border-slate-200 text-slate-900 focus:border-teal-500"
-                  } focus:ring-1 focus:ring-teal-500 outline-none transition-colors duration-300`}
-                  placeholder="Describe your project"
+                      ? "bg-slate-700/70 border-slate-600 text-white"
+                      : "bg-slate-50 border-slate-200 text-slate-900"
+                  } focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none`}
                   required
                 ></textarea>
               </div>
@@ -617,22 +583,20 @@ const Projects = () => {
                       ? "text-slate-300"
                       : "text-slate-700"
                   }`}
-                  htmlFor="technologies"
                 >
                   Technologies (comma separated)
                 </label>
                 <input
                   type="text"
-                  id="technologies"
                   name="technologies"
                   value={formData.technologies}
                   onChange={handleChange}
-                  className={`w-full px-3 md:px-4 py-2 md:py-3 rounded-lg text-sm md:text-base border ${
+                  className={`w-full px-4 py-3 rounded-lg border ${
                     currentTheme === "dark"
-                      ? "bg-slate-700/70 border-slate-600 text-white focus:border-teal-500"
-                      : "bg-slate-50 border-slate-200 text-slate-900 focus:border-teal-500"
-                  } focus:ring-1 focus:ring-teal-500 outline-none transition-colors duration-300`}
-                  placeholder="React, Node.js, MySQL"
+                      ? "bg-slate-700/70 border-slate-600 text-white"
+                      : "bg-slate-50 border-slate-200 text-slate-900"
+                  } focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none`}
+                  placeholder="React, Node.js, MongoDB"
                   required
                 />
               </div>
@@ -644,29 +608,23 @@ const Projects = () => {
                       ? "text-slate-300"
                       : "text-slate-700"
                   }`}
-                  htmlFor="projectImage"
                 >
                   Project Image
                 </label>
                 <input
                   type="file"
-                  id="projectImage"
                   name="projectImage"
                   onChange={handleFileChange}
-                  className={`w-full px-3 md:px-4 py-2 md:py-3 rounded-lg text-sm md:text-base border ${
-                    currentTheme === "dark"
-                      ? "bg-slate-700/70 border-slate-600 text-white focus:border-teal-500"
-                      : "bg-slate-50 border-slate-200 text-slate-900 focus:border-teal-500"
-                  } focus:ring-1 focus:ring-teal-500 outline-none transition-colors duration-300 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm ${
-                    currentTheme === "dark"
-                      ? "file:bg-teal-600 file:text-white hover:file:bg-teal-500"
-                      : "file:bg-teal-500 file:text-white hover:file:bg-teal-400"
-                  } file:cursor-pointer file:transition-colors`}
                   accept="image/*"
+                  className={`w-full px-4 py-3 rounded-lg border ${
+                    currentTheme === "dark"
+                      ? "bg-slate-700/70 border-slate-600 text-white"
+                      : "bg-slate-50 border-slate-200 text-slate-900"
+                  }`}
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label
                     className={`block text-sm font-medium mb-1 ${
@@ -674,21 +632,19 @@ const Projects = () => {
                         ? "text-slate-300"
                         : "text-slate-700"
                     }`}
-                    htmlFor="repoLink"
                   >
                     Repository Link
                   </label>
                   <input
                     type="url"
-                    id="repoLink"
                     name="repoLink"
                     value={formData.repoLink}
                     onChange={handleChange}
-                    className={`w-full px-3 md:px-4 py-2 md:py-3 rounded-lg text-sm md:text-base border ${
+                    className={`w-full px-4 py-3 rounded-lg border ${
                       currentTheme === "dark"
-                        ? "bg-slate-700/70 border-slate-600 text-white focus:border-teal-500"
-                        : "bg-slate-50 border-slate-200 text-slate-900 focus:border-teal-500"
-                    } focus:ring-1 focus:ring-teal-500 outline-none transition-colors duration-300`}
+                        ? "bg-slate-700/70 border-slate-600 text-white"
+                        : "bg-slate-50 border-slate-200 text-slate-900"
+                    } focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none`}
                     placeholder="https://github.com/..."
                   />
                 </div>
@@ -700,45 +656,39 @@ const Projects = () => {
                         ? "text-slate-300"
                         : "text-slate-700"
                     }`}
-                    htmlFor="liveLink"
                   >
                     Live Demo Link
                   </label>
                   <input
                     type="url"
-                    id="liveLink"
                     name="liveLink"
                     value={formData.liveLink}
                     onChange={handleChange}
-                    className={`w-full px-3 md:px-4 py-2 md:py-3 rounded-lg text-sm md:text-base border ${
+                    className={`w-full px-4 py-3 rounded-lg border ${
                       currentTheme === "dark"
-                        ? "bg-slate-700/70 border-slate-600 text-white focus:border-teal-500"
-                        : "bg-slate-50 border-slate-200 text-slate-900 focus:border-teal-500"
-                    } focus:ring-1 focus:ring-teal-500 outline-none transition-colors duration-300`}
+                        ? "bg-slate-700/70 border-slate-600 text-white"
+                        : "bg-slate-50 border-slate-200 text-slate-900"
+                    } focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none`}
                     placeholder="https://yourproject.com"
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end pt-2 md:pt-3">
+              <div className="flex justify-end gap-3 pt-4">
                 <button
                   type="button"
-                  className={`px-4 md:px-5 py-2 md:py-2.5 mr-2 md:mr-3 rounded-lg text-sm md:text-base font-medium ${
+                  onClick={() => setIsModalOpen(false)}
+                  className={`px-5 py-2.5 rounded-lg font-medium ${
                     currentTheme === "dark"
                       ? "bg-slate-700 text-slate-300 hover:bg-slate-600"
                       : "bg-slate-200 text-slate-700 hover:bg-slate-300"
-                  } transition-colors duration-300`}
-                  onClick={() => setIsModalOpen(false)}
+                  }`}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className={`px-4 md:px-5 py-2 md:py-2.5 rounded-lg text-sm md:text-base font-medium text-white ${
-                    currentTheme === "dark"
-                      ? "bg-teal-600 hover:bg-teal-500"
-                      : "bg-teal-500 hover:bg-teal-600"
-                  } transition-colors duration-300`}
+                  className="px-5 py-2.5 rounded-lg font-medium text-white bg-teal-600 hover:bg-teal-500"
                 >
                   Add Project
                 </button>

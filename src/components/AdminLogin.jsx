@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Lock, Mail, Eye, EyeOff, ArrowRight, Key } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
+import api from "../services/api.js";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -15,12 +18,20 @@ const AdminLogin = () => {
   const gradientRef = React.useRef(null);
 
   useEffect(() => {
+    // Check if already logged in
     const token = localStorage.getItem("jwtToken");
     if (token) {
-      navigate("/admin/dashboard");
+      // Verify token is valid
+      api.get("/auth/verify")
+        .then(() => {
+          navigate("/admin/dashboard");
+        })
+        .catch(() => {
+          // Token invalid, remove it
+          localStorage.removeItem("jwtToken");
+        });
     }
 
-    // Set isInView for animations
     setIsInView(true);
 
     // Background gradient animation
@@ -67,31 +78,48 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!validateForm()) {
       return;
     }
+
     setIsSubmitting(true);
     setLoginError("");
+
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+      console.log("🔐 Attempting login with:", formData.email);
+      
+      const { data } = await api.post("/auth/login", {
+        email: formData.email,
+        password: formData.password
       });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "Authentication failed");
+
+      console.log("✅ Login successful:", data);
+
+      if (data.token) {
+        localStorage.setItem("jwtToken", data.token);
+        toast.success("Login successful! Redirecting...");
+        
+        setTimeout(() => {
+          navigate("/admin/dashboard");
+        }, 1000);
+      } else {
+        throw new Error("No token received from server");
       }
-      localStorage.setItem("jwtToken", data.token);
-      navigate("/admin/dashboard");
     } catch (error) {
-      setLoginError(error.message || "Invalid credentials. Please try again.");
+      console.error("❌ Login error:", error);
+      
+      const errorMessage = error.message || 
+                          error.response?.data?.message || 
+                          "Invalid credentials. Please try again.";
+      
+      setLoginError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Particles component for background effect
   const Particles = () => {
     const particles = Array.from({ length: 15 });
 
@@ -102,7 +130,6 @@ const AdminLogin = () => {
           const duration = Math.floor(Math.random() * 8) + 15;
           const delay = Math.random() * 3;
           const opacity = Math.random() * 0.4 + 0.2;
-
           const colors = ["bg-teal-400/30", "bg-cyan-400/30", "bg-blue-400/20"];
           const colorClass = colors[Math.floor(Math.random() * colors.length)];
 
@@ -133,7 +160,8 @@ const AdminLogin = () => {
         currentTheme === "dark" ? "bg-slate-900" : "bg-slate-50"
       } transition-colors duration-300 px-4 py-8 sm:px-6`}
     >
-      {/* Background gradient effects */}
+      <ToastContainer position="top-right" autoClose={3000} theme={currentTheme} />
+
       <div
         ref={gradientRef}
         data-rotation="0"
@@ -148,7 +176,6 @@ const AdminLogin = () => {
         }`}
       />
 
-      {/* Accent blurs */}
       <div
         className={`absolute -top-20 -right-20 w-64 h-64 bg-teal-500 rounded-full filter blur-3xl ${
           currentTheme === "dark" ? "opacity-10" : "opacity-5"
@@ -160,10 +187,8 @@ const AdminLogin = () => {
         } animate-pulse-slow`}
       ></div>
 
-      {/* Particles */}
       <Particles />
 
-      {/* Login card */}
       <div
         className={`relative z-10 w-full max-w-xs xs:max-w-sm sm:max-w-md lg:max-w-lg ${
           isInView ? "animate-fade-in" : "opacity-0"
@@ -176,12 +201,10 @@ const AdminLogin = () => {
               : "bg-white/90 border-slate-200 shadow-slate-200/50"
           } p-4 xs:p-5 sm:p-6 md:p-8 transition-all duration-300 transform hover:shadow-lg`}
         >
-          {/* Decorative elements */}
           <div className="absolute -top-12 -right-12 w-24 h-24 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full opacity-30 blur-xl"></div>
           <div className="absolute -bottom-12 -left-12 w-24 h-24 bg-gradient-to-tr from-cyan-400 to-teal-500 rounded-full opacity-30 blur-xl"></div>
 
           <div className="relative z-10">
-            {/* Header */}
             <div className="text-center mb-6 sm:mb-8">
               <div className="flex justify-center mb-3 sm:mb-4">
                 <div className="relative">
@@ -205,10 +228,8 @@ const AdminLogin = () => {
               >
                 Sign in to manage your portfolio
               </p>
-              <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-teal-400 to-cyan-500 rounded-full filter blur-3xl opacity-20"></div>
             </div>
 
-            {/* Login error */}
             {loginError && (
               <div
                 className={`mb-4 sm:mb-6 ${
@@ -241,10 +262,8 @@ const AdminLogin = () => {
               </div>
             )}
 
-            {/* Form */}
             <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-3 sm:space-y-4">
-                {/* Email field */}
                 <div>
                   <label
                     htmlFor="email"
@@ -289,6 +308,7 @@ const AdminLogin = () => {
                           : "bg-white text-slate-900 placeholder-slate-400"
                       }`}
                       placeholder="Enter your email"
+                      autoComplete="email"
                     />
                   </div>
                   {errors.email && (
@@ -296,7 +316,6 @@ const AdminLogin = () => {
                   )}
                 </div>
 
-                {/* Password field */}
                 <div>
                   <label
                     htmlFor="password"
@@ -341,6 +360,7 @@ const AdminLogin = () => {
                           : "bg-white text-slate-900 placeholder-slate-400"
                       }`}
                       placeholder="Enter your password"
+                      autoComplete="current-password"
                     />
                     <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                       <button
@@ -368,26 +388,36 @@ const AdminLogin = () => {
                 </div>
               </div>
 
-              {/* Submit button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className={`w-full relative overflow-hidden group flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium text-white bg-gradient-to-r from-teal-600 to-teal-500 rounded-lg gap-2 shadow-lg shadow-teal-500/20 border border-teal-500/20 transition-all duration-300 hover:shadow-teal-500/30 ${
-                  isSubmitting ? "opacity-80" : "hover:scale-[1.02]"
+                  isSubmitting ? "opacity-80 cursor-not-allowed" : "hover:scale-[1.02]"
                 }`}
               >
                 <span className="absolute -inset-3 scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-teal-500 to-cyan-500 opacity-30 transform origin-left transition-transform duration-500"></span>
                 <span className="relative flex items-center">
-                  {isSubmitting ? "Signing in..." : "Sign In"}
-                  <ArrowRight
-                    size={16}
-                    className="ml-2 group-hover:translate-x-1 transition-transform duration-300"
-                  />
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Signing in...
+                    </>
+                  ) : (
+                    <>
+                      Sign In
+                      <ArrowRight
+                        size={16}
+                        className="ml-2 group-hover:translate-x-1 transition-transform duration-300"
+                      />
+                    </>
+                  )}
                 </span>
               </button>
             </form>
 
-            {/* Decorative code snippet */}
             <div
               className={`absolute bottom-2 right-2 sm:bottom-3 sm:right-3 text-[8px] xs:text-[10px] sm:text-xs ${
                 currentTheme === "dark"
@@ -400,7 +430,6 @@ const AdminLogin = () => {
           </div>
         </div>
 
-        {/* Version tag */}
         <div className="mt-3 text-center">
           <p
             className={`text-[10px] sm:text-xs ${

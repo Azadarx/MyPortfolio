@@ -1,7 +1,7 @@
-// src/services/api.js - CORRECTED VERSION
+// src/services/api.js - COMPLETE FIX
 import axios from "axios";
 
-// ✅ Use absolute URL for Render backend
+// ✅ Backend URL configuration
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://my-portfolio-backend-69gv.onrender.com/api';
 
 console.log('🔧 API Configuration:', {
@@ -16,7 +16,7 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
   withCredentials: true,
-  timeout: 60000, // 60s for Render cold starts
+  timeout: 60000,
 });
 
 // Request Interceptor
@@ -27,7 +27,7 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
-    console.log(`📤 ${config.method?.toUpperCase()} ${config.url}`);
+    console.log(`📤 ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
     return config;
   },
   (error) => {
@@ -60,7 +60,7 @@ api.interceptors.response.use(
       console.error('❌ No response from server:', error.message);
       
       return Promise.reject({ 
-        message: "Cannot connect to server. The backend might be starting up (Render free tier can take 30-60 seconds on first load).",
+        message: "Cannot connect to server. Please check your internet connection or try again later.",
         error: "NETWORK_ERROR"
       });
     } else {
