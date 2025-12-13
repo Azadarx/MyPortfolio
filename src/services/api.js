@@ -1,12 +1,13 @@
-// src/services/api.js - UPDATED VERSION
+// src/services/api.js - CORRECTED VERSION
 import axios from "axios";
 
-// Use environment variable with fallback
+// ✅ Use absolute URL for Render backend
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://my-portfolio-backend-69gv.onrender.com/api';
 
 console.log('🔧 API Configuration:', {
   baseURL: BASE_URL,
-  env: import.meta.env.MODE
+  env: import.meta.env.MODE,
+  rawEnvVar: import.meta.env.VITE_BACKEND_URL
 });
 
 const api = axios.create({
@@ -15,7 +16,7 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
   withCredentials: true,
-  timeout: 30000,
+  timeout: 60000, // 60s for Render cold starts
 });
 
 // Request Interceptor
@@ -26,7 +27,7 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
-    console.log(`📤 ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
+    console.log(`📤 ${config.method?.toUpperCase()} ${config.url}`);
     return config;
   },
   (error) => {
@@ -57,14 +58,9 @@ api.interceptors.response.use(
       return Promise.reject(error.response.data);
     } else if (error.request) {
       console.error('❌ No response from server:', error.message);
-      console.error('Request details:', {
-        url: error.config?.url,
-        method: error.config?.method,
-        baseURL: error.config?.baseURL
-      });
       
       return Promise.reject({ 
-        message: "Cannot connect to server. The backend might be starting up (this can take 30-60 seconds on first load).",
+        message: "Cannot connect to server. The backend might be starting up (Render free tier can take 30-60 seconds on first load).",
         error: "NETWORK_ERROR"
       });
     } else {
@@ -77,7 +73,7 @@ api.interceptors.response.use(
   }
 );
 
-// Export base URL for image/file URLs
+// Export base URL for image/file URLs (without /api)
 export const BACKEND_BASE_URL = BASE_URL.replace('/api', '');
 
 export default api;

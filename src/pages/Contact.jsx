@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTheme } from "../context/ThemeContext";
+import api from "../services/api.js";
 
 const Contact = () => {
   const { currentTheme } = useTheme();
@@ -110,20 +111,8 @@ const Contact = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/contact`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+      // ✅ FIXED: Use api service instead of fetch
+      await api.post("/contact", formData);
 
       setFormData({
         name: "",
@@ -142,7 +131,7 @@ const Contact = () => {
       toast.success("Message sent successfully! I'll get back to you soon.");
     } catch (error) {
       console.error("Error:", error);
-      toast.error("Failed to send message. Please try again later.");
+      toast.error(error.message || "Failed to send message. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -442,15 +431,15 @@ const Contact = () => {
           <motion.div
             className={`flex flex-col items-center rounded-lg ${
               isDark
-                ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50 hover:border-teal-500/30"
-                : "bg-white/70 backdrop-blur-sm border-slate-200/70 hover:border-teal-500/50"
+                ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
+                : "bg-white/70 backdrop-blur-sm border-slate-200/70"
             } p-4 sm:p-6 text-center shadow-lg border transition-all duration-300`}
             variants={itemVariants}
           >
             <div
               className={`mb-3 sm:mb-4 rounded-full ${
                 isDark ? "bg-teal-900/60" : "bg-teal-50"
-              } p-2 sm:p-3 text-teal-400 transition-colors duration-300`}
+              } p-2 sm:p-3 text-teal-400`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -470,14 +459,14 @@ const Contact = () => {
             <h3
               className={`mb-1 sm:mb-2 text-base sm:text-lg font-medium ${
                 isDark ? "text-white" : "text-slate-800"
-              } transition-colors duration-300`}
+              }`}
             >
               Email
             </h3>
             <p
               className={`text-sm sm:text-base break-words ${
                 isDark ? "text-slate-300" : "text-slate-600"
-              } transition-colors duration-300`}
+              }`}
             >
               syedazadarhussayn@gmail.com
             </p>
@@ -486,15 +475,15 @@ const Contact = () => {
           <motion.div
             className={`flex flex-col items-center rounded-lg ${
               isDark
-                ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50 hover:border-teal-500/30"
-                : "bg-white/70 backdrop-blur-sm border-slate-200/70 hover:border-teal-500/50"
+                ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
+                : "bg-white/70 backdrop-blur-sm border-slate-200/70"
             } p-4 sm:p-6 text-center shadow-lg border transition-all duration-300`}
             variants={itemVariants}
           >
             <div
               className={`mb-3 sm:mb-4 rounded-full ${
                 isDark ? "bg-teal-900/60" : "bg-teal-50"
-              } p-2 sm:p-3 text-teal-400 transition-colors duration-300`}
+              } p-2 sm:p-3 text-teal-400`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -520,14 +509,14 @@ const Contact = () => {
             <h3
               className={`mb-1 sm:mb-2 text-base sm:text-lg font-medium ${
                 isDark ? "text-white" : "text-slate-800"
-              } transition-colors duration-300`}
+              }`}
             >
               Location
             </h3>
             <p
               className={`text-sm sm:text-base ${
                 isDark ? "text-slate-300" : "text-slate-600"
-              } transition-colors duration-300`}
+              }`}
             >
               Near MGBS, Kali Khaber, Hyderabad, Telangana - 500024
             </p>
@@ -536,15 +525,15 @@ const Contact = () => {
           <motion.div
             className={`flex flex-col items-center rounded-lg ${
               isDark
-                ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50 hover:border-teal-500/30"
-                : "bg-white/70 backdrop-blur-sm border-slate-200/70 hover:border-teal-500/50"
+                ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
+                : "bg-white/70 backdrop-blur-sm border-slate-200/70"
             } p-4 sm:p-6 text-center shadow-lg border transition-all duration-300`}
             variants={itemVariants}
           >
             <div
               className={`mb-3 sm:mb-4 rounded-full ${
                 isDark ? "bg-teal-900/60" : "bg-teal-50"
-              } p-2 sm:p-3 text-teal-400 transition-colors duration-300`}
+              } p-2 sm:p-3 text-teal-400`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -564,54 +553,20 @@ const Contact = () => {
             <h3
               className={`mb-1 sm:mb-2 text-base sm:text-lg font-medium ${
                 isDark ? "text-white" : "text-slate-800"
-              } transition-colors duration-300`}
+              }`}
             >
               Working Hours
             </h3>
             <p
               className={`text-sm sm:text-base ${
                 isDark ? "text-slate-300" : "text-slate-600"
-              } transition-colors duration-300`}
+              }`}
             >
               Mon - Fri: 9AM - 9PM
             </p>
           </motion.div>
         </motion.div>
       </div>
-
-      {/* Animated background particles */}
-      {isInView && (
-        <div className="absolute inset-0 pointer-events-none">
-          {Array.from({ length: 20 }).map((_, index) => {
-            const size = Math.floor(Math.random() * 4) + 2;
-            const duration = Math.floor(Math.random() * 8) + 15;
-            const delay = Math.random() * 3;
-            const opacity = Math.random() * 0.4 + 0.2;
-
-            const colors = isDark
-              ? ["bg-teal-400/30", "bg-cyan-400/30", "bg-blue-400/20"]
-              : ["bg-teal-400/20", "bg-cyan-400/20", "bg-blue-400/10"];
-
-            const colorClass =
-              colors[Math.floor(Math.random() * colors.length)];
-
-            return (
-              <div
-                key={index}
-                className={`absolute rounded-full ${colorClass}`}
-                style={{
-                  width: size,
-                  height: size,
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animation: `float ${duration}s ease-in-out ${delay}s infinite`,
-                  opacity: opacity,
-                }}
-              />
-            );
-          })}
-        </div>
-      )}
     </section>
   );
 };
