@@ -6,7 +6,8 @@ import { Edit, Trash2, Plus, X, Code, Layout, Server } from "lucide-react";
 import axios from "axios";
 import { useTheme } from "../context/ThemeContext.jsx";
 
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL?.replace('/api', '') || "http://localhost:5000";
+ const BACKEND_BASE_URL = 'https://my-portfolio-backend-69gv.onrender.com';
+
 
 const SkillCard = ({
   skill,
@@ -64,13 +65,17 @@ const SkillCard = ({
         {/* Icon or placeholder */}
         <div className="mb-3 md:mb-4 relative">
           {skill.iconUrl ? (
-            <img
-              src={skill.iconUrl}
-              alt={`${skill.name} icon`}
-              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover border-2 border-teal-500/30"
-              onError={(e) => (e.target.src = "https://via.placeholder.com/64")}
-            />
-          ) : (
+  <img
+    src={
+          skill.iconUrl.startsWith('http')
+            ? skill.iconUrl
+            : `${BACKEND_BASE_URL}${skill.iconUrl}`
+        }
+        alt={`${skill.name} icon`}
+        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover border-2 border-teal-500/30"
+        onError={(e) => (e.target.src = "https://via.placeholder.com/64")}
+      />
+    ) : (
             <div
               className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center ${
                 currentTheme === "dark" ? "bg-teal-900/50" : "bg-teal-50"
@@ -276,7 +281,7 @@ const Skills = () => {
     checkAdmin();
     fetchSkills();
   }, []);
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });

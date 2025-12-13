@@ -1,9 +1,13 @@
-// api.js - Clean REST API client
+// src/services/api.js - UPDATED VERSION
 import axios from "axios";
 
+// Use environment variable with fallback
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://my-portfolio-backend-69gv.onrender.com/api';
 
-console.log('🔧 API Base URL:', BASE_URL);
+console.log('🔧 API Configuration:', {
+  baseURL: BASE_URL,
+  env: import.meta.env.MODE
+});
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -21,7 +25,8 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    console.log(`📤 ${config.method?.toUpperCase()} ${config.url}`);
+    
+    console.log(`📤 ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
     return config;
   },
   (error) => {
@@ -44,6 +49,7 @@ api.interceptors.response.use(
       if (error.response.status === 401) {
         localStorage.removeItem("jwtToken");
         if (window.location.pathname !== '/admin-login') {
+          console.log('🔒 Unauthorized - redirecting to login');
           window.location.href = "/admin-login";
         }
       }
@@ -51,8 +57,14 @@ api.interceptors.response.use(
       return Promise.reject(error.response.data);
     } else if (error.request) {
       console.error('❌ No response from server:', error.message);
+      console.error('Request details:', {
+        url: error.config?.url,
+        method: error.config?.method,
+        baseURL: error.config?.baseURL
+      });
+      
       return Promise.reject({ 
-        message: "Cannot connect to server. Please check your connection.",
+        message: "Cannot connect to server. The backend might be starting up (this can take 30-60 seconds on first load).",
         error: "NETWORK_ERROR"
       });
     } else {
@@ -64,5 +76,8 @@ api.interceptors.response.use(
     }
   }
 );
+
+// Export base URL for image/file URLs
+export const BACKEND_BASE_URL = BASE_URL.replace('/api', '');
 
 export default api;

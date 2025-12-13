@@ -558,21 +558,20 @@ const Portfolio = () => {
   const observerRef = useRef();
   const gradientRef = useRef(null);
 
-  // Fetch skills from backend (similar to Skills.jsx)
   useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        setLoadingSkills(true);
-        const response = await axios.get('/api/skills');
-        setSkills(response.data);
-        setLoadingSkills(false);
-        setErrorSkills(null);
-      } catch (err) {
-        setErrorSkills(err.response?.data?.message || 'Failed to load skills');
-        setLoadingSkills(false);
-      }
-    };
-    fetchSkills();
+  const fetchSkills = async () => {
+    try {
+      setLoadingSkills(true);
+      const response = await api.get('/skills');  // Use api instance
+      setSkills(response.data);
+      setLoadingSkills(false);
+      setErrorSkills(null);
+    } catch (err) {
+      setErrorSkills(err.response?.data?.message || 'Failed to load skills');
+      setLoadingSkills(false);
+    }
+  };
+  fetchSkills();
 }, []);
 
   // Fetch journey from backend

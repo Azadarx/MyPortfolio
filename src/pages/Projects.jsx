@@ -6,12 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { PlusCircle, Github, ExternalLink, Code, X } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
 
-const BACKEND_URL =
-  typeof process !== "undefined" &&
-  import.meta.env &&
-  import.meta.env.VITE_BACKEND_URL
-    ? import.meta.env.VITE_BACKEND_URL
-    : "http://localhost:5000";
+const BACKEND_BASE_URL = 'https://my-portfolio-backend-69gv.onrender.com';
 
 // Animated particles component matching Home.jsx style
 const Particles = ({ isInView }) => {
@@ -54,9 +49,10 @@ const Particles = ({ isInView }) => {
 const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
   const [hovered, setHovered] = useState(false);
 
-  // Prepend backend URL to imageUrl
-  const imageSrc = project.imageUrl
-    ? `${BACKEND_URL}${project.imageUrl}`
+ const imageSrc = project.imageUrl
+    ? project.imageUrl.startsWith('http')
+      ? project.imageUrl
+      : `${BACKEND_BASE_URL}${project.imageUrl}`
     : null;
 
   return (
