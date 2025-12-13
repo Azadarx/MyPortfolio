@@ -300,6 +300,7 @@ const Projects = () => {
 
   const handleProjectClick = (project) => {
     const url = project.liveLink || project.repoLink;
+    console.log(url, "url=============")
     if (url) {
       window.open(url, "_blank", "noopener,noreferrer");
     }
