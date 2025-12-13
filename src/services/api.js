@@ -1,11 +1,15 @@
-// src/services/api.js - COMPLETE FIX
+// src/services/api.js - COMPLETE FIX WITH EXPORTS
 import axios from "axios";
 
-// ✅ Backend URL configuration
+// ✅ Backend URL configuration - ALWAYS use /api suffix
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://my-portfolio-backend-69gv.onrender.com/api';
+
+// ✅ Export base URL for image/file URLs (without /api)
+export const BACKEND_BASE_URL = BASE_URL.replace('/api', '');
 
 console.log('🔧 API Configuration:', {
   baseURL: BASE_URL,
+  backendBaseURL: BACKEND_BASE_URL,
   env: import.meta.env.MODE,
   rawEnvVar: import.meta.env.VITE_BACKEND_URL
 });
@@ -72,8 +76,5 @@ api.interceptors.response.use(
     }
   }
 );
-
-// Export base URL for image/file URLs (without /api)
-export const BACKEND_BASE_URL = BASE_URL.replace('/api', '');
 
 export default api;

@@ -3,11 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Edit, Trash2, Plus, X, Code, Layout, Server } from "lucide-react";
-import axios from "axios";
 import { useTheme } from "../context/ThemeContext.jsx";
-
- const BACKEND_BASE_URL = 'https://my-portfolio-backend-69gv.onrender.com';
-
+// ✅ FIXED: Import both api instance and BACKEND_BASE_URL from centralized config
+import api, { BACKEND_BASE_URL } from "../services/api.js";
 
 const SkillCard = ({
   skill,
@@ -57,25 +55,22 @@ const SkillCard = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Decorative gradient accent */}
       <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-teal-500 via-cyan-400 to-teal-400 transform origin-left group-hover:scale-x-100 scale-x-0 transition-transform duration-300"></div>
 
-      {/* Skill content */}
       <div className="flex flex-col items-center">
-        {/* Icon or placeholder */}
         <div className="mb-3 md:mb-4 relative">
           {skill.iconUrl ? (
-  <img
-    src={
-          skill.iconUrl.startsWith('http')
-            ? skill.iconUrl
-            : `${BACKEND_BASE_URL}${skill.iconUrl}`
-        }
-        alt={`${skill.name} icon`}
-        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover border-2 border-teal-500/30"
-        onError={(e) => (e.target.src = "https://via.placeholder.com/64")}
-      />
-    ) : (
+            <img
+              src={
+                skill.iconUrl.startsWith('http')
+                  ? skill.iconUrl
+                  : `${BACKEND_BASE_URL}${skill.iconUrl}`
+              }
+              alt={`${skill.name} icon`}
+              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover border-2 border-teal-500/30"
+              onError={(e) => (e.target.src = "https://via.placeholder.com/64")}
+            />
+          ) : (
             <div
               className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center ${
                 currentTheme === "dark" ? "bg-teal-900/50" : "bg-teal-50"
@@ -87,7 +82,6 @@ const SkillCard = ({
           <div className="absolute inset-0 bg-teal-500/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </div>
 
-        {/* Skill name and category */}
         <h3
           className={`text-base sm:text-lg md:text-xl font-bold text-center ${
             currentTheme === "dark" ? "text-white" : "text-slate-800"
@@ -105,7 +99,6 @@ const SkillCard = ({
           {skill.category}
         </span>
 
-        {/* Progress ring */}
         <div className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mt-3 md:mt-4">
           <svg className="w-full h-full" viewBox="0 0 100 100">
             <circle
@@ -145,7 +138,6 @@ const SkillCard = ({
         </div>
       </div>
 
-      {/* Admin actions */}
       {isAdmin && (
         <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 flex gap-1 sm:gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
@@ -180,7 +172,6 @@ const SkillCard = ({
 
 const Particles = ({ isInView }) => {
   const particles = Array.from({ length: 15 });
-
   if (!isInView) return null;
 
   return (
@@ -232,7 +223,6 @@ const Skills = () => {
   const { currentTheme } = useTheme();
   const gradientRef = useRef(null);
 
-  // Gradient animation
   useEffect(() => {
     const interval = setInterval(() => {
       if (gradientRef.current) {
@@ -248,7 +238,7 @@ const Skills = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Check admin status and fetch skills
+  // ✅ FIXED: Use api instance consistently
   useEffect(() => {
     setIsInView(true);
 
@@ -256,10 +246,8 @@ const Skills = () => {
       try {
         const token = localStorage.getItem("jwtToken");
         if (token) {
-          const response = await axios.get("/api/auth/verify", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setIsAdmin(response.data.email === import.meta.env.ADMIN_EMAIL);
+          const response = await api.get("/auth/verify");
+          setIsAdmin(response.data.isAdmin);
         }
       } catch (err) {
         console.error("Auth check error:", err.message);
@@ -269,11 +257,11 @@ const Skills = () => {
     const fetchSkills = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/skills");
+        const response = await api.get("/skills");
         setSkills(response.data);
         setLoading(false);
       } catch (err) {
-        setError(err.response?.data?.message || "Failed to load skills");
+        setError(err.message || "Failed to load skills");
         setLoading(false);
       }
     };
@@ -309,12 +297,10 @@ const Skills = () => {
     setIsModalOpen(true);
   };
 
+  // ✅ FIXED: Use api instance consistently
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("jwtToken");
-      if (!token) throw new Error("Authentication token not found");
-
       const skillData = {
         name: formData.name,
         level: formData.level,
@@ -322,48 +308,41 @@ const Skills = () => {
         iconUrl: formData.iconUrl || null,
       };
 
-      let response;
       if (editingSkill) {
-        response = await axios.put(
-          `/api/skills/${editingSkill.id}`,
-          skillData,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        await api.put(`/skills/${editingSkill.id}`, skillData);
+        toast.success("Skill updated successfully!");
+        
+        // Update local state
+        setSkills(skills.map(s => s.id === editingSkill.id ? {...s, ...skillData} : s));
       } else {
-        response = await axios.post("/api/skills", skillData, {
-          headers: { Authorization: `Bearer ${token}` },
-          baseURL: import.meta.env.VITE_BACKEND_URL,
-        });
+        const response = await api.post("/skills", skillData);
+        toast.success("Skill added successfully!");
+        
+        // Add to local state
+        setSkills([...skills, response.data]);
       }
 
-      toast.success(
-        editingSkill
-          ? "Skill updated successfully!"
-          : "Skill added successfully!"
-      );
       setIsModalOpen(false);
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to save skill");
+      toast.error(err.message || "Failed to save skill");
     }
   };
 
+  // ✅ FIXED: Use api instance consistently
   const handleDelete = async (skillId) => {
     if (window.confirm("Are you sure you want to delete this skill?")) {
       try {
-        const token = localStorage.getItem("jwtToken");
-        await axios.delete(`/api/skills/${skillId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await api.delete(`/skills/${skillId}`);
         toast.success("Skill deleted successfully!");
+        
+        // Update local state
+        setSkills(skills.filter(s => s.id !== skillId));
       } catch (err) {
-        toast.error(err.response?.data?.message || "Failed to delete skill");
+        toast.error(err.message || "Failed to delete skill");
       }
     }
   };
 
-  // Filter skills by category
   const filteredSkills =
     filterCategory === "All"
       ? skills
@@ -442,7 +421,6 @@ const Skills = () => {
         className="z-50"
       />
 
-      {/* Background effects */}
       <div
         ref={gradientRef}
         data-rotation="0"
@@ -468,10 +446,8 @@ const Skills = () => {
         } animate-pulse-slow`}
       ></div>
 
-      {/* Particles */}
       <Particles isInView={isInView} />
 
-      {/* Content */}
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 relative z-10">
         <div className="text-center mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto">
           <h2
@@ -495,7 +471,6 @@ const Skills = () => {
           </p>
         </div>
 
-        {/* Category filters */}
         <div className="flex justify-center flex-wrap gap-2 sm:gap-3 md:gap-4 mb-6 sm:mb-8">
           {categories.map((category) => (
             <button
@@ -516,7 +491,6 @@ const Skills = () => {
           ))}
         </div>
 
-        {/* Admin add button */}
         {isAdmin && (
           <div className="flex justify-center mb-6 sm:mb-8">
             <button
@@ -530,7 +504,6 @@ const Skills = () => {
           </div>
         )}
 
-        {/* Skills grid */}
         {filteredSkills.length === 0 ? (
           <div
             className={`text-center py-12 sm:py-16 md:py-20 px-4 sm:px-6 rounded-xl ${
@@ -575,7 +548,6 @@ const Skills = () => {
         )}
       </div>
 
-      {/* Modal */}
       <AnimatePresence>
         {isModalOpen && (
           <motion.div
@@ -713,7 +685,7 @@ const Skills = () => {
                         : "text-slate-700"
                     }`}
                     htmlFor="iconUrl"
-                  >
+                    >
                     Icon URL (Optional)
                   </label>
                   <input
