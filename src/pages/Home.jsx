@@ -573,6 +573,7 @@ const Portfolio = () => {
       }
     };
     fetchSkills();
+}, []);
 
   // Fetch journey from backend
   useEffect(() => {
