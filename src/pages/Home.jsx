@@ -6,11 +6,9 @@ import {
   Code2, Database, Cpu, Github, ExternalLink, MapPin, Mail, Briefcase
 } from 'lucide-react';
 import axios from 'axios';
-import io from 'socket.io-client';
 import api from "../services/api";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-const socket = io(BACKEND_URL, { withCredentials: true });
 
 const Particles = ({ isInView }) => {
   const particles = Array.from({ length: 15 });

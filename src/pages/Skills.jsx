@@ -3,13 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Edit, Trash2, Plus, X, Code, Layout, Server } from "lucide-react";
-import io from "socket.io-client";
 import axios from "axios";
 import { useTheme } from "../context/ThemeContext.jsx";
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL?.replace('/api', '') || "http://localhost:5000";
-   const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:5000";
-   const socket = io(SOCKET_URL, { /* ... */ });
 
 const SkillCard = ({
   skill,
@@ -278,29 +275,6 @@ const Skills = () => {
 
     checkAdmin();
     fetchSkills();
-
-    // Real-time updates
-    socket.on("skillAdded", (newSkill) => {
-      setSkills((prev) => [newSkill, ...prev]);
-      toast.success("New skill added!");
-    });
-    socket.on("skillUpdated", (updatedSkill) => {
-      setSkills((prev) =>
-        prev.map((s) => (s.id === updatedSkill.id ? updatedSkill : s))
-      );
-      toast.success("Skill updated!");
-    });
-    socket.on("skillDeleted", ({ id }) => {
-      setSkills((prev) => prev.filter((s) => s.id !== id));
-      toast.success("Skill deleted!");
-    });
-
-    return () => {
-      socket.off("skillAdded");
-      socket.off("skillUpdated");
-      socket.off("skillDeleted");
-    };
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

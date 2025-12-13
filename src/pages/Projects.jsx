@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import io from "socket.io-client";
 import { PlusCircle, Github, ExternalLink, Code, X } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
 
@@ -13,8 +12,6 @@ const BACKEND_URL =
   import.meta.env.VITE_BACKEND_URL
     ? import.meta.env.VITE_BACKEND_URL
     : "http://localhost:5000";
-
-const socket = io();
 
 // Animated particles component matching Home.jsx style
 const Particles = ({ isInView }) => {
@@ -244,52 +241,31 @@ const Projects = () => {
     checkAdmin();
   }, []);
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get("/api/projects", {
-          validateStatus: (status) => status >= 200 && status < 300, // Only accept 2xx statuses
-        });
-        if (!response.data) {
-          throw new Error("No data returned from server");
-        }
-        setProjects(response.data);
-        setError(null);
-      } catch (err) {
-        console.error("Failed to fetch projects:", err.message);
-        console.log("Response:", err.response ? err.response : "No response");
-        setError(
-          err.response?.data?.message ||
-            "Failed to load projects. Please try again later."
-        );
-      } finally {
-        setLoading(false);
+  const fetchProjects = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("/api/projects", {
+        validateStatus: (status) => status >= 200 && status < 300,
+      });
+      if (!response.data) {
+        throw new Error("No data returned from server");
       }
-    };
-    fetchProjects();
-
-    // Real-time updates
-    socket.on("projectAdded", (newProject) => {
-      setProjects((prev) => [newProject, ...prev]);
-      toast.success("New project added!");
-    });
-    socket.on("projectUpdated", (updatedProject) => {
-      setProjects((prev) =>
-        prev.map((p) => (p.id === updatedProject.id ? updatedProject : p))
+      setProjects(response.data);
+      setError(null);
+    } catch (err) {
+      console.error("Failed to fetch projects:", err.message);
+      console.log("Response:", err.response ? err.response : "No response");
+      setError(
+        err.response?.data?.message ||
+          "Failed to load projects. Please try again later."
       );
-      toast.success("Project updated!");
-    });
-    socket.on("projectDeleted", ({ id }) => {
-      setProjects((prev) => prev.filter((p) => p.id !== id));
-      toast.success("Project deleted!");
-    });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return () => {
-      socket.off("projectAdded");
-      socket.off("projectUpdated");
-      socket.off("projectDeleted");
-    };
+  useEffect(() => {
+    fetchProjects();
   }, []);
 
   const handleChange = (e) => {
@@ -336,6 +312,8 @@ const Projects = () => {
         projectImage: null,
       });
       toast.success("Project added successfully!");
+      // Refresh projects list
+      fetchProjects();
     } catch (err) {
       console.error("Failed to add project:", err.message);
       console.log("Response:", err.response ? err.response : "No response");

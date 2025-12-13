@@ -15,7 +15,6 @@ import {
   Image,
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
-import socket, { connectSocket, disconnectSocket } from "../services/socket.js";
 import api from "../services/api.js";
 
 const AdminDashboard = () => {
@@ -69,55 +68,9 @@ const AdminDashboard = () => {
       return;
     }
 
-    // Connect to Socket.IO when component mounts
-    connectSocket();
-
     // Initialize data
     fetchProjects();
     fetchSkills();
-
-    // Socket event listeners
-    socket.on("projectAdded", (data) => {
-      setProjects((prev) => [...prev, data]);
-      toast.success("New project added!");
-    });
-
-    socket.on("projectUpdated", (data) => {
-      setProjects((prev) => prev.map((p) => (p.id === data.id ? data : p)));
-      toast.success("Project updated!");
-    });
-
-    socket.on("projectDeleted", (data) => {
-      setProjects((prev) => prev.filter((p) => p.id !== data.id));
-      toast.success("Project deleted!");
-    });
-
-    socket.on("skillAdded", (data) => {
-      setSkills((prev) => [...prev, data]);
-      toast.success("New skill added!");
-    });
-
-    socket.on("skillUpdated", (data) => {
-      setSkills((prev) => prev.map((s) => (s.id === data.id ? data : s)));
-      toast.success("Skill updated!");
-    });
-
-    socket.on("skillDeleted", (data) => {
-      setSkills((prev) => prev.filter((s) => s.id !== data.id));
-      toast.success("Skill deleted!");
-    });
-
-    // Cleanup function
-    return () => {
-      disconnectSocket();
-      socket.off("projectAdded");
-      socket.off("projectUpdated");
-      socket.off("projectDeleted");
-      socket.off("skillAdded");
-      socket.off("skillUpdated");
-      socket.off("skillDeleted");
-    };
-  }, [navigate]);
 
   const fetchProjects = async () => {
     try {
