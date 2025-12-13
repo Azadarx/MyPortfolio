@@ -71,6 +71,7 @@ const AdminDashboard = () => {
     // Initialize data
     fetchProjects();
     fetchSkills();
+  }, []);
 
   const fetchProjects = async () => {
     try {
