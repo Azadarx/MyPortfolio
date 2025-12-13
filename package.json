@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "axios": "^1.9.0",
@@ -26,7 +26,7 @@
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.0",
     "tailwindcss": "^4.1.7",
-    "vite": "^4.0.0"
+    "vite": "^5.4.11"
   },
   "keywords": [
     "portfolio",
@@ -35,5 +35,9 @@
     "frontend"
   ],
   "author": "Syed Azadar Hussayn",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
 }
