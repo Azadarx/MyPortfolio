@@ -43,25 +43,24 @@ const Navbar = () => {
   useEffect(() => {
     let ticking = false;
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
+  useEffect(() => {
+  let timeoutId = null;
+  
+  const handleScroll = () => {
+    if (timeoutId) clearTimeout(timeoutId);
+    
+    timeoutId = setTimeout(() => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 20);
+    }, 10);
+  };
 
-          if (currentScrollY > lastScrollY) {
-            setScrollDirection("down");
-          } else if (currentScrollY < lastScrollY) {
-            setScrollDirection("up");
-          }
-
-          setScrolled(currentScrollY > 20);
-          setLastScrollY(currentScrollY);
-          ticking = false;
-        });
-
-        ticking = true;
-      }
-    };
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+    if (timeoutId) clearTimeout(timeoutId);
+  };
+}, []);
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);

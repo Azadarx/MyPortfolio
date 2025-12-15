@@ -13,7 +13,7 @@ import { useTheme } from '../context/ThemeContext.jsx';
 const BACKEND_URL = BACKEND_BASE_URL;
 
 const Particles = ({ isInView }) => {
-  const particles = Array.from({ length: 15 });
+  const particles = Array.from({ length: 8 });
   if (!isInView) return null;
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -641,14 +641,16 @@ fetchRealTimeStats();
 }, []);
 useEffect(() => {
 observerRef.current = new IntersectionObserver(
-(entries) => {
-entries.forEach((entry) => {
+  (entries) => {
+    requestAnimationFrame(() => {
+      entries.forEach((entry) => {
 setIsVisible((prev) => {
   if (prev[entry.target.id] === entry.isIntersecting) return prev;
   return {
     ...prev,
     [entry.target.id]: entry.isIntersecting,
   };
+});
 });
 });
 },
@@ -718,7 +720,7 @@ Try Again
 }
 return (
 <div
-  className={`relative min-h-screen transition-all duration-500 overflow-x-hidden hide-scrollbar ${
+  className={`relative min-h-screen transition-all duration-500 overflow-x-hidden hide-scrollbar w-full max-w-[100vw] ${
     currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'
   }`}
 >
@@ -727,7 +729,7 @@ return (
 <div
 ref={gradientRef}
 data-rotation="0"
-className={`absolute inset-0 w-full h-full ${
+className={`absolute inset-0 w-full h-full pointer-events-none ${
   currentTheme === 'dark' ? 'opacity-40' : 'opacity-20'
 }`}
 />
