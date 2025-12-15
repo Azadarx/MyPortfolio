@@ -461,12 +461,12 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div
+          {/* <div
             className={`p-3 sm:p-4 border-t flex-shrink-0 ${
               currentTheme === "dark" ? "border-gray-700" : "border-gray-200"
             } animate-fade-in`}
             style={{ animationDelay: "400ms" }}
-          >
+           >
             <p
               className={`text-xs sm:text-sm ${
                 currentTheme === "dark" ? "text-gray-400" : "text-gray-500"
@@ -493,7 +493,7 @@ const Navbar = () => {
                 </button>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </header>
