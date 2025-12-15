@@ -38,7 +38,7 @@ const Navbar = () => {
     setIsAuthenticated(!!token);
   }, [location]);
 
-  useEffect(() => {
+useEffect(() => {
     let timeoutId = null;
     
     const handleScroll = () => {
