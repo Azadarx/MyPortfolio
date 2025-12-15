@@ -37,6 +37,27 @@ const PageLayout = ({ children }) => {
   );
 };
 
+// 404 Not Found Page
+const NotFound = () => {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+      <div className="text-center">
+        <h1 className="text-8xl font-bold text-gray-900 dark:text-white mb-4">404</h1>
+        <p className="text-2xl text-gray-600 dark:text-gray-400 mb-8">Page Not Found</p>
+        <p className="text-gray-500 dark:text-gray-500 mb-8">
+          The page you're looking for doesn't exist.
+        </p>
+        <a
+          href="/"
+          className="inline-block px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
+        >
+          Go Back Home
+        </a>
+      </div>
+    </div>
+  );
+};
+
 // Animated routes component
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -44,6 +65,7 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
+        {/* Public Routes */}
         <Route path="/" element={<PageLayout><Home /></PageLayout>} />
         <Route path="/about" element={<PageLayout><About /></PageLayout>} />
         <Route path="/projects" element={<PageLayout><Projects /></PageLayout>} />
@@ -51,8 +73,9 @@ const AnimatedRoutes = () => {
         <Route path="/experience" element={<PageLayout><Experience /></PageLayout>} />
         <Route path="/education" element={<PageLayout><Education /></PageLayout>} />
         <Route path="/contact" element={<PageLayout><Contact /></PageLayout>} />
-        <Route path="/admin-login" element={<PageLayout><AdminLogin /></PageLayout>} />
         
+        {/* Admin Routes */}
+        <Route path="/admin-login" element={<PageLayout><AdminLogin /></PageLayout>} />
         <Route
           path="/admin/dashboard"
           element={
@@ -62,7 +85,8 @@ const AnimatedRoutes = () => {
           }
         />
         
-        <Route path="*" element={<PageLayout><AdminLogin /></PageLayout>} />
+        {/* 404 - Must be last */}
+        <Route path="*" element={<PageLayout><NotFound /></PageLayout>} />
       </Routes>
     </AnimatePresence>
   );
