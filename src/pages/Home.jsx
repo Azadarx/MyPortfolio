@@ -740,7 +740,7 @@ className={`absolute inset-0 w-full h-full ${
 
 <Particles isInView={isVisible['hero'] || isVisible['skills'] || isVisible['projects']} />
   <section id="hero" className="pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-12 sm:pb-16 md:pb-20 px-3 sm:px-4 md:px-6 lg:px-8">
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mt-10 mx-auto">
       <div className="text-center mb-8 sm:mb-12 md:mb-16">
         <div className="relative inline-block mb-4 sm:mb-6 md:mb-8">
           <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mx-auto mb-4 sm:mb-6 shadow-2xl shadow-teal-500/30 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl animate-pulse">
