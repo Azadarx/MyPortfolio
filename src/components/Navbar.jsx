@@ -334,6 +334,7 @@ const Navbar = () => {
         </div>
       </nav>
 
+      {/* MOBILE DRAWER - FIXED HEIGHT ISSUE */}
       <div
         className={`fixed inset-0 z-50 lg:hidden transition-all duration-500 ${
           isOpen ? "visible" : "invisible"
@@ -355,19 +356,20 @@ const Navbar = () => {
             isOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="flex justify-between items-center p-3 sm:p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+          {/* HEADER - Minimal height */}
+          <div className="flex justify-between items-center px-4 py-3 sm:px-5 sm:py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <div
-              className={`text-sm sm:text-base md:text-lg font-bold ${
+              className={`text-base sm:text-lg font-bold ${
                 currentTheme === "dark" ? "text-white" : "text-slate-800"
               } truncate pr-2`}
             >
               <span className="text-teal-500">SYED AZADAR</span>
-              <span className="text-slate-400 mx-1">|</span>
+              <span className="text-slate-400 mx-1.5">|</span>
               <span>Dev</span>
             </div>
             <button
               onClick={closeMenu}
-              className={`p-1.5 rounded-md ${
+              className={`p-2 rounded-md ${
                 currentTheme === "dark"
                   ? "text-gray-300 hover:bg-teal-400/20"
                   : "text-gray-700 hover:bg-teal-500/20"
@@ -375,22 +377,23 @@ const Navbar = () => {
               aria-label="Close menu"
             >
               <X
-                size={22}
-                className={`sm:w-6 sm:h-6 ${
+                size={24}
+                className={`${
                   currentTheme === "dark" ? "text-teal-400" : "text-teal-600"
                 }`}
               />
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5">
-            <div className="flex flex-col space-y-0.5 sm:space-y-1">
+          {/* MAIN CONTENT - Maximum height with proper spacing */}
+          <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-5 sm:py-8">
+            <div className="flex flex-col space-y-2 sm:space-y-3">
               {navLinks.map((link, index) => (
                 <Link
                   key={link.id}
                   to={link.href}
                   onClick={closeMenu}
-                  className={`text-sm sm:text-base md:text-lg font-medium transition-all duration-300 relative group flex items-center py-3 sm:py-3.5 md:py-4 px-3 rounded-lg hover:bg-teal-500/5 ${
+                  className={`text-base sm:text-lg font-medium transition-all duration-300 relative group flex items-center py-4 sm:py-5 px-4 rounded-xl hover:bg-teal-500/5 ${
                     currentPath === link.id
                       ? currentTheme === "dark"
                         ? "text-teal-400 bg-teal-500/10"
@@ -405,35 +408,36 @@ const Navbar = () => {
                 >
                   {link.title}
                   <span
-                    className={`absolute bottom-2 left-3 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
+                    className={`absolute bottom-3 left-4 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
                       currentPath === link.id
-                        ? "w-[calc(100%-1.5rem)]"
-                        : "w-0 group-hover:w-[calc(100%-1.5rem)]"
+                        ? "w-[calc(100%-2rem)]"
+                        : "w-0 group-hover:w-[calc(100%-2rem)]"
                     }`}
                   ></span>
                 </Link>
               ))}
               
-              <div className="pt-2 sm:pt-3 mt-2 sm:mt-3 border-t border-gray-200 dark:border-gray-700">
+              {/* AUTH SECTION with proper spacing */}
+              <div className="pt-4 sm:pt-6 mt-3 sm:mt-4 border-t border-gray-200 dark:border-gray-700">
                 {isAuthenticated ? (
                   <button
                     onClick={handleLogout}
-                    className={`w-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 relative group flex items-center py-3 sm:py-3.5 md:py-4 px-3 rounded-lg hover:bg-teal-500/5 ${
+                    className={`w-full text-base sm:text-lg font-medium transition-all duration-300 relative group flex items-center py-4 sm:py-5 px-4 rounded-xl hover:bg-teal-500/5 ${
                       currentTheme === "dark" ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-slate-900"
                     } animate-fade-slide-in`}
                     style={{
                       animationDelay: `${navLinks.length * 50 + 100}ms`,
                     }}
                   >
-                    <LogOut size={18} className="mr-3 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0" />
+                    <LogOut size={20} className="mr-3 sm:mr-4 sm:w-6 sm:h-6 flex-shrink-0" />
                     Logout
-                    <span className="absolute bottom-2 left-3 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out w-0 group-hover:w-[calc(100%-1.5rem)]"></span>
+                    <span className="absolute bottom-3 left-4 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out w-0 group-hover:w-[calc(100%-2rem)]"></span>
                   </button>
                 ) : (
                   <Link
                     to="/admin-login"
                     onClick={closeMenu}
-                    className={`text-sm sm:text-base md:text-lg font-medium transition-all duration-300 relative group flex items-center py-3 sm:py-3.5 md:py-4 px-3 rounded-lg hover:bg-teal-500/5 ${
+                    className={`text-base sm:text-lg font-medium transition-all duration-300 relative group flex items-center py-4 sm:py-5 px-4 rounded-xl hover:bg-teal-500/5 ${
                       currentPath === "admin-login"
                         ? currentTheme === "dark"
                           ? "text-teal-400 bg-teal-500/10"
@@ -446,13 +450,13 @@ const Navbar = () => {
                       animationDelay: `${navLinks.length * 50 + 100}ms`,
                     }}
                   >
-                    <LogIn size={18} className="mr-3 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0" />
+                    <LogIn size={20} className="mr-3 sm:mr-4 sm:w-6 sm:h-6 flex-shrink-0" />
                     Admin Login
                     <span
-                      className={`absolute bottom-2 left-3 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
+                      className={`absolute bottom-3 left-4 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
                         currentPath === "admin-login"
-                          ? "w-[calc(100%-1.5rem)]"
-                          : "w-0 group-hover:w-[calc(100%-1.5rem)]"
+                          ? "w-[calc(100%-2rem)]"
+                          : "w-0 group-hover:w-[calc(100%-2rem)]"
                       }`}
                     ></span>
                   </Link>
@@ -460,40 +464,6 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-
-          {/* <div
-            className={`p-3 sm:p-4 border-t flex-shrink-0 ${
-              currentTheme === "dark" ? "border-gray-700" : "border-gray-200"
-            } animate-fade-in`}
-            style={{ animationDelay: "400ms" }}
-           >
-            <p
-              className={`text-xs sm:text-sm ${
-                currentTheme === "dark" ? "text-gray-400" : "text-gray-500"
-              } mb-2`}
-            >
-              Connect with me
-            </p>
-            <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
-              {[
-                { name: "GitHub", icon: "github" },
-                { name: "LinkedIn", icon: "linkedin" },
-                { name: "Twitter", icon: "twitter" },
-              ].map((platform, index) => (
-                <button
-                  key={platform.name}
-                  className={`px-2 py-2 text-xs sm:text-sm ${
-                    currentTheme === "dark"
-                      ? "text-gray-300 hover:bg-teal-400/20 hover:text-white"
-                      : "text-gray-700 hover:bg-teal-500/20 hover:text-slate-900"
-                  } rounded-md transition-all duration-300 animate-fade-in text-center`}
-                  style={{ animationDelay: `${index * 100 + 500}ms` }}
-                >
-                  {platform.name}
-                </button>
-              ))}
-            </div>
-          </div> */}
         </div>
       </div>
     </header>
