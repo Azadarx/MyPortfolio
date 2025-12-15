@@ -721,7 +721,6 @@ Try Again
 );
 }
 return (
-return (
 <div
   className={`relative transition-all duration-500 overflow-x-hidden w-full ${
     currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'
