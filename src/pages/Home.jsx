@@ -720,6 +720,7 @@ Try Again
 </div>
 );
 }
+
 return (
 <div
   className={`relative transition-all duration-500 overflow-x-hidden w-full ${

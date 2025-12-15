@@ -52,7 +52,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className={getFooterClasses()}>
+   <motion.footer className={getFooterClasses()}>
       <div className="max-w-6xl mx-auto">
         {/* Footer Top Section with Logo */}
         <div className="flex flex-col items-center mb-6 sm:mb-8">
