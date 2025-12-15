@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import api from "../services/api";
+import profileImg from "../assets/profile.jpg";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
@@ -745,7 +746,11 @@ className={`absolute inset-0 w-full h-full ${
       <div className="text-center mb-8 sm:mb-12 md:mb-16">
         <div className="relative inline-block mb-4 sm:mb-6 md:mb-8">
           <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mx-auto mb-4 sm:mb-6 shadow-2xl shadow-teal-500/30 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl animate-pulse">
-            👨‍💻
+            <img
+                src={profileImg}
+                alt="Developer profile"
+                className="w-full h-full object-cover relative z-10"
+              />
           </div>
           <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500 rounded-full opacity-30 animate-spin"></div>
         </div>
