@@ -13,7 +13,6 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Define base navigation links
   const baseNavLinks = [
     { title: "Home", href: "/", id: "home" },
     { title: "About", href: "/about", id: "about" },
@@ -22,7 +21,6 @@ const Navbar = () => {
     { title: "Contact", href: "/contact", id: "contact" },
   ];
 
-  // Conditionally add Admin Dashboard link if authenticated
   const navLinks = isAuthenticated
     ? [
         ...baseNavLinks,
@@ -34,17 +32,14 @@ const Navbar = () => {
       ]
     : baseNavLinks;
 
-  // Get current path without the leading slash
   const currentPath =
     location.pathname === "/" ? "home" : location.pathname.substring(1);
 
-  // Check authentication status on mount and when location changes
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     setIsAuthenticated(!!token);
   }, [location]);
 
-  // Optimized scroll handler with throttling
   useEffect(() => {
     let ticking = false;
 
@@ -53,17 +48,13 @@ const Navbar = () => {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
 
-          // Determine scroll direction
           if (currentScrollY > lastScrollY) {
             setScrollDirection("down");
           } else if (currentScrollY < lastScrollY) {
             setScrollDirection("up");
           }
 
-          // Set navbar background when scrolled
           setScrolled(currentScrollY > 20);
-
-          // Update last scroll position
           setLastScrollY(currentScrollY);
           ticking = false;
         });
@@ -77,7 +68,6 @@ const Navbar = () => {
   }, [lastScrollY]);
 
   useEffect(() => {
-    // Close mobile menu when route changes
     setIsOpen(false);
   }, [location]);
 
@@ -91,7 +81,6 @@ const Navbar = () => {
     closeMenu();
   };
 
-  // Dynamic navbar styles based on scroll position and theme
   const getNavbarClasses = () => {
     const baseClasses =
       "fixed top-0 left-0 w-full z-50 transition-all duration-500";
@@ -111,7 +100,6 @@ const Navbar = () => {
     }
   };
 
-  // Add auto-hide behavior when scrolling down (only when not at the top)
   const getNavbarTransform = () => {
     if (scrollDirection === "down" && scrolled && !isOpen) {
       return "transform -translate-y-full";
@@ -119,7 +107,6 @@ const Navbar = () => {
     return "transform translate-y-0";
   };
 
-  // Optimized theme toggle component
   const ThemeToggle = () => {
     const { theme, toggleTheme } = useTheme();
 
@@ -157,7 +144,6 @@ const Navbar = () => {
       <nav className="w-full max-w-none">
         <div className="mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <div className="flex justify-between items-center h-14 sm:h-16 md:h-18 lg:h-20">
-            {/* Logo - Responsive and perfectly aligned */}
             <div className="flex-shrink-0 min-w-0">
               <Link
                 to="/"
@@ -184,7 +170,6 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {/* Desktop navigation - Perfectly spaced for all screen sizes */}
             <div className="hidden lg:flex items-center">
               <div className="flex items-center space-x-2 xl:space-x-4 2xl:space-x-6">
                 {navLinks.map((link) => (
@@ -208,7 +193,6 @@ const Navbar = () => {
                   </Link>
                 ))}
                 
-                {/* Auth Button */}
                 <div className="ml-2 xl:ml-4 2xl:ml-6">
                   {isAuthenticated ? (
                     <button
@@ -247,14 +231,12 @@ const Navbar = () => {
                   )}
                 </div>
                 
-                {/* Theme Toggle */}
                 <div className="ml-2 xl:ml-4 2xl:ml-6 pl-2 xl:pl-4 2xl:pl-6 border-l border-gray-300 dark:border-gray-600">
                   <ThemeToggle />
                 </div>
               </div>
             </div>
 
-            {/* Tablet navigation - Medium screens */}
             <div className="hidden md:flex lg:hidden items-center">
               <div className="flex items-center space-x-1">
                 {baseNavLinks.slice(0, 3).map((link) => (
@@ -313,7 +295,6 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Mobile menu button - Small screens */}
             <div className="flex items-center md:hidden">
               <div className="flex items-center space-x-2">
                 <ThemeToggle />
@@ -353,7 +334,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile drawer - Perfectly responsive for all mobile sizes */}
       <div
         className={`fixed inset-0 z-50 lg:hidden transition-all duration-500 ${
           isOpen ? "visible" : "invisible"
@@ -361,7 +341,6 @@ const Navbar = () => {
         aria-hidden={!isOpen}
         inert={!isOpen ? true : undefined}
       >
-        {/* Backdrop with blur effect */}
         <div
           className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
             isOpen ? "opacity-100" : "opacity-0"
@@ -369,7 +348,6 @@ const Navbar = () => {
           onClick={closeMenu}
         />
 
-        {/* Drawer content - Perfectly sized for all devices */}
         <div
           className={`absolute top-0 right-0 w-full min-[400px]:w-4/5 sm:w-3/4 md:w-2/3 h-full ${
             currentTheme === "dark" ? "bg-slate-900" : "bg-white"
@@ -377,10 +355,9 @@ const Navbar = () => {
             isOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          {/* Mobile drawer header */}
-          <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex justify-between items-center p-3 sm:p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <div
-              className={`text-base sm:text-lg md:text-xl font-bold ${
+              className={`text-sm sm:text-base md:text-lg font-bold ${
                 currentTheme === "dark" ? "text-white" : "text-slate-800"
               } truncate pr-2`}
             >
@@ -390,7 +367,7 @@ const Navbar = () => {
             </div>
             <button
               onClick={closeMenu}
-              className={`p-2 rounded-md ${
+              className={`p-1.5 rounded-md ${
                 currentTheme === "dark"
                   ? "text-gray-300 hover:bg-teal-400/20"
                   : "text-gray-700 hover:bg-teal-500/20"
@@ -398,30 +375,29 @@ const Navbar = () => {
               aria-label="Close menu"
             >
               <X
-                size={24}
-                className={
+                size={22}
+                className={`sm:w-6 sm:h-6 ${
                   currentTheme === "dark" ? "text-teal-400" : "text-teal-600"
-                }
+                }`}
               />
             </button>
           </div>
 
-          {/* Mobile menu links - Perfectly spaced for touch */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-            <div className="flex flex-col space-y-4 sm:space-y-6">
+          <div className="flex-1 overflow-y-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5">
+            <div className="flex flex-col space-y-0.5 sm:space-y-1">
               {navLinks.map((link, index) => (
                 <Link
                   key={link.id}
                   to={link.href}
                   onClick={closeMenu}
-                  className={`text-base sm:text-lg md:text-xl font-medium transition-colors duration-300 relative group flex items-center py-2 ${
+                  className={`text-sm sm:text-base md:text-lg font-medium transition-all duration-300 relative group flex items-center py-3 sm:py-3.5 md:py-4 px-3 rounded-lg hover:bg-teal-500/5 ${
                     currentPath === link.id
                       ? currentTheme === "dark"
-                        ? "text-teal-400"
-                        : "text-teal-500"
+                        ? "text-teal-400 bg-teal-500/10"
+                        : "text-teal-500 bg-teal-500/10"
                       : currentTheme === "dark"
-                      ? "text-gray-300"
-                      : "text-gray-700"
+                      ? "text-gray-300 hover:text-white"
+                      : "text-gray-700 hover:text-slate-900"
                   } animate-fade-slide-in`}
                   style={{
                     animationDelay: `${index * 50 + 100}ms`,
@@ -429,55 +405,54 @@ const Navbar = () => {
                 >
                   {link.title}
                   <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
+                    className={`absolute bottom-2 left-3 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
                       currentPath === link.id
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
+                        ? "w-[calc(100%-1.5rem)]"
+                        : "w-0 group-hover:w-[calc(100%-1.5rem)]"
                     }`}
                   ></span>
                 </Link>
               ))}
               
-              {/* Auth button in mobile menu */}
-              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="pt-2 sm:pt-3 mt-2 sm:mt-3 border-t border-gray-200 dark:border-gray-700">
                 {isAuthenticated ? (
                   <button
                     onClick={handleLogout}
-                    className={`text-base sm:text-lg md:text-xl font-medium transition-colors duration-300 relative group flex items-center py-2 ${
-                      currentTheme === "dark" ? "text-gray-300" : "text-gray-700"
+                    className={`w-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 relative group flex items-center py-3 sm:py-3.5 md:py-4 px-3 rounded-lg hover:bg-teal-500/5 ${
+                      currentTheme === "dark" ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-slate-900"
                     } animate-fade-slide-in`}
                     style={{
                       animationDelay: `${navLinks.length * 50 + 100}ms`,
                     }}
                   >
-                    <LogOut size={20} className="mr-3 sm:w-6 sm:h-6" />
+                    <LogOut size={18} className="mr-3 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0" />
                     Logout
-                    <span className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out w-0 group-hover:w-full"></span>
+                    <span className="absolute bottom-2 left-3 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out w-0 group-hover:w-[calc(100%-1.5rem)]"></span>
                   </button>
                 ) : (
                   <Link
                     to="/admin-login"
                     onClick={closeMenu}
-                    className={`text-base sm:text-lg md:text-xl font-medium transition-colors duration-300 relative group flex items-center py-2 ${
+                    className={`text-sm sm:text-base md:text-lg font-medium transition-all duration-300 relative group flex items-center py-3 sm:py-3.5 md:py-4 px-3 rounded-lg hover:bg-teal-500/5 ${
                       currentPath === "admin-login"
                         ? currentTheme === "dark"
-                          ? "text-teal-400"
-                          : "text-teal-500"
+                          ? "text-teal-400 bg-teal-500/10"
+                          : "text-teal-500 bg-teal-500/10"
                         : currentTheme === "dark"
-                        ? "text-gray-300"
-                        : "text-gray-700"
+                        ? "text-gray-300 hover:text-white"
+                        : "text-gray-700 hover:text-slate-900"
                     } animate-fade-slide-in`}
                     style={{
                       animationDelay: `${navLinks.length * 50 + 100}ms`,
                     }}
                   >
-                    <LogIn size={20} className="mr-3 sm:w-6 sm:h-6" />
+                    <LogIn size={18} className="mr-3 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0" />
                     Admin Login
                     <span
-                      className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
+                      className={`absolute bottom-2 left-3 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
                         currentPath === "admin-login"
-                          ? "w-full"
-                          : "w-0 group-hover:w-full"
+                          ? "w-[calc(100%-1.5rem)]"
+                          : "w-0 group-hover:w-[calc(100%-1.5rem)]"
                       }`}
                     ></span>
                   </Link>
@@ -486,21 +461,20 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Social links footer in mobile menu */}
           <div
-            className={`p-4 sm:p-6 border-t ${
+            className={`p-3 sm:p-4 border-t flex-shrink-0 ${
               currentTheme === "dark" ? "border-gray-700" : "border-gray-200"
             } animate-fade-in`}
             style={{ animationDelay: "400ms" }}
           >
             <p
-              className={`text-sm ${
+              className={`text-xs sm:text-sm ${
                 currentTheme === "dark" ? "text-gray-400" : "text-gray-500"
-              } mb-3`}
+              } mb-2`}
             >
               Connect with me
             </p>
-            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
               {[
                 { name: "GitHub", icon: "github" },
                 { name: "LinkedIn", icon: "linkedin" },
@@ -508,11 +482,11 @@ const Navbar = () => {
               ].map((platform, index) => (
                 <button
                   key={platform.name}
-                  className={`px-3 py-2 text-sm ${
+                  className={`px-2 py-2 text-xs sm:text-sm ${
                     currentTheme === "dark"
-                      ? "text-gray-300 hover:bg-teal-400/20"
-                      : "text-gray-700 hover:bg-teal-500/20"
-                  } rounded-md transition-colors duration-300 animate-fade-in text-center`}
+                      ? "text-gray-300 hover:bg-teal-400/20 hover:text-white"
+                      : "text-gray-700 hover:bg-teal-500/20 hover:text-slate-900"
+                  } rounded-md transition-all duration-300 animate-fade-in text-center`}
                   style={{ animationDelay: `${index * 100 + 500}ms` }}
                 >
                   {platform.name}
