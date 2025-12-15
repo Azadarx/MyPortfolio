@@ -350,14 +350,15 @@ const Navbar = () => {
         />
 
         <div
-          className={`absolute top-0 right-0 w-full min-[400px]:w-4/5 sm:w-3/4 md:w-2/3 h-full ${
+          className={`absolute top-0 right-0 w-full min-[400px]:w-4/5 sm:w-3/4 md:w-2/3 h-[100dvh] ${
             currentTheme === "dark" ? "bg-slate-900" : "bg-white"
           } shadow-xl shadow-teal-900/20 flex flex-col transform transition-transform duration-300 ease-out ${
             isOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
           {/* HEADER - Minimal height */}
-          <div className="flex justify-between items-center px-4 py-3 sm:px-5 sm:py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+          <div className="flex justify-between items-center px-4 py-2.5 sm:px-5 sm:py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+
             <div
               className={`text-base sm:text-lg font-bold ${
                 currentTheme === "dark" ? "text-white" : "text-slate-800"
@@ -386,14 +387,16 @@ const Navbar = () => {
           </div>
 
           {/* MAIN CONTENT - Maximum height with proper spacing */}
-          <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-5 sm:py-8">
-            <div className="flex flex-col space-y-2 sm:space-y-3">
+          <div className="overflow-y-auto px-4 py-6 sm:px-6 sm:py-10"
+     style={{ maxHeight: "calc(100dvh - 64px)" }}>
+
+            <div className="flex flex-col space-y-3 sm:space-y-4">
               {navLinks.map((link, index) => (
                 <Link
                   key={link.id}
                   to={link.href}
                   onClick={closeMenu}
-                  className={`text-base sm:text-lg font-medium transition-all duration-300 relative group flex items-center py-4 sm:py-5 px-4 rounded-xl hover:bg-teal-500/5 ${
+                  className={`text-lg sm:text-xl font-medium transition-all duration-300 relative group flex items-center py-4 sm:py-6 px-5 rounded-xl hover:bg-teal-500/5 ${
                     currentPath === link.id
                       ? currentTheme === "dark"
                         ? "text-teal-400 bg-teal-500/10"
@@ -408,36 +411,36 @@ const Navbar = () => {
                 >
                   {link.title}
                   <span
-                    className={`absolute bottom-3 left-4 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
+                    className={`absolute bottom-4 left-5 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
                       currentPath === link.id
-                        ? "w-[calc(100%-2rem)]"
-                        : "w-0 group-hover:w-[calc(100%-2rem)]"
+                        ? "w-[calc(100%-2.5rem)]"
+                        : "w-0 group-hover:w-[calc(100%-2.5rem)]"
                     }`}
                   ></span>
                 </Link>
               ))}
               
               {/* AUTH SECTION with proper spacing */}
-              <div className="pt-4 sm:pt-6 mt-3 sm:mt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="pt-5 sm:pt-7 mt-4 sm:mt-5 border-t border-gray-200 dark:border-gray-700">
                 {isAuthenticated ? (
                   <button
                     onClick={handleLogout}
-                    className={`w-full text-base sm:text-lg font-medium transition-all duration-300 relative group flex items-center py-4 sm:py-5 px-4 rounded-xl hover:bg-teal-500/5 ${
+                    className={`w-full text-lg sm:text-xl font-medium transition-all duration-300 relative group flex items-center py-5 sm:py-6 px-5 rounded-xl hover:bg-teal-500/5 ${
                       currentTheme === "dark" ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-slate-900"
                     } animate-fade-slide-in`}
                     style={{
                       animationDelay: `${navLinks.length * 50 + 100}ms`,
                     }}
                   >
-                    <LogOut size={20} className="mr-3 sm:mr-4 sm:w-6 sm:h-6 flex-shrink-0" />
+                    <LogOut size={22} className="mr-4 sm:mr-5 sm:w-7 sm:h-7 flex-shrink-0" />
                     Logout
-                    <span className="absolute bottom-3 left-4 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out w-0 group-hover:w-[calc(100%-2rem)]"></span>
+                    <span className="absolute bottom-4 left-5 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out w-0 group-hover:w-[calc(100%-2.5rem)]"></span>
                   </button>
                 ) : (
                   <Link
                     to="/admin-login"
                     onClick={closeMenu}
-                    className={`text-base sm:text-lg font-medium transition-all duration-300 relative group flex items-center py-4 sm:py-5 px-4 rounded-xl hover:bg-teal-500/5 ${
+                    className={`text-lg sm:text-xl font-medium transition-all duration-300 relative group flex items-center py-5 sm:py-6 px-5 rounded-xl hover:bg-teal-500/5 ${
                       currentPath === "admin-login"
                         ? currentTheme === "dark"
                           ? "text-teal-400 bg-teal-500/10"
@@ -450,13 +453,13 @@ const Navbar = () => {
                       animationDelay: `${navLinks.length * 50 + 100}ms`,
                     }}
                   >
-                    <LogIn size={20} className="mr-3 sm:mr-4 sm:w-6 sm:h-6 flex-shrink-0" />
+                    <LogIn size={22} className="mr-4 sm:mr-5 sm:w-7 sm:h-7 flex-shrink-0" />
                     Admin Login
                     <span
-                      className={`absolute bottom-3 left-4 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
+                      className={`absolute bottom-4 left-5 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
                         currentPath === "admin-login"
-                          ? "w-[calc(100%-2rem)]"
-                          : "w-0 group-hover:w-[calc(100%-2rem)]"
+                          ? "w-[calc(100%-2.5rem)]"
+                          : "w-0 group-hover:w-[calc(100%-2.5rem)]"
                       }`}
                     ></span>
                   </Link>
