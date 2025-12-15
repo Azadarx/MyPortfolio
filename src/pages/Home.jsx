@@ -650,7 +650,7 @@ if (gradientRef.current) {
 const currentRotation = parseInt(gradientRef.current.getAttribute('data-rotation') || '0');
 const newRotation = (currentRotation + 1) % 360;
 gradientRef.current.setAttribute('data-rotation', newRotation);
-gradientRef.current.style.backgroundImage = linear-gradient(${newRotation}deg, rgba(56, 189, 248, 0.2) 0%, rgba(6, 182, 212, 0.15) 25%, rgba(20, 184, 166, 0.2) 50%, rgba(45, 212, 191, 0.15) 75%, rgba(56, 189, 248, 0.2) 100%);
+gradientRef.current.style.backgroundImage = `linear-gradient(${newRotation}deg, rgba(56, 189, 248, 0.2) 0%, rgba(6, 182, 212, 0.15) 25%, rgba(20, 184, 166, 0.2) 50%, rgba(45, 212, 191, 0.15) 75%, rgba(56, 189, 248, 0.2) 100%)`;
 }
 }, 100);
 return () => clearInterval(interval);
@@ -728,7 +728,7 @@ className={absolute -bottom-16 -left-16 w-72 h-72 bg-cyan-500 rounded-full filte
           >
             Let's Connect 🚀
           </a>
-          
+          <a
             href="#projects"
             className={`px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold rounded-xl sm:rounded-2xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 transform-gpu w-full sm:w-auto text-center max-w-xs ${currentTheme === 'dark' 
               ? 'bg-gradient-to-r from-slate-800 to-slate-700 text-slate-300 hover:from-slate-700 hover:to-slate-600 border-2 border-slate-600' 
