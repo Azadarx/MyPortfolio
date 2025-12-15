@@ -401,11 +401,10 @@ const FeaturedProjects = ({ currentTheme, projects }) => {
                 </h3>
                 <div className="overflow-hidden mb-2" style={{ height: '60px' }}>
                   <div
-                    className={`h-full ${hoveredProject === project.id ? 'overflow-y-auto' : 'overflow-hidden'} pr-1 ${currentTheme === 'dark' ? 'text-slate-300' : 'text-slate-600'} text-sm`}
-                    style={{
-                      scrollbarWidth: 'thin',
-                      scrollbarColor: currentTheme === 'dark' ? '#0d9488 #1e293b' : '#14b8a6 #f1f5f9',
-                    }}
+                    className={`h-full ${
+  hoveredProject === project.id ? 'overflow-y-auto' : 'overflow-hidden'
+} pr-1 ${currentTheme === 'dark' ? 'text-slate-300' : 'text-slate-600'} text-sm hide-scrollbar`}
+
                   >
                     <p className={hoveredProject === project.id ? '' : 'line-clamp-3'}>
                       {project.description}
