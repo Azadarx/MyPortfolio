@@ -6,11 +6,11 @@ import {
   Code2, Database, Cpu, Github, ExternalLink, MapPin, Mail, Briefcase,Code
 } from 'lucide-react';
 import axios from 'axios';
-import api from "../services/api";
+import api, { BACKEND_BASE_URL } from "../services/api";
 import profileImg from "../assets/profile.jpg";
 import { useTheme } from '../context/ThemeContext.jsx';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = BACKEND_BASE_URL;
 
 const Particles = ({ isInView }) => {
   const particles = Array.from({ length: 15 });
@@ -324,7 +324,24 @@ const FeaturedProjects = ({ currentTheme, projects }) => {
             techList = project.technologies.split(',').map((t) => t.trim());
           }
 
-          const imageSrc = project.imageUrl ? `${BACKEND_URL}${project.imageUrl}` : null;
+          const getImageUrl = () => {
+  const imageField = project.imageUrl || project.imageurl;
+  
+  if (!imageField) return null;
+  
+  // If it's already a full URL, use it as-is
+  if (imageField.startsWith('http')) {
+    return imageField;
+  }
+  
+  // Remove leading slash if present to avoid double slashes
+  const cleanPath = imageField.startsWith('/') ? imageField.substring(1) : imageField;
+  
+  // Construct full URL using BACKEND_BASE_URL from api.js
+  return `${BACKEND_URL.replace('/api', '')}/${cleanPath}`;
+};
+
+const imageSrc = getImageUrl();
 
           return (
             <div
