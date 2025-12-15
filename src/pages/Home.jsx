@@ -745,20 +745,50 @@ className={`absolute inset-0 w-full h-full ${
     <div className="max-w-7xl mt-10 mx-auto">
       <div className="text-center mb-8 sm:mb-12 md:mb-16">
         <div className="relative inline-block mb-4 sm:mb-6 md:mb-8">
-         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 mx-auto mb-4 sm:mb-6">
-  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 animate-pulse shadow-2xl shadow-teal-500/30"></div>
-
-  <div className="relative w-full h-full rounded-full bg-white dark:bg-slate-900 p-1 sm:p-1.5 md:p-2 overflow-hidden">
-    <img
-      src={profileImg}
-      alt="Developer profile"
-      className="w-full h-full object-cover rounded-full"
-    />
-  </div>
-</div>
-
-          <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500 rounded-full opacity-30 animate-spin"></div>
+          {/* Outer glow rings */}
+          <div className="absolute -inset-8 rounded-full bg-gradient-to-r from-teal-500/20 via-cyan-500/20 to-purple-500/20 blur-2xl animate-pulse"></div>
+          
+          {/* Rotating border rings */}
+          <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400 opacity-75 blur-md animate-spin" style={{animationDuration: '3s'}}></div>
+          
+          {/* Main profile container */}
+          <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 mx-auto">
+            {/* Hexagonal border effect */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-teal-400 via-cyan-400 to-purple-500 p-1 shadow-2xl shadow-cyan-500/50">
+              {/* Inner container with sophisticated border */}
+              <div className="relative w-full h-full rounded-full bg-slate-900 dark:bg-slate-900 p-1.5">
+                {/* Gradient ring inside */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-teal-500/30 via-transparent to-purple-500/30"></div>
+                
+                {/* Image container */}
+                <div className="relative w-full h-full rounded-full overflow-hidden ring-2 ring-white/10">
+                  <img
+                    src={profileImg}
+                    alt="Developer profile"
+                    className="w-full h-full object-cover rounded-full transform transition-transform duration-500 hover:scale-110"
+                  />
+                  
+                  {/* Gradient overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-teal-500/20 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Status indicator dot - Available/Online */}
+            <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 md:bottom-4 md:right-4">
+              <div className="relative">
+                <div className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full border-3 border-slate-900 shadow-lg"></div>
+                <div className="absolute inset-0 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 bg-green-400 rounded-full animate-ping opacity-75"></div>
+              </div>
+            </div>
+            
+            {/* Floating particles */}
+            <div className="absolute -top-2 -right-2 w-3 h-3 bg-cyan-400 rounded-full blur-sm animate-bounce" style={{animationDelay: '0s', animationDuration: '2s'}}></div>
+            <div className="absolute -bottom-2 -left-2 w-2 h-2 bg-teal-400 rounded-full blur-sm animate-bounce" style={{animationDelay: '0.5s', animationDuration: '2.5s'}}></div>
+            <div className="absolute top-1/4 -left-4 w-2 h-2 bg-purple-400 rounded-full blur-sm animate-bounce" style={{animationDelay: '1s', animationDuration: '3s'}}></div>
+          </div>
         </div>
+
         <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold ${currentTheme === 'dark' ? 'text-white' : 'text-slate-800'} mb-3 sm:mb-4 md:mb-6 px-2`}>
           Hi, I'm <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">Syed Azadar Hussain</span>
         </h1>
