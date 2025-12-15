@@ -353,28 +353,38 @@ const FeaturedProjects = ({ currentTheme, projects }) => {
                 <div
                   className={`absolute bottom-2 right-2 flex space-x-2 transition-all duration-300 ${hoveredProject === project.id ? 'opacity-100' : 'opacity-0'}`}
                 >
-                  {project.repoLink && (
-                    
-                      href={project.repoLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`p-1.5 rounded-full ${currentTheme === 'dark' ? 'bg-slate-800/90 text-teal-400' : 'bg-white/90 text-teal-600'} backdrop-blur-sm`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Github size={14} />
-                    </a>
-                  )}
+                 {project.repoLink && (
+  <a
+    href={project.repoLink}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={`p-1.5 rounded-full ${
+      currentTheme === 'dark'
+        ? 'bg-slate-800/90 text-teal-400'
+        : 'bg-white/90 text-teal-600'
+    } backdrop-blur-sm`}
+    onClick={(e) => e.stopPropagation()}
+  >
+    <Github size={14} />
+  </a>
+)}
+
                   {project.liveLink && (
-                    
-                      href={project.liveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`p-1.5 rounded-full ${currentTheme === 'dark' ? 'bg-slate-800/90 text-teal-400' : 'bg-white/90 text-teal-600'} backdrop-blur-sm`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <ExternalLink size={14} />
-                    </a>
-                  )}
+  <a
+    href={project.liveLink}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={`p-1.5 rounded-full ${
+      currentTheme === 'dark'
+        ? 'bg-slate-800/90 text-teal-400'
+        : 'bg-white/90 text-teal-600'
+    } backdrop-blur-sm`}
+    onClick={(e) => e.stopPropagation()}
+  >
+    <ExternalLink size={14} />
+  </a>
+)}
+
                 </div>
               </div>
               <div
@@ -712,7 +722,7 @@ className={absolute -bottom-16 -left-16 w-72 h-72 bg-cyan-500 rounded-full filte
           Full Stack Developer passionate about creating amazing web experiences with modern technologies
         </p>
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center items-center mb-8 sm:mb-12 md:mb-16 px-4">
-          
+          <a
             href="#contact"
             className="px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-teal-500 to-cyan-500 text-white text-base sm:text-lg font-semibold rounded-xl sm:rounded-2xl hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 transform-gpu w-full sm:w-auto text-center max-w-xs"
           >
