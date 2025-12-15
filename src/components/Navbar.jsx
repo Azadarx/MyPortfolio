@@ -38,7 +38,7 @@ const Navbar = () => {
     setIsAuthenticated(!!token);
   }, [location]);
 
-useEffect(() => {
+  useEffect(() => {
     let timeoutId = null;
     
     const handleScroll = () => {
@@ -56,17 +56,6 @@ useEffect(() => {
       if (timeoutId) clearTimeout(timeoutId);
     };
   }, []);
-
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-    if (timeoutId) clearTimeout(timeoutId);
-  };
-}, []);
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
 
   useEffect(() => {
     setIsOpen(false);
@@ -101,7 +90,7 @@ useEffect(() => {
     }
   };
 
-const getNavbarTransform = () => {
+  const getNavbarTransform = () => {
     return "transform translate-y-0";
   };
 
@@ -332,7 +321,7 @@ const getNavbarTransform = () => {
         </div>
       </nav>
 
-      {/* MOBILE DRAWER - FIXED HEIGHT ISSUE */}
+      {/* MOBILE DRAWER */}
       <div
         className={`fixed inset-0 z-50 lg:hidden transition-all duration-500 ${
           isOpen ? "visible" : "invisible"
@@ -354,9 +343,7 @@ const getNavbarTransform = () => {
             isOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          {/* HEADER - Minimal height */}
           <div className="flex justify-between items-center px-4 py-2.5 sm:px-5 sm:py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-
             <div
               className={`text-base sm:text-lg font-bold ${
                 currentTheme === "dark" ? "text-white" : "text-slate-800"
@@ -384,10 +371,8 @@ const getNavbarTransform = () => {
             </button>
           </div>
 
-          {/* MAIN CONTENT - Maximum height with proper spacing */}
           <div className="overflow-y-auto px-4 py-6 sm:px-6 sm:py-10"
-     style={{ maxHeight: "calc(100dvh - 64px)" }}>
-
+               style={{ maxHeight: "calc(100dvh - 64px)" }}>
             <div className="flex flex-col space-y-3 sm:space-y-4">
               {navLinks.map((link, index) => (
                 <Link
@@ -418,7 +403,6 @@ const getNavbarTransform = () => {
                 </Link>
               ))}
               
-              {/* AUTH SECTION with proper spacing */}
               <div className="pt-5 sm:pt-7 mt-4 sm:mt-5 border-t border-gray-200 dark:border-gray-700">
                 {isAuthenticated ? (
                   <button
