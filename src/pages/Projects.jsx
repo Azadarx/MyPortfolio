@@ -103,36 +103,38 @@ const imageSrc = getImageUrl();
             hovered ? "opacity-100" : "opacity-0"
           }`}
         >
-          {project.repoLink && (
-            <a
-              href={project.repoLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`p-1.5 rounded-full ${
-                currentTheme === "dark"
-                  ? "bg-slate-800/90 text-teal-400"
-                  : "bg-white/90 text-teal-600"
-              } backdrop-blur-sm`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Github size={14} />
-            </a>
-          )}
-          {project.liveLink && (
-            <a
-              href={project.liveLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`p-1.5 rounded-full ${
-                currentTheme === "dark"
-                  ? "bg-slate-800/90 text-teal-400"
-                  : "bg-white/90 text-teal-600"
-              } backdrop-blur-sm`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <ExternalLink size={14} />
-            </a>
-          )}
+          {(project.repoLink || project.repolink) && (
+  
+            href={project.repoLink || project.repolink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`p-1.5 rounded-full ${
+              currentTheme === "dark"
+                ? "bg-slate-800/90 text-teal-400 hover:bg-slate-700"
+                : "bg-white/90 text-teal-600 hover:bg-white"
+            } backdrop-blur-sm transition-colors`}
+            onClick={(e) => e.stopPropagation()}
+            title="View Repository"
+          >
+            <Github size={14} />
+          </a>
+        )}
+        {(project.liveLink || project.livelink) && (
+          
+            href={project.liveLink || project.livelink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`p-1.5 rounded-full ${
+              currentTheme === "dark"
+                ? "bg-slate-800/90 text-teal-400 hover:bg-slate-700"
+                : "bg-white/90 text-teal-600 hover:bg-white"
+            } backdrop-blur-sm transition-colors`}
+            onClick={(e) => e.stopPropagation()}
+            title="View Live Demo"
+          >
+            <ExternalLink size={14} />
+          </a>
+        )}
         </div>
       </div>
 
@@ -311,13 +313,23 @@ const Projects = () => {
     }
   };
 
-  const handleProjectClick = (project) => {
-    const url = project.liveLink || project.repoLink;
-    console.log(url, "url=============")
-    if (url) {
-      window.open(url, "_blank", "noopener,noreferrer");
-    }
-  };
+const handleProjectClick = (project) => {
+  // Priority: liveLink first, then repoLink
+  const url = project.liveLink || project.livelink || project.repoLink || project.repolink;
+  console.log('Attempting to open URL:', {
+    liveLink: project.liveLink,
+    livelink: project.livelink,
+    repoLink: project.repoLink,
+    repolink: project.repolink,
+    finalUrl: url
+  });
+  
+  if (url) {
+    window.open(url, "_blank", "noopener,noreferrer");
+  } else {
+    console.warn('No URL available for this project');
+  }
+};
 
   if (loading) {
     return (
