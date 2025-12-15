@@ -44,21 +44,23 @@ const Particles = ({ isInView }) => {
 const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
   const [hovered, setHovered] = useState(false);
 
- // ✅ FIXED: Proper image URL handling
 const getImageUrl = () => {
   const imageField = project.imageUrl || project.imageurl;
   
   if (!imageField) return null;
   
-  // If it's already a full URL, use it as-is
+  // If it's a Cloudinary URL, use it directly
+  if (imageField.includes('cloudinary.com')) {
+    return imageField;
+  }
+  
+  // Legacy: If it's a full URL, use it as-is
   if (imageField.startsWith('http')) {
     return imageField;
   }
   
-  // Remove leading slash if present to avoid double slashes
+  // Legacy: Local uploaded files (fallback)
   const cleanPath = imageField.startsWith('/') ? imageField.substring(1) : imageField;
-  
-  // Construct full URL
   return `${BACKEND_BASE_URL}/${cleanPath}`;
 };
 
