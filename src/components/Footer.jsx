@@ -17,15 +17,19 @@ const Footer = () => {
   const { currentTheme } = useTheme(); // Using the theme hook to get current theme
 
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setShowScrollTop(window.scrollY > 300);
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -48,12 +52,7 @@ const Footer = () => {
   };
 
   return (
-    <motion.footer
-      className={getFooterClasses()}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <footer className={getFooterClasses()}>
       <div className="max-w-6xl mx-auto">
         {/* Footer Top Section with Logo */}
         <div className="flex flex-col items-center mb-6 sm:mb-8">

@@ -39,22 +39,20 @@ const Navbar = () => {
   }, [location]);
 
   useEffect(() => {
-    let timeoutId = null;
+    let ticking = false;
     
     const handleScroll = () => {
-      if (timeoutId) clearTimeout(timeoutId);
-      
-      timeoutId = setTimeout(() => {
-        const currentScrollY = window.scrollY;
-        setScrolled(currentScrollY > 20);
-      }, 10);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (timeoutId) clearTimeout(timeoutId);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -88,10 +86,6 @@ const Navbar = () => {
           : "bg-white/80"
       }`;
     }
-  };
-
-  const getNavbarTransform = () => {
-    return "transform translate-y-0";
   };
 
   const ThemeToggle = () => {

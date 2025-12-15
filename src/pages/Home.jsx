@@ -642,19 +642,21 @@ fetchRealTimeStats();
 useEffect(() => {
 observerRef.current = new IntersectionObserver(
   (entries) => {
-    requestAnimationFrame(() => {
-      entries.forEach((entry) => {
-setIsVisible((prev) => {
-  if (prev[entry.target.id] === entry.isIntersecting) return prev;
-  return {
-    ...prev,
-    [entry.target.id]: entry.isIntersecting,
-  };
-});
-});
-});
-},
-{ threshold: 0.1 }
+    const updates = {};
+    let hasChanges = false;
+    
+    entries.forEach((entry) => {
+      if (entry.target.id) {
+        updates[entry.target.id] = entry.isIntersecting;
+        hasChanges = true;
+      }
+    });
+    
+    if (hasChanges) {
+      setIsVisible((prev) => ({ ...prev, ...updates }));
+    }
+  },
+  { threshold: 0.1, rootMargin: '50px' }
 );
 return () => {
   if (observerRef.current) {
@@ -663,7 +665,7 @@ return () => {
 };
 }, []);
 useEffect(() => {
-const sections = document.querySelectorAll('[id]');
+const sections = document.querySelectorAll('section[id]'); // Only observe section elements
 sections.forEach((section) => {
 if (observerRef.current) {
 observerRef.current.observe(section);
@@ -719,37 +721,42 @@ Try Again
 );
 }
 return (
+return (
 <div
-  className={`relative min-h-screen transition-all duration-500 overflow-x-hidden hide-scrollbar w-full max-w-[100vw] ${
+  className={`relative transition-all duration-500 overflow-x-hidden w-full ${
     currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'
   }`}
->
+  >
 
-<ToastContainer position="top-right" autoClose={3000} theme={currentTheme} className="z-50" />
-<div
-ref={gradientRef}
-data-rotation="0"
-className={`absolute inset-0 w-full h-full pointer-events-none ${
-  currentTheme === 'dark' ? 'opacity-40' : 'opacity-20'
-}`}
-/>
-<div
-  className={`absolute inset-0 w-full h-full ${
-    currentTheme === 'dark'
-      ? 'bg-[radial-gradient(ellipse_at_30%_20%,rgba(20,184,166,0.2),transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(6,182,212,0.25),transparent_60%)]'
-      : 'bg-[radial-gradient(ellipse_at_30%_20%,rgba(20,184,166,0.1),transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(6,182,212,0.15),transparent_60%)]'
-  }`}
-/>
-<div
-  className={`absolute -top-20 -right-20 w-64 h-64 bg-teal-500 rounded-full filter blur-3xl ${
-    currentTheme === 'dark' ? 'opacity-10' : 'opacity-5'
-  } animate-pulse pointer-events-none`}
-></div>
-<div
-  className={`absolute -bottom-16 -left-16 w-72 h-72 bg-cyan-500 rounded-full filter blur-3xl ${
-    currentTheme === 'dark' ? 'opacity-10' : 'opacity-5'
-  } animate-pulse-slow pointer-events-none`}
-></div>
+  <ToastContainer position="top-right" autoClose={3000} theme={currentTheme} className="z-50" />
+  
+  {/* Background container - constrained to content */}
+  <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ maxHeight: '100%' }}>
+    <div
+      ref={gradientRef}
+      data-rotation="0"
+      className={`absolute inset-0 w-full h-full ${
+        currentTheme === 'dark' ? 'opacity-40' : 'opacity-20'
+      }`}
+    />
+    <div
+      className={`absolute inset-0 w-full h-full ${
+        currentTheme === 'dark'
+          ? 'bg-[radial-gradient(ellipse_at_30%_20%,rgba(20,184,166,0.2),transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(6,182,212,0.25),transparent_60%)]'
+          : 'bg-[radial-gradient(ellipse_at_30%_20%,rgba(20,184,166,0.1),transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(6,182,212,0.15),transparent_60%)]'
+      }`}
+    />
+    <div
+      className={`absolute -top-20 -right-20 w-64 h-64 bg-teal-500 rounded-full filter blur-3xl ${
+        currentTheme === 'dark' ? 'opacity-10' : 'opacity-5'
+      } animate-pulse`}
+    ></div>
+    <div
+      className={`absolute -bottom-16 -left-16 w-72 h-72 bg-cyan-500 rounded-full filter blur-3xl ${
+        currentTheme === 'dark' ? 'opacity-10' : 'opacity-5'
+      } animate-pulse-slow`}
+    ></div>
+  </div>
 
 <Particles isInView={isVisible['hero'] || isVisible['skills'] || isVisible['projects']} />
   <section id="hero" className="pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-12 sm:pb-16 md:pb-20 px-3 sm:px-4 md:px-6 lg:px-8">

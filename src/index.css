@@ -12,22 +12,6 @@ body {
   position: relative;
 }
 
-/* Improve scroll performance */
-* {
-  -webkit-overflow-scrolling: touch;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) translateZ(0);
-  }
-  50% {
-    transform: translateY(-20px) translateZ(0);
-  }
-}
-.animate-float {
-  animation: float linear infinite;
-}
 @keyframes pulse-slow {
   0%,
   100% {
@@ -80,20 +64,6 @@ body {
   }
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
-}
-
 @keyframes bounceSlow {
   0%,
   100% {
@@ -114,17 +84,22 @@ body {
   }
 }
 
-/* Add these styles to your global CSS or tailwind config */
 @keyframes float {
   0% {
-    transform: translateY(0) rotate(0deg);
+    transform: translateY(0px);
+    opacity: 0;
   }
   50% {
-    transform: translateY(-40px) rotate(180deg);
+    opacity: 0.6;
   }
   100% {
-    transform: translateY(0) rotate(360deg);
+    transform: translateY(-100px);
+    opacity: 0;
   }
+}
+
+.animate-float {
+  animation: float linear infinite;
 }
 
 @keyframes pulse-slow {
@@ -258,10 +233,8 @@ body {
 }
 
 
-/* Performance optimizations */
 .transform-gpu {
   transform: translateZ(0);
-  will-change: transform;
 }
 
 /* Reduce motion for accessibility and performance */
@@ -275,11 +248,26 @@ body {
   }
 }
 
-/* Fix mobile scroll issues */
-@media (max-width: 768px) {
-  * {
-    -webkit-transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    -webkit-perspective: 1000;
+
+/* Compensate for fixed navbar */
+body {
+  padding-top: 3.5rem; /* 56px - matches navbar height */
+}
+
+@media (min-width: 640px) {
+  body {
+    padding-top: 4rem; /* 64px */
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-top: 4.5rem; /* 72px */
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    padding-top: 5rem; /* 80px */
   }
 }

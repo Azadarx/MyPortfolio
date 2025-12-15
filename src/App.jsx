@@ -117,11 +117,8 @@ const AppContent = () => {
 };
 
 function App() {
-  return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
-  );
+      return <AppContent />;
+
 }
 
 export default App;
