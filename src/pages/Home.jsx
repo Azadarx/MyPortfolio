@@ -8,6 +8,7 @@ import {
 import axios from 'axios';
 import api from "../services/api";
 import profileImg from "../assets/profile.jpg";
+import { useTheme } from '../context/ThemeContext.jsx';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
@@ -551,7 +552,7 @@ const ContactInfo = ({ currentTheme, githubStats }) => {
 };
 
 const Portfolio = () => {
-  const [currentTheme, setCurrentTheme] = useState('dark');
+  const { currentTheme } = useTheme();
   const [isVisible, setIsVisible] = useState({});
   const [githubStats, setGithubStats] = useState(null);
   const [realTimeStats, setRealTimeStats] = useState(null);
@@ -650,17 +651,8 @@ observerRef.current.observe(section);
 }
 });
 }, []);
-<div
-  ref={gradientRef}
-  className={`absolute inset-0 w-full h-full gradient-animate ${
-    currentTheme === 'dark' ? 'opacity-40' : 'opacity-20'
-  }`}
-/>
 
 
-const toggleTheme = () => {
-setCurrentTheme(currentTheme === 'dark' ? 'light' : 'dark');
-};
 if (loadingSkills) {
 return (
 <div className={`min-h-screen flex justify-center items-center ${
