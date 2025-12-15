@@ -7,7 +7,6 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import api from "../services/api";
-import 'index.css';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
