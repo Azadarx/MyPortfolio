@@ -44,12 +44,25 @@ const Particles = ({ isInView }) => {
 const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
   const [hovered, setHovered] = useState(false);
 
-  // ✅ Fixed image URL handling
-  const imageSrc = project.imageUrl || project.imageurl
-    ? (project.imageUrl || project.imageurl).startsWith('http')
-      ? project.imageUrl || project.imageurl
-      : `${BACKEND_BASE_URL}${project.imageUrl || project.imageurl}`
-    : null;
+ // ✅ FIXED: Proper image URL handling
+const getImageUrl = () => {
+  const imageField = project.imageUrl || project.imageurl;
+  
+  if (!imageField) return null;
+  
+  // If it's already a full URL, use it as-is
+  if (imageField.startsWith('http')) {
+    return imageField;
+  }
+  
+  // Remove leading slash if present to avoid double slashes
+  const cleanPath = imageField.startsWith('/') ? imageField.substring(1) : imageField;
+  
+  // Construct full URL
+  return `${BACKEND_BASE_URL}/${cleanPath}`;
+};
+
+const imageSrc = getImageUrl();
 
   return (
     <div

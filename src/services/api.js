@@ -5,7 +5,9 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://my-portfolio-backend-69gv.onrender.com/api';
 
 // ✅ Export base URL for image/file URLs (without /api)
-export const BACKEND_BASE_URL = BASE_URL.replace('/api', '');
+export const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL 
+  ? import.meta.env.VITE_BACKEND_URL.replace('/api', '')
+  : 'http://localhost:5000';
 
 console.log('🔧 API Configuration:', {
   baseURL: BASE_URL,
