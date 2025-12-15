@@ -110,6 +110,7 @@ const AppContent = () => {
         <main className="flex-grow w-full">
           <AnimatedRoutes />
         </main>
+        <Footer />
       </div>
     </BrowserRouter>
   );
