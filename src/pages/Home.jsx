@@ -568,6 +568,19 @@ const ContactInfo = ({ currentTheme, githubStats }) => {
   );
 };
 
+const fetchWithRetry = async (requestFn, retries = 3, delay = 1500) => {
+  try {
+    return await requestFn();
+  } catch (error) {
+    if (retries <= 0) {
+      throw error;
+    }
+    await new Promise((resolve) => setTimeout(resolve, delay));
+    return fetchWithRetry(requestFn, retries - 1, delay * 1.5);
+  }
+};
+
+
 const Portfolio = () => {
   const { currentTheme } = useTheme();
   const [isVisible, setIsVisible] = useState({});
@@ -618,15 +631,32 @@ setProjects([]);
 fetchProjects();
 }, []);
 useEffect(() => {
-const fetchGithubStats = async () => {
-try {
-const response = await api.get('/stats/github');
-setGithubStats(response.data);
-} catch (error) {
-setGithubStats(null);
-}
-};
-fetchGithubStats();
+  let isMounted = true;
+
+  const fetchGithubStats = async () => {
+    try {
+      const response = await fetchWithRetry(
+        () => api.get('/stats/github'),
+        3,       // retries
+        2000     // initial delay (ms)
+      );
+
+      if (isMounted) {
+        setGithubStats(response.data);
+      }
+    } catch (error) {
+      if (isMounted) {
+        setGithubStats(null);
+        console.error('GitHub stats failed after retries:', error);
+      }
+    }
+  };
+
+  fetchGithubStats();
+
+  return () => {
+    isMounted = false;
+  };
 }, []);
 useEffect(() => {
 const fetchRealTimeStats = async () => {
