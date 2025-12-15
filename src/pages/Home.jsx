@@ -660,7 +660,9 @@ setCurrentTheme(currentTheme === 'dark' ? 'light' : 'dark');
 };
 if (loadingSkills) {
 return (
-<div className={min-h-screen flex justify-center items-center ${currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'} transition-colors duration-300}>
+<div className={`min-h-screen flex justify-center items-center ${
+  currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'
+} transition-colors duration-300`}>
 <div className="relative">
 <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-teal-100 border-solid rounded-full"></div>
 <div className="absolute top-0 left-0 w-12 h-12 sm:w-16 sm:h-16 border-4 border-t-teal-500 border-solid rounded-full animate-spin"></div>
@@ -670,17 +672,31 @@ return (
 }
 if (errorSkills) {
 return (
-<div className={min-h-screen flex justify-center items-center p-4 sm:p-6 ${currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'} transition-colors duration-300}>
-<div className={rounded-lg p-4 sm:p-6 max-w-lg w-full ${currentTheme === 'dark' ? 'bg-slate-800 border-l-4 border-teal-500' : 'bg-white border-l-4 border-teal-500 shadow-lg'}}>
-<h2 className={text-lg sm:text-xl font-semibold mb-2 ${currentTheme === 'dark' ? 'text-teal-400' : 'text-teal-600'}}>
+<div className={`min-h-screen flex justify-center items-center ${
+  currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'
+} transition-colors duration-300`}>
+<div className={`rounded-lg p-4 sm:p-6 max-w-lg w-full ${
+  currentTheme === 'dark'
+    ? 'bg-slate-800 border-l-4 border-teal-500'
+    : 'bg-white border-l-4 border-teal-500 shadow-lg'
+}`}>
+
+<h2 className={`text-lg sm:text-xl font-semibold mb-2 ${
+  currentTheme === 'dark' ? 'text-teal-400' : 'text-teal-600'
+}`}>
+
 Error Loading Skills
 </h2>
-<p className={currentTheme === 'dark' ? 'text-slate-300' : 'text-slate-700'}>
+<p className={`${currentTheme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
 {errorSkills}
 </p>
 <button
 onClick={() => window.location.reload()}
-className={mt-4 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md ${currentTheme === 'dark' ? 'bg-teal-500/20 text-teal-400 hover:bg-teal-500/30' : 'bg-teal-50 text-teal-700 hover:bg-teal-100'} transition-colors duration-300}
+className={`mt-4 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md ${
+  currentTheme === 'dark'
+    ? 'bg-teal-500/20 text-teal-400 hover:bg-teal-500/30'
+    : 'bg-teal-50 text-teal-700 hover:bg-teal-100'
+} transition-colors duration-300`}
 >
 Try Again
 </button>
@@ -689,12 +705,16 @@ Try Again
 );
 }
 return (
-<div className={relative min-h-screen transition-all duration-500 overflow-x-hidden ${currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'}}>
+<div className={`relative min-h-screen transition-all duration-500 overflow-x-hidden ${
+  currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'
+}`}>
 <ToastContainer position="top-right" autoClose={3000} theme={currentTheme} className="z-50" />
 <div
 ref={gradientRef}
 data-rotation="0"
-className={absolute inset-0 w-full h-full ${currentTheme === 'dark' ? 'opacity-40' : 'opacity-20'}}
+className={`absolute inset-0 w-full h-full ${
+  currentTheme === 'dark' ? 'opacity-40' : 'opacity-20'
+}`}
 />
 <div
 className={absolute inset-0 w-full h-full ${currentTheme === 'dark'           ? 'bg-[radial-gradient(ellipse_at_30%_20%,rgba(20,184,166,0.2),transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(6,182,212,0.25),transparent_60%)]'           : 'bg-[radial-gradient(ellipse_at_30%_20%,rgba(20,184,166,0.1),transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(6,182,212,0.15),transparent_60%)]'}}
