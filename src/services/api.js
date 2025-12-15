@@ -4,10 +4,9 @@ import axios from "axios";
 // ✅ Backend URL configuration - ALWAYS use /api suffix
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://my-portfolio-backend-69gv.onrender.com/api';
 
-// ✅ Export base URL for image/file URLs (without /api)
 export const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL 
   ? import.meta.env.VITE_BACKEND_URL.replace('/api', '')
-  : 'http://localhost:5000';
+  : 'https://my-portfolio-backend-69gv.onrender.com';
 
 console.log('🔧 API Configuration:', {
   baseURL: BASE_URL,

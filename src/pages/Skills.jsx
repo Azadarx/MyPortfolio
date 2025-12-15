@@ -59,17 +59,20 @@ const SkillCard = ({
 
       <div className="flex flex-col items-center">
         <div className="mb-3 md:mb-4 relative">
-          {skill.iconUrl ? (
-            <img
-              src={
-                skill.iconUrl.startsWith('http')
-                  ? skill.iconUrl
-                  : `${BACKEND_BASE_URL}${skill.iconUrl}`
-              }
-              alt={`${skill.name} icon`}
-              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover border-2 border-teal-500/30"
-              onError={(e) => (e.target.src = "https://via.placeholder.com/64")}
-            />
+          {skill.iconUrl && skill.iconUrl.trim() !== '' ? (
+      <img
+        src={
+          skill.iconUrl.startsWith('http') || skill.iconUrl.startsWith('https')
+            ? skill.iconUrl
+            : `${BACKEND_BASE_URL}${skill.iconUrl}`
+        }
+        alt={`${skill.name} icon`}
+        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover border-2 border-teal-500/30"
+        onError={(e) => {
+          console.error('Failed to load icon:', skill.iconUrl);
+          e.target.src = "https://via.placeholder.com/64";
+        }}
+      />
           ) : (
             <div
               className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center ${
