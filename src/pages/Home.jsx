@@ -706,9 +706,12 @@ Try Again
 );
 }
 return (
-<div className={`relative min-h-screen transition-all duration-500 overflow-x-hidden ${
-  currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'
-}`}>
+<div
+  className={`relative min-h-screen transition-all duration-500 overflow-x-hidden hide-scrollbar ${
+    currentTheme === 'dark' ? 'bg-slate-900' : 'bg-white'
+  }`}
+>
+
 <ToastContainer position="top-right" autoClose={3000} theme={currentTheme} className="z-50" />
 <div
 ref={gradientRef}
