@@ -6,8 +6,6 @@ import { useTheme } from "../context/ThemeContext.jsx";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [scrollDirection, setScrollDirection] = useState("none");
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { currentTheme } = useTheme();
   const location = useLocation();
@@ -41,19 +39,23 @@ const Navbar = () => {
   }, [location]);
 
   useEffect(() => {
-    let ticking = false;
-
-  useEffect(() => {
-  let timeoutId = null;
-  
-  const handleScroll = () => {
-    if (timeoutId) clearTimeout(timeoutId);
+    let timeoutId = null;
     
-    timeoutId = setTimeout(() => {
-      const currentScrollY = window.scrollY;
-      setScrolled(currentScrollY > 20);
-    }, 10);
-  };
+    const handleScroll = () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      
+      timeoutId = setTimeout(() => {
+        const currentScrollY = window.scrollY;
+        setScrolled(currentScrollY > 20);
+      }, 10);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
 
   window.addEventListener("scroll", handleScroll, { passive: true });
   return () => {
@@ -99,10 +101,7 @@ const Navbar = () => {
     }
   };
 
-  const getNavbarTransform = () => {
-    if (scrollDirection === "down" && scrolled && !isOpen) {
-      return "transform -translate-y-full";
-    }
+const getNavbarTransform = () => {
     return "transform translate-y-0";
   };
 
