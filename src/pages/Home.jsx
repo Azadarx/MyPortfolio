@@ -216,7 +216,8 @@ const EnhancedTechStack = ({ currentTheme, skills }) => {
                 : 'bg-white border border-teal-100 hover:bg-slate-50'
             } backdrop-blur-sm shadow-lg hover:shadow-xl hover:shadow-teal-500/10 transform hover:-translate-y-1`}
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
             <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-teal-500 via-cyan-400 to-teal-400 transform origin-left group-hover:scale-x-100 scale-x-0 transition-transform duration-300"></div>
@@ -623,10 +624,13 @@ useEffect(() => {
 observerRef.current = new IntersectionObserver(
 (entries) => {
 entries.forEach((entry) => {
-setIsVisible((prev) => ({
-...prev,
-[entry.target.id]: entry.isIntersecting,
-}));
+setIsVisible((prev) => {
+  if (prev[entry.target.id] === entry.isIntersecting) return prev;
+  return {
+    ...prev,
+    [entry.target.id]: entry.isIntersecting,
+  };
+});
 });
 },
 { threshold: 0.1 }
@@ -645,17 +649,14 @@ observerRef.current.observe(section);
 }
 });
 }, []);
-useEffect(() => {
-const interval = setInterval(() => {
-if (gradientRef.current) {
-const currentRotation = parseInt(gradientRef.current.getAttribute('data-rotation') || '0');
-const newRotation = (currentRotation + 1) % 360;
-gradientRef.current.setAttribute('data-rotation', newRotation);
-gradientRef.current.style.backgroundImage = `linear-gradient(${newRotation}deg, rgba(56, 189, 248, 0.2) 0%, rgba(6, 182, 212, 0.15) 25%, rgba(20, 184, 166, 0.2) 50%, rgba(45, 212, 191, 0.15) 75%, rgba(56, 189, 248, 0.2) 100%)`;
-}
-}, 100);
-return () => clearInterval(interval);
-}, []);
+<div
+  ref={gradientRef}
+  className={`absolute inset-0 w-full h-full gradient-animate ${
+    currentTheme === 'dark' ? 'opacity-40' : 'opacity-20'
+  }`}
+/>
+
+
 const toggleTheme = () => {
 setCurrentTheme(currentTheme === 'dark' ? 'light' : 'dark');
 };

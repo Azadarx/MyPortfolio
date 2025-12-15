@@ -2,6 +2,10 @@
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
+html {
+  scroll-behavior: smooth;
+}
+
 
 /* Add these animations to your global CSS or tailwind.config.js */
 @keyframes float {
@@ -229,4 +233,18 @@
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+@keyframes gradient-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.gradient-animate {
+  animation: gradient-spin 30s linear infinite;
+  will-change: transform;
 }
