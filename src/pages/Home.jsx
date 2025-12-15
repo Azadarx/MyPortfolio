@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import api from "../services/api";
+import 'index.css';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
@@ -120,9 +121,11 @@ const LiveCodingDemo = ({ currentTheme, githubStats }) => {
         <div className="relative bg-gradient-to-br from-slate-950 to-slate-900 rounded-lg p-3 sm:p-4 md:p-6 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-teal-500/5 via-transparent to-cyan-500/5"></div>
           <pre
-            className="relative text-teal-400 text-xs sm:text-sm md:text-base leading-relaxed whitespace-pre-wrap break-all font-mono overflow-x-auto"
-            style={{ minHeight: '200px', maxHeight: '260px' }}
-          >
+  className="relative text-teal-400 text-xs sm:text-sm md:text-base
+             leading-relaxed whitespace-pre-wrap break-all font-mono
+             overflow-x-hidden"
+  style={{ minHeight: '200px', maxHeight: '260px' }}
+>
             {code}
             <span className="animate-pulse text-teal-300 font-bold">|</span>
           </pre>
