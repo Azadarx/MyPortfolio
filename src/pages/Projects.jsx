@@ -104,21 +104,21 @@ const imageSrc = getImageUrl();
           }`}
         >
           {(project.repoLink || project.repolink) && (
-  
-            href={project.repoLink || project.repolink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`p-1.5 rounded-full ${
-              currentTheme === "dark"
-                ? "bg-slate-800/90 text-teal-400 hover:bg-slate-700"
-                : "bg-white/90 text-teal-600 hover:bg-white"
-            } backdrop-blur-sm transition-colors`}
-            onClick={(e) => e.stopPropagation()}
-            title="View Repository"
-          >
-            <Github size={14} />
-          </a>
-        )}
+        <a
+          href={project.repoLink || project.repolink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`p-1.5 rounded-full ${
+            currentTheme === "dark"
+              ? "bg-slate-800/90 text-teal-400 hover:bg-slate-700"
+              : "bg-white/90 text-teal-600 hover:bg-white"
+          } backdrop-blur-sm transition-colors`}
+          onClick={(e) => e.stopPropagation()}
+          title="View Repository"
+        >
+          <Github size={14} />
+        </a>
+      )}
         {(project.liveLink || project.livelink) && (
           
             href={project.liveLink || project.livelink}
