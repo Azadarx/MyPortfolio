@@ -130,9 +130,10 @@ const Contact = () => {
 
       toast.success("Message sent successfully! I'll get back to you soon.");
     } catch (error) {
-      console.error("Error:", error);
-      toast.error(error.message || "Failed to send message. Please try again later.");
-    } finally {
+    console.error("Error:", error);
+    const errorMessage = error?.message || error?.error || "Failed to send message. Please try again later.";
+    toast.error(errorMessage);
+  } finally {
       setLoading(false);
     }
   };
