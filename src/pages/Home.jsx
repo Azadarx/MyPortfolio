@@ -745,13 +745,18 @@ className={`absolute inset-0 w-full h-full ${
     <div className="max-w-7xl mt-10 mx-auto">
       <div className="text-center mb-8 sm:mb-12 md:mb-16">
         <div className="relative inline-block mb-4 sm:mb-6 md:mb-8">
-          <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mx-auto mb-4 sm:mb-6 shadow-2xl shadow-teal-500/30 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl animate-pulse">
-            <img
-                src={profileImg}
-                alt="Developer profile"
-                className="w-full h-full object-cover relative z-10"
-              />
-          </div>
+         <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 mx-auto mb-4 sm:mb-6">
+  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 animate-pulse shadow-2xl shadow-teal-500/30"></div>
+
+  <div className="relative w-full h-full rounded-full bg-white dark:bg-slate-900 p-1 sm:p-1.5 md:p-2 overflow-hidden">
+    <img
+      src={profileImg}
+      alt="Developer profile"
+      className="w-full h-full object-cover rounded-full"
+    />
+  </div>
+</div>
+
           <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500 rounded-full opacity-30 animate-spin"></div>
         </div>
         <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold ${currentTheme === 'dark' ? 'text-white' : 'text-slate-800'} mb-3 sm:mb-4 md:mb-6 px-2`}>
