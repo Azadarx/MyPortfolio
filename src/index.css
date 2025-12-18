@@ -234,7 +234,7 @@ body {
 
 
 .transform-gpu {
-  transform: translateZ(0);
+  will-change: opacity;
 }
 
 /* Reduce motion for accessibility and performance */

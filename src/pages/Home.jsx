@@ -670,24 +670,28 @@ setRealTimeStats(null);
 fetchRealTimeStats();
 }, []);
 useEffect(() => {
-observerRef.current = new IntersectionObserver(
-  (entries) => {
-    const updates = {};
-    let hasChanges = false;
-    
-    entries.forEach((entry) => {
-      if (entry.target.id) {
-        updates[entry.target.id] = entry.isIntersecting;
-        hasChanges = true;
+  observerRef.current = new IntersectionObserver(
+    (entries) => {
+      const updates = {};
+      let hasChanges = false;
+      
+      entries.forEach((entry) => {
+        if (entry.target.id) {
+          const newValue = entry.isIntersecting;
+          // Only update if value actually changed
+          if (!isVisible[entry.target.id] !== !newValue) {
+            updates[entry.target.id] = newValue;
+            hasChanges = true;
+          }
+        }
+      });
+      
+      if (hasChanges) {
+        setIsVisible((prev) => ({ ...prev, ...updates }));
       }
-    });
-    
-    if (hasChanges) {
-      setIsVisible((prev) => ({ ...prev, ...updates }));
-    }
-  },
-  { threshold: 0.1, rootMargin: '50px' }
-);
+    },
+    { threshold: 0.1, rootMargin: '50px' }
+  );
 return () => {
   if (observerRef.current) {
     observerRef.current.disconnect();

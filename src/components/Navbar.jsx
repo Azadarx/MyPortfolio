@@ -39,21 +39,30 @@ const Navbar = () => {
   }, [location]);
 
   useEffect(() => {
-    let ticking = false;
+  let ticking = false;
+  let lastScrollY = window.scrollY;
+  
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
     
-    const handleScroll = () => {
+    // Only update if scroll threshold is crossed
+    if ((lastScrollY <= 20 && currentScrollY > 20) || 
+        (lastScrollY > 20 && currentScrollY <= 20)) {
       if (!ticking) {
+        ticking = true;
         window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 20);
+          setScrolled(currentScrollY > 20);
           ticking = false;
         });
-        ticking = true;
       }
-    };
+    }
+    
+    lastScrollY = currentScrollY;
+  };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
   useEffect(() => {
     setIsOpen(false);
