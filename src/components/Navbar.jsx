@@ -133,7 +133,7 @@ const Navbar = () => {
     <header className={`${getNavbarClasses()}`}>
       <nav className="w-full max-w-none">
         <div className="mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-          <div className="flex justify-between items-center h-14 sm:h-16 md:h-18 lg:h-20">
+         <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0 min-w-0">
               <Link
                 to="/"

@@ -14,9 +14,8 @@ const BACKEND_URL = BACKEND_BASE_URL;
 
 const Particles = ({ isInView }) => {
   const particles = Array.from({ length: 8 });
-  if (!isInView) return null;
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+    <div className={`absolute inset-0 pointer-events-none overflow-hidden transition-opacity duration-500 ${isInView ? 'opacity-100' : 'opacity-0'}`}>
       {particles.map((_, index) => {
         const size = Math.floor(Math.random() * 4) + 2;
         const duration = Math.floor(Math.random() * 8) + 15;

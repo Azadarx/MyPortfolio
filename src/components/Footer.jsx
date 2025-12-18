@@ -8,7 +8,6 @@ import {
   Code,
   ExternalLink,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext.jsx";
 
 const Footer = () => {
@@ -52,7 +51,7 @@ const Footer = () => {
   };
 
   return (
-   <motion.footer className={getFooterClasses()}>
+   <footer className={getFooterClasses()}>
       <div className="max-w-6xl mx-auto">
         {/* Footer Top Section with Logo */}
         <div className="flex flex-col items-center mb-6 sm:mb-8">
@@ -155,7 +154,7 @@ const Footer = () => {
               <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400"></span>
             </h3>
             <div className="flex justify-center lg:justify-end space-x-3 sm:space-x-4">
-              <motion.a
+              <a
                 href="https://github.com/azadarx"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -174,8 +173,8 @@ const Footer = () => {
                     currentTheme === "dark" ? "text-white" : "text-slate-700"
                   }
                 />
-              </motion.a>
-              <motion.a
+              </a>
+              <a
                 href="https://www.linkedin.com/in/syed-azadar-hussain-94325a291/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -194,8 +193,8 @@ const Footer = () => {
                     currentTheme === "dark" ? "text-white" : "text-slate-700"
                   }
                 />
-              </motion.a>
-              <motion.a
+              </a>
+              <a
                 href="https://twitter.com/syedazadarhussain"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -214,8 +213,8 @@ const Footer = () => {
                     currentTheme === "dark" ? "text-white" : "text-slate-700"
                   }
                 />
-              </motion.a>
-              <motion.a
+              </a>
+              <a
                 href="mailto:syedazadarhussayn@gmail.com"
                 aria-label="Email"
                 className={`${
@@ -232,7 +231,7 @@ const Footer = () => {
                     currentTheme === "dark" ? "text-white" : "text-slate-700"
                   }
                 />
-              </motion.a>
+              </a>
             </div>
           </div>
         </div>
@@ -262,7 +261,7 @@ const Footer = () => {
 
       {/* Scroll to top button */}
       {showScrollTop && (
-        <motion.button
+        <button
           onClick={scrollToTop}
           aria-label="Scroll to top"
           className={`fixed bottom-4 right-4 sm:bottom-8 sm:right-8 bg-teal-500 text-white p-2 sm:p-3 rounded-full ${
@@ -278,9 +277,9 @@ const Footer = () => {
         >
           <ArrowUp size={20} className="sm:hidden" />
           <ArrowUp size={24} className="hidden sm:block" />
-        </motion.button>
+        </button>
       )}
-    </motion.footer>
+    </footer>
   );
 };
 

@@ -5,9 +5,15 @@ import App from "./App.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  import.meta.env.DEV ? (
+    <StrictMode>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </StrictMode>
+  ) : (
     <ThemeProvider>
       <App />
     </ThemeProvider>
-  </StrictMode>
+  )
 );
