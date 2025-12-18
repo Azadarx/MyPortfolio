@@ -16,28 +16,25 @@ const Footer = () => {
   const { currentTheme } = useTheme(); // Using the theme hook to get current theme
 
   useEffect(() => {
-    let ticking = false;
-    
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setShowScrollTop(window.scrollY > 300);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
+  let lastState = false;
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const handleScroll = () => {
+    const shouldShow = window.scrollY > 300;
+    if (shouldShow !== lastState) {
+      lastState = shouldShow;
+      setShowScrollTop(shouldShow);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  window.scrollTo(0, 0);
+};
+
 
   // Dynamic footer styles based on current theme
   const getFooterClasses = () => {
