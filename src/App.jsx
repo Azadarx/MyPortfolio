@@ -27,10 +27,10 @@ const PageLayout = ({ children }) => {
   return (
     <motion.div
       className="flex-grow w-full"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
     >
       {children}
     </motion.div>
@@ -63,7 +63,7 @@ const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         {/* Public Routes */}
         <Route path="/" element={<PageLayout><Home /></PageLayout>} />
@@ -92,9 +92,8 @@ const AnimatedRoutes = () => {
   );
 };
 
+// Main app content
 const AppContent = () => {
-  
-  
   return (
     <BrowserRouter>
       <ScrollToTop />

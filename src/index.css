@@ -86,21 +86,20 @@ body {
 
 @keyframes float {
   0% {
-    transform: translate3d(0, 0, 0);
+    transform: translateY(0px);
     opacity: 0;
   }
   50% {
     opacity: 0.6;
   }
   100% {
-    transform: translate3d(0, -100px, 0);
+    transform: translateY(-100px);
     opacity: 0;
   }
 }
 
 .animate-float {
   animation: float linear infinite;
-  will-change: transform, opacity;
 }
 
 @keyframes pulse-slow {
@@ -235,7 +234,7 @@ body {
 
 
 .transform-gpu {
-  will-change: opacity;
+  transform: translateZ(0);
 }
 
 /* Reduce motion for accessibility and performance */
@@ -250,10 +249,25 @@ body {
 }
 
 
+/* Compensate for fixed navbar */
 body {
-  padding-top: 4rem; /* 64px - fixed across all breakpoints */
+  padding-top: 3.5rem; /* 56px - matches navbar height */
 }
 
-.scrolling * {
-  animation-play-state: paused !important;
+@media (min-width: 640px) {
+  body {
+    padding-top: 4rem; /* 64px */
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-top: 4.5rem; /* 72px */
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    padding-top: 5rem; /* 80px */
+  }
 }

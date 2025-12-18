@@ -14,8 +14,9 @@ const BACKEND_URL = BACKEND_BASE_URL;
 
 const Particles = ({ isInView }) => {
   const particles = Array.from({ length: 8 });
+  if (!isInView) return null;
   return (
-    <div className={`absolute inset-0 pointer-events-none overflow-hidden transition-opacity duration-500 ${isInView ? 'opacity-100' : 'opacity-0'}`}>
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {particles.map((_, index) => {
         const size = Math.floor(Math.random() * 4) + 2;
         const duration = Math.floor(Math.random() * 8) + 15;
@@ -669,28 +670,24 @@ setRealTimeStats(null);
 fetchRealTimeStats();
 }, []);
 useEffect(() => {
-  observerRef.current = new IntersectionObserver(
-    (entries) => {
-      const updates = {};
-      let hasChanges = false;
-      
-      entries.forEach((entry) => {
-        if (entry.target.id) {
-          const newValue = entry.isIntersecting;
-          // Only update if value actually changed
-          if (!isVisible[entry.target.id] !== !newValue) {
-            updates[entry.target.id] = newValue;
-            hasChanges = true;
-          }
-        }
-      });
-      
-      if (hasChanges) {
-        setIsVisible((prev) => ({ ...prev, ...updates }));
+observerRef.current = new IntersectionObserver(
+  (entries) => {
+    const updates = {};
+    let hasChanges = false;
+    
+    entries.forEach((entry) => {
+      if (entry.target.id) {
+        updates[entry.target.id] = entry.isIntersecting;
+        hasChanges = true;
       }
-    },
-    { threshold: 0.1, rootMargin: '50px' }
-  );
+    });
+    
+    if (hasChanges) {
+      setIsVisible((prev) => ({ ...prev, ...updates }));
+    }
+  },
+  { threshold: 0.1, rootMargin: '50px' }
+);
 return () => {
   if (observerRef.current) {
     observerRef.current.disconnect();
