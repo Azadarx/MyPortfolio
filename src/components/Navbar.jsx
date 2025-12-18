@@ -39,30 +39,21 @@ const Navbar = () => {
   }, [location]);
 
   useEffect(() => {
-  let ticking = false;
-  let lastScrollY = window.scrollY;
-  
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY;
+    let ticking = false;
     
-    // Only update if scroll threshold is crossed
-    if ((lastScrollY <= 20 && currentScrollY > 20) || 
-        (lastScrollY > 20 && currentScrollY <= 20)) {
+    const handleScroll = () => {
       if (!ticking) {
-        ticking = true;
         window.requestAnimationFrame(() => {
-          setScrolled(currentScrollY > 20);
+          setScrolled(window.scrollY > 20);
           ticking = false;
         });
+        ticking = true;
       }
-    }
-    
-    lastScrollY = currentScrollY;
-  };
+    };
 
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     setIsOpen(false);
@@ -133,7 +124,7 @@ const Navbar = () => {
     <header className={`${getNavbarClasses()}`}>
       <nav className="w-full max-w-none">
         <div className="mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-         <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-14 sm:h-16 md:h-18 lg:h-20">
             <div className="flex-shrink-0 min-w-0">
               <Link
                 to="/"
