@@ -6,10 +6,10 @@ import { useTheme } from "../../context/ThemeContext";
 const MRNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { currentTheme } = useTheme();
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const baseNavLinks = [
     { title: "Home", href: "/medical-rep", id: "/medical-rep" },
@@ -35,23 +35,25 @@ const MRNavbar = () => {
     },
   ];
 
-  const navLinks = isAuthenticated
-    ? [
-        ...baseNavLinks,
-        {
-          title: "Admin Dashboard",
-          href: "/admin/dashboard",
-          id: "/admin/dashboard",
-        },
-      ]
-    : baseNavLinks;
+  // const navLinks = isAuthenticated
+  //   ? [
+  //       ...baseNavLinks,
+  //       {
+  //         title: "Admin Dashboard",
+  //         href: "/admin/dashboard",
+  //         id: "/admin/dashboard",
+  //       },
+  //     ]
+  //   : baseNavLinks;
+
+  const navLinks = baseNavLinks;
 
   const currentPath = location.pathname;
 
-  useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
-    setIsAuthenticated(!!token);
-  }, [location]);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("jwtToken");
+  //   setIsAuthenticated(!!token);
+  // }, [location]);
 
   useEffect(() => {
     let ticking = false;
@@ -77,12 +79,12 @@ const MRNavbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem("jwtToken");
-    setIsAuthenticated(false);
-    navigate("/admin-login");
-    closeMenu();
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("jwtToken");
+  //   setIsAuthenticated(false);
+  //   navigate("/admin-login");
+  //   closeMenu();
+  // };
 
   const getNavbarClasses = () => {
     const baseClasses =
@@ -211,7 +213,8 @@ const MRNavbar = () => {
                   </Link>
                 ))}
 
-                <div className="ml-2 xl:ml-4 2xl:ml-6">
+                {/* ADMIN LOGIN/LOGOUT - DESKTOP - COMMENTED OUT */}
+                {/* <div className="ml-2 xl:ml-4 2xl:ml-6">
                   {isAuthenticated ? (
                     <button
                       onClick={handleLogout}
@@ -253,7 +256,7 @@ const MRNavbar = () => {
                       ></span>
                     </Link>
                   )}
-                </div>
+                </div> */}
 
                 <div className="ml-2 xl:ml-4 2xl:ml-6 pl-2 xl:pl-4 2xl:pl-6 border-l border-gray-300 dark:border-gray-600">
                   <ThemeToggle />
@@ -464,7 +467,8 @@ const MRNavbar = () => {
                 </Link>
               ))}
 
-              <div className="pt-5 sm:pt-7 mt-4 sm:mt-5 border-t border-gray-200 dark:border-gray-700">
+              {/* ADMIN LOGIN/LOGOUT - MOBILE - COMMENTED OUT */}
+              {/* <div className="pt-5 sm:pt-7 mt-4 sm:mt-5 border-t border-gray-200 dark:border-gray-700">
                 {isAuthenticated ? (
                   <button
                     onClick={handleLogout}
@@ -515,7 +519,7 @@ const MRNavbar = () => {
                     ></span>
                   </Link>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
