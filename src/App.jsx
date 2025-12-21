@@ -277,6 +277,7 @@ const AppContent = () => {
   const isProfileSelector = location.pathname === "/";
   const isDeveloperRoute = location.pathname.startsWith("/developer");
   const isMRRoute = location.pathname.startsWith("/medical-rep");
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   return (
     <>
@@ -293,7 +294,7 @@ const AppContent = () => {
         {/* Conditional Navbar Rendering */}
         {!isProfileSelector && (
           <>
-            {isDeveloperRoute && <DeveloperNavbar />}
+            {(isDeveloperRoute || isAdminRoute) && <DeveloperNavbar />}
             {isMRRoute && <MRNavbar />}
           </>
         )}
@@ -305,7 +306,7 @@ const AppContent = () => {
         {/* Conditional Footer Rendering */}
         {!isProfileSelector && (
           <>
-            {isDeveloperRoute && <DeveloperFooter />}
+            {(isDeveloperRoute || isAdminRoute) && <DeveloperFooter />}
             {isMRRoute && <MRFooter />}
           </>
         )}
