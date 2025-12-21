@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Lock, Mail, Eye, EyeOff, ArrowRight, Key } from "lucide-react";
-import { useTheme } from "../context/ThemeContext.jsx";
-import api from "../services/api.js";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import api from "../../services/api.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

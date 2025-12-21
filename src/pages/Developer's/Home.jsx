@@ -6,9 +6,9 @@ import {
   Code2, Database, Cpu, Github, ExternalLink, MapPin, Mail, Briefcase,Code
 } from 'lucide-react';
 import axios from 'axios';
-import api, { BACKEND_BASE_URL } from "../services/api";
-import profileImg from "../assets/profile.jpg";
-import { useTheme } from '../context/ThemeContext.jsx';
+import api, { BACKEND_BASE_URL } from "../../services/api.js";
+import profileImg from "../../assets/profile.jpg";
+import { useTheme } from '../../context/ThemeContext.jsx';
 
 const BACKEND_URL = BACKEND_BASE_URL;
 

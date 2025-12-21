@@ -1,24 +1,24 @@
 import { useState, useEffect } from "react";
 import {
-  Github,
   Linkedin,
   Mail,
   ArrowUp,
   Twitter,
-  Code,
+  Briefcase,
   ExternalLink,
+  Phone,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useTheme } from "../context/ThemeContext.jsx";
+import { useTheme } from "../../context/ThemeContext";
 
-const Footer = () => {
+const MRFooter = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const currentYear = new Date().getFullYear();
-  const { currentTheme } = useTheme(); // Using the theme hook to get current theme
+  const { currentTheme } = useTheme();
 
   useEffect(() => {
     let ticking = false;
-    
+
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
@@ -40,41 +40,48 @@ const Footer = () => {
     });
   };
 
-  // Dynamic footer styles based on current theme
   const getFooterClasses = () => {
     const baseClasses = "py-8 sm:py-12 px-4 sm:px-6 relative border-t";
 
     if (currentTheme === "dark") {
-      return `${baseClasses} bg-slate-900 text-gray-200 border-teal-500/20`;
+      return `${baseClasses} bg-slate-900 text-gray-200 border-slate-700/50`;
     } else {
-      return `${baseClasses} bg-slate-100 text-gray-800 border-teal-500/10`;
+      return `${baseClasses} bg-slate-50 text-gray-800 border-slate-200/70`;
     }
   };
 
+  const quickLinks = [
+    { name: "Home", path: "/medical-rep" },
+    { name: "About", path: "/medical-rep/about" },
+    { name: "Experience", path: "/medical-rep/experience" },
+    { name: "Coverage", path: "/medical-rep/coverage" },
+    { name: "Contact", path: "/medical-rep/contact" },
+  ];
+
   return (
-   <motion.footer className={getFooterClasses()}>
+    <motion.footer className={getFooterClasses()}>
       <div className="max-w-6xl mx-auto">
         {/* Footer Top Section with Logo */}
         <div className="flex flex-col items-center mb-6 sm:mb-8">
           <h2 className="text-xl sm:text-2xl font-bold mb-2 text-center">
-            <span className="text-teal-500">SYED AZADAR HUSSAIN</span> |
+            <span className="text-blue-500">SYED AZADAR HUSSAIN</span> |
             <span
               className={
                 currentTheme === "dark" ? "text-white" : "text-slate-800"
               }
             >
               {" "}
-              Dev
+              MR
             </span>
           </h2>
-          <div className="h-1 w-20 sm:w-24 bg-gradient-to-r from-teal-500 to-cyan-400 rounded-full mb-3 sm:mb-4"></div>
+          <div className="h-1 w-20 sm:w-24 bg-gradient-to-r from-blue-500 to-green-400 rounded-full mb-3 sm:mb-4"></div>
           <p
             className={`text-center max-w-md text-sm sm:text-base px-2 ${
               currentTheme === "dark" ? "text-gray-400" : "text-gray-600"
             }`}
           >
-            Passionate full-stack developer creating elegant, user-centric
-            digital experiences.
+            Dedicated Medical Representative bridging healthcare solutions with
+            medical professionals.
           </p>
         </div>
 
@@ -88,29 +95,27 @@ const Footer = () => {
               } relative inline-block`}
             >
               Quick Links
-              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400"></span>
+              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-green-400"></span>
             </h3>
             <ul className="space-y-2">
-              {["Home", "About", "Projects", "Skills", "Contact"].map(
-                (link) => (
-                  <li key={link}>
-                    <a
-                      href={`/${link.toLowerCase()}`}
-                      className={`${
-                        currentTheme === "dark"
-                          ? "text-gray-400 hover:text-teal-400"
-                          : "text-gray-600 hover:text-teal-600"
-                      } transition-colors duration-300 flex items-center justify-center sm:justify-start gap-2 group py-1`}
-                    >
-                      <ExternalLink
-                        size={14}
-                        className="group-hover:translate-x-1 transition-transform duration-300"
-                      />
-                      <span>{link}</span>
-                    </a>
-                  </li>
-                )
-              )}
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.path}
+                    className={`${
+                      currentTheme === "dark"
+                        ? "text-gray-400 hover:text-blue-400"
+                        : "text-gray-600 hover:text-blue-600"
+                    } transition-colors duration-300 flex items-center justify-center sm:justify-start gap-2 group py-1`}
+                  >
+                    <ExternalLink
+                      size={14}
+                      className="group-hover:translate-x-1 transition-transform duration-300"
+                    />
+                    <span>{link.name}</span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -122,7 +127,7 @@ const Footer = () => {
               } relative inline-block`}
             >
               Contact
-              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400"></span>
+              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-green-400"></span>
             </h3>
             <div className="space-y-3">
               <p
@@ -130,7 +135,7 @@ const Footer = () => {
                   currentTheme === "dark" ? "text-gray-400" : "text-gray-600"
                 } flex items-center justify-center gap-2 text-sm sm:text-base break-all px-2 sm:px-0`}
               >
-                <Mail size={16} className="text-teal-500 flex-shrink-0" />
+                <Mail size={16} className="text-blue-500 flex-shrink-0" />
                 <span>syedazadarhussayn@gmail.com</span>
               </p>
               <p
@@ -138,8 +143,16 @@ const Footer = () => {
                   currentTheme === "dark" ? "text-gray-400" : "text-gray-600"
                 } flex items-center justify-center gap-2`}
               >
-                <Code size={16} className="text-teal-500 flex-shrink-0" />
-                <span>Full Stack Developer</span>
+                <Phone size={16} className="text-blue-500 flex-shrink-0" />
+                <span>Available on request</span>
+              </p>
+              <p
+                className={`${
+                  currentTheme === "dark" ? "text-gray-400" : "text-gray-600"
+                } flex items-center justify-center gap-2`}
+              >
+                <Briefcase size={16} className="text-blue-500 flex-shrink-0" />
+                <span>Medical Representative</span>
               </p>
             </div>
           </div>
@@ -152,29 +165,9 @@ const Footer = () => {
               } relative inline-block`}
             >
               Connect
-              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400"></span>
+              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-green-400"></span>
             </h3>
             <div className="flex justify-center lg:justify-end space-x-3 sm:space-x-4">
-              <motion.a
-                href="https://github.com/azadarx"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className={`${
-                  currentTheme === "dark"
-                    ? "bg-slate-800 hover:bg-teal-500/20"
-                    : "bg-slate-200 hover:bg-teal-500/10"
-                } p-2 sm:p-3 rounded-full transition-colors duration-300`}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Github
-                  size={18}
-                  className={
-                    currentTheme === "dark" ? "text-white" : "text-slate-700"
-                  }
-                />
-              </motion.a>
               <motion.a
                 href="https://www.linkedin.com/in/syed-azadar-hussain-94325a291/"
                 target="_blank"
@@ -182,8 +175,8 @@ const Footer = () => {
                 aria-label="LinkedIn"
                 className={`${
                   currentTheme === "dark"
-                    ? "bg-slate-800 hover:bg-teal-500/20"
-                    : "bg-slate-200 hover:bg-teal-500/10"
+                    ? "bg-slate-800 hover:bg-blue-500/20"
+                    : "bg-slate-200 hover:bg-blue-500/10"
                 } p-2 sm:p-3 rounded-full transition-colors duration-300`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -202,8 +195,8 @@ const Footer = () => {
                 aria-label="Twitter"
                 className={`${
                   currentTheme === "dark"
-                    ? "bg-slate-800 hover:bg-teal-500/20"
-                    : "bg-slate-200 hover:bg-teal-500/10"
+                    ? "bg-slate-800 hover:bg-blue-500/20"
+                    : "bg-slate-200 hover:bg-blue-500/10"
                 } p-2 sm:p-3 rounded-full transition-colors duration-300`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -220,13 +213,31 @@ const Footer = () => {
                 aria-label="Email"
                 className={`${
                   currentTheme === "dark"
-                    ? "bg-slate-800 hover:bg-teal-500/20"
-                    : "bg-slate-200 hover:bg-teal-500/10"
+                    ? "bg-slate-800 hover:bg-blue-500/20"
+                    : "bg-slate-200 hover:bg-blue-500/10"
                 } p-2 sm:p-3 rounded-full transition-colors duration-300`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <Mail
+                  size={18}
+                  className={
+                    currentTheme === "dark" ? "text-white" : "text-slate-700"
+                  }
+                />
+              </motion.a>
+              <motion.a
+                href="tel:+91XXXXXXXXXX"
+                aria-label="Phone"
+                className={`${
+                  currentTheme === "dark"
+                    ? "bg-slate-800 hover:bg-blue-500/20"
+                    : "bg-slate-200 hover:bg-blue-500/10"
+                } p-2 sm:p-3 rounded-full transition-colors duration-300`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Phone
                   size={18}
                   className={
                     currentTheme === "dark" ? "text-white" : "text-slate-700"
@@ -255,7 +266,7 @@ const Footer = () => {
               currentTheme === "dark" ? "text-gray-500" : "text-gray-500"
             } mt-1`}
           >
-            Designed & Built with ❤️ using React & Tailwind CSS
+            Bridging Healthcare Solutions with Medical Professionals
           </p>
         </div>
       </div>
@@ -265,10 +276,10 @@ const Footer = () => {
         <motion.button
           onClick={scrollToTop}
           aria-label="Scroll to top"
-          className={`fixed bottom-4 right-4 sm:bottom-8 sm:right-8 bg-teal-500 text-white p-2 sm:p-3 rounded-full ${
+          className={`fixed bottom-4 right-4 sm:bottom-8 sm:right-8 bg-blue-500 text-white p-2 sm:p-3 rounded-full ${
             currentTheme === "dark"
-              ? "shadow-lg shadow-teal-500/20"
-              : "shadow-md shadow-teal-500/30"
+              ? "shadow-lg shadow-blue-500/20"
+              : "shadow-md shadow-blue-500/30"
           }`}
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -284,4 +295,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default MRFooter;

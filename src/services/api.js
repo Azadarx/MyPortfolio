@@ -1,12 +1,16 @@
 // src/services/api.js - COMPLETE FIX WITH EXPORTS
 import axios from "axios";
 
-// ✅ Backend URL configuration - ALWAYS use /api suffix
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://my-portfolio-backend-69gv.onrender.com/api';
+const getApiUrl = () => {
+  if (import.meta.env.PROD) {
+    return import.meta.env.VITE_BACKEND_URL || 'https://my-portfolio-backend-69gv.onrender.com/api';
+  }
+  return import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
+};
 
-export const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL 
-  ? import.meta.env.VITE_BACKEND_URL.replace('/api', '')
-  : 'https://my-portfolio-backend-69gv.onrender.com';
+const BASE_URL = getApiUrl();
+
+export const BACKEND_BASE_URL = BASE_URL.replace('/api', '');
 
 console.log('🔧 API Configuration:', {
   baseURL: BASE_URL,

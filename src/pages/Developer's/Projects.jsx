@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PlusCircle, Github, ExternalLink, Code, X } from "lucide-react";
-import { useTheme } from "../context/ThemeContext.jsx";
-import api, { BACKEND_BASE_URL } from "../services/api.js";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import api, { BACKEND_BASE_URL } from "../../services/api.js";
 
 // Animated particles component
 const Particles = ({ isInView }) => {

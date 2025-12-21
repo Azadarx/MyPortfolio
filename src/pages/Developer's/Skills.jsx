@@ -3,9 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Edit, Trash2, Plus, X, Code, Layout, Server } from "lucide-react";
-import { useTheme } from "../context/ThemeContext.jsx";
-// ✅ FIXED: Import both api instance and BACKEND_BASE_URL from centralized config
-import api, { BACKEND_BASE_URL } from "../services/api.js";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import api, { BACKEND_BASE_URL } from "../../services/api.js";
 
 const SkillCard = ({
   skill,

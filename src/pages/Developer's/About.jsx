@@ -13,9 +13,9 @@ import {
   Filter,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import profileImg from "../assets/profile.jpg";
-import { useTheme } from "../context/ThemeContext";
-import api from "../services/api.js";
+import profileImg from "../../assets/profile.jpg";
+import { useTheme } from "../../context/ThemeContext";
+import api from "../../services/api.js";
 
 export default function About() {
   const [isInView, setIsInView] = useState(false);

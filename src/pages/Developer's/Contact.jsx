@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useTheme } from "../context/ThemeContext";
-import api from "../services/api.js";
+import { useTheme } from "../../context/ThemeContext";
+import api from "../../services/api.js";
 
 const Contact = () => {
   const { currentTheme } = useTheme();

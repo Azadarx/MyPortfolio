@@ -14,8 +14,8 @@ import {
   X,
   Image,
 } from "lucide-react";
-import { useTheme } from "../context/ThemeContext.jsx";
-import api from "../services/api.js";
+import { useTheme } from "../../context/ThemeContext.jsx";
+import api from "../../services/api.js";
 
 const AdminDashboard = () => {
   const [projects, setProjects] = useState([]);

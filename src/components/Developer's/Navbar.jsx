@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Moon, Sun, Monitor, LogIn, LogOut } from "lucide-react";
-import { useTheme } from "../context/ThemeContext.jsx";
+import { useTheme } from "../../context/ThemeContext";
 
-const Navbar = () => {
+const DeveloperNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,11 +12,15 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const baseNavLinks = [
-    { title: "Home", href: "/", id: "home" },
-    { title: "About", href: "/about", id: "about" },
-    { title: "Projects", href: "/projects", id: "projects" },
-    { title: "Skills", href: "/skills", id: "skills" },
-    { title: "Contact", href: "/contact", id: "contact" },
+    { title: "Home", href: "/developer", id: "/developer" },
+    { title: "About", href: "/developer/about", id: "/developer/about" },
+    {
+      title: "Projects",
+      href: "/developer/projects",
+      id: "/developer/projects",
+    },
+    { title: "Skills", href: "/developer/skills", id: "/developer/skills" },
+    { title: "Contact", href: "/developer/contact", id: "/developer/contact" },
   ];
 
   const navLinks = isAuthenticated
@@ -25,13 +29,12 @@ const Navbar = () => {
         {
           title: "Admin Dashboard",
           href: "/admin/dashboard",
-          id: "admin/dashboard",
+          id: "/admin/dashboard",
         },
       ]
     : baseNavLinks;
 
-  const currentPath =
-    location.pathname === "/" ? "home" : location.pathname.substring(1);
+  const currentPath = location.pathname;
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -40,7 +43,7 @@ const Navbar = () => {
 
   useEffect(() => {
     let ticking = false;
-    
+
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
@@ -134,11 +137,15 @@ const Navbar = () => {
               >
                 <div className="flex items-center space-x-1 sm:space-x-2">
                   <span className="text-teal-500 font-bold text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl relative inline-block">
-                    <span className="hidden min-[400px]:inline">SYED AZADAR HUSSAIN</span>
+                    <span className="hidden min-[400px]:inline">
+                      SYED AZADAR HUSSAIN
+                    </span>
                     <span className="inline min-[400px]:hidden">S. AZADAR</span>
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 group-hover:w-full transition-all duration-300 ease-in-out"></span>
                   </span>
-                  <span className="text-slate-400 font-light text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">|</span>
+                  <span className="text-slate-400 font-light text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">
+                    |
+                  </span>
                   <span
                     className={`font-bold text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl relative ${
                       currentTheme === "dark" ? "text-white" : "text-slate-700"
@@ -151,8 +158,25 @@ const Navbar = () => {
               </Link>
             </div>
 
+            {/* DESKTOP NAVIGATION */}
             <div className="hidden lg:flex items-center">
               <div className="flex items-center space-x-2 xl:space-x-4 2xl:space-x-6">
+                {/* Portfolio Switcher Button */}
+                <Link
+                  to="/"
+                  className={`text-xs xl:text-sm font-medium transition-all duration-300 relative overflow-hidden group px-3 xl:px-4 py-1.5 xl:py-2 whitespace-nowrap rounded-lg ${
+                    currentTheme === "dark"
+                      ? "bg-gradient-to-r from-teal-500/10 to-cyan-500/10 text-teal-400 hover:from-teal-500/20 hover:to-cyan-500/20 border border-teal-400/20 hover:border-teal-400/40"
+                      : "bg-gradient-to-r from-teal-50 to-cyan-50 text-teal-600 hover:from-teal-100 hover:to-cyan-100 border border-teal-200 hover:border-teal-300"
+                  }`}
+                >
+                  <span className="flex items-center gap-1.5 relative z-10">
+                    <span className="text-sm xl:text-base">💼</span>
+                    <span>Medical Rep</span>
+                  </span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/10 to-cyan-500/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
+                </Link>
+
                 {navLinks.map((link) => (
                   <Link
                     key={link.id}
@@ -168,12 +192,14 @@ const Navbar = () => {
                     {link.title}
                     <span
                       className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
-                        currentPath === link.id ? "w-3/4" : "w-0 group-hover:w-3/4"
+                        currentPath === link.id
+                          ? "w-3/4"
+                          : "w-0 group-hover:w-3/4"
                       }`}
                     ></span>
                   </Link>
                 ))}
-                
+
                 <div className="ml-2 xl:ml-4 2xl:ml-6">
                   {isAuthenticated ? (
                     <button
@@ -184,7 +210,10 @@ const Navbar = () => {
                           : "text-gray-700 hover:text-slate-900"
                       }`}
                     >
-                      <LogOut size={14} className="mr-1.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5" />
+                      <LogOut
+                        size={14}
+                        className="mr-1.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5"
+                      />
                       Logout
                       <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out w-0 group-hover:w-3/4"></span>
                     </button>
@@ -192,18 +221,21 @@ const Navbar = () => {
                     <Link
                       to="/admin-login"
                       className={`text-xs xl:text-sm 2xl:text-base font-medium transition-all duration-300 relative group flex items-center px-2 xl:px-3 2xl:px-4 py-2 whitespace-nowrap ${
-                        currentPath === "admin-login"
+                        currentPath === "/admin-login"
                           ? "text-teal-500 dark:text-teal-400"
                           : currentTheme === "dark"
                           ? "text-gray-300 hover:text-white"
                           : "text-gray-700 hover:text-slate-900"
                       }`}
                     >
-                      <LogIn size={14} className="mr-1.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5" />
+                      <LogIn
+                        size={14}
+                        className="mr-1.5 xl:w-4 xl:h-4 2xl:w-5 2xl:h-5"
+                      />
                       Admin
                       <span
                         className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
-                          currentPath === "admin-login"
+                          currentPath === "/admin-login"
                             ? "w-3/4"
                             : "w-0 group-hover:w-3/4"
                         }`}
@@ -211,13 +243,14 @@ const Navbar = () => {
                     </Link>
                   )}
                 </div>
-                
+
                 <div className="ml-2 xl:ml-4 2xl:ml-6 pl-2 xl:pl-4 2xl:pl-6 border-l border-gray-300 dark:border-gray-600">
                   <ThemeToggle />
                 </div>
               </div>
             </div>
 
+            {/* TABLET NAVIGATION */}
             <div className="hidden md:flex lg:hidden items-center">
               <div className="flex items-center space-x-1">
                 {baseNavLinks.slice(0, 3).map((link) => (
@@ -235,7 +268,9 @@ const Navbar = () => {
                     {link.title}
                     <span
                       className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
-                        currentPath === link.id ? "w-3/4" : "w-0 group-hover:w-3/4"
+                        currentPath === link.id
+                          ? "w-3/4"
+                          : "w-0 group-hover:w-3/4"
                       }`}
                     ></span>
                   </Link>
@@ -276,6 +311,7 @@ const Navbar = () => {
               </div>
             </div>
 
+            {/* MOBILE TOGGLE */}
             <div className="flex items-center md:hidden">
               <div className="flex items-center space-x-2">
                 <ThemeToggle />
@@ -365,9 +401,27 @@ const Navbar = () => {
             </button>
           </div>
 
-          <div className="overflow-y-auto px-4 py-6 sm:px-6 sm:py-10"
-               style={{ maxHeight: "calc(100dvh - 64px)" }}>
+          <div
+            className="overflow-y-auto px-4 py-6 sm:px-6 sm:py-10"
+            style={{ maxHeight: "calc(100dvh - 64px)" }}
+          >
             <div className="flex flex-col space-y-3 sm:space-y-4">
+              {/* Portfolio Switcher Button - Mobile */}
+              <Link
+                to="/"
+                onClick={closeMenu}
+                className={`text-lg sm:text-xl font-bold transition-all duration-300 relative group flex items-center justify-center py-5 sm:py-6 px-5 rounded-xl border-2 ${
+                  currentTheme === "dark"
+                    ? "border-teal-400/30 bg-teal-500/10 text-teal-400 hover:bg-teal-500/20"
+                    : "border-teal-500/30 bg-teal-50 text-teal-600 hover:bg-teal-100"
+                } animate-fade-slide-in`}
+                style={{ animationDelay: "50ms" }}
+              >
+                <span className="text-2xl mr-3">🥼</span>
+                💼 Medical Rep Portfolio
+                <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              </Link>
+
               {navLinks.map((link, index) => (
                 <Link
                   key={link.id}
@@ -383,7 +437,7 @@ const Navbar = () => {
                       : "text-gray-700 hover:text-slate-900"
                   } animate-fade-slide-in`}
                   style={{
-                    animationDelay: `${index * 50 + 100}ms`,
+                    animationDelay: `${index * 50 + 150}ms`,
                   }}
                 >
                   {link.title}
@@ -396,19 +450,24 @@ const Navbar = () => {
                   ></span>
                 </Link>
               ))}
-              
+
               <div className="pt-5 sm:pt-7 mt-4 sm:mt-5 border-t border-gray-200 dark:border-gray-700">
                 {isAuthenticated ? (
                   <button
                     onClick={handleLogout}
                     className={`w-full text-lg sm:text-xl font-medium transition-all duration-300 relative group flex items-center py-5 sm:py-6 px-5 rounded-xl hover:bg-teal-500/5 ${
-                      currentTheme === "dark" ? "text-gray-300 hover:text-white" : "text-gray-700 hover:text-slate-900"
+                      currentTheme === "dark"
+                        ? "text-gray-300 hover:text-white"
+                        : "text-gray-700 hover:text-slate-900"
                     } animate-fade-slide-in`}
                     style={{
-                      animationDelay: `${navLinks.length * 50 + 100}ms`,
+                      animationDelay: `${navLinks.length * 50 + 150}ms`,
                     }}
                   >
-                    <LogOut size={22} className="mr-4 sm:mr-5 sm:w-7 sm:h-7 flex-shrink-0" />
+                    <LogOut
+                      size={22}
+                      className="mr-4 sm:mr-5 sm:w-7 sm:h-7 flex-shrink-0"
+                    />
                     Logout
                     <span className="absolute bottom-4 left-5 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out w-0 group-hover:w-[calc(100%-2.5rem)]"></span>
                   </button>
@@ -417,7 +476,7 @@ const Navbar = () => {
                     to="/admin-login"
                     onClick={closeMenu}
                     className={`text-lg sm:text-xl font-medium transition-all duration-300 relative group flex items-center py-5 sm:py-6 px-5 rounded-xl hover:bg-teal-500/5 ${
-                      currentPath === "admin-login"
+                      currentPath === "/admin-login"
                         ? currentTheme === "dark"
                           ? "text-teal-400 bg-teal-500/10"
                           : "text-teal-500 bg-teal-500/10"
@@ -426,14 +485,17 @@ const Navbar = () => {
                         : "text-gray-700 hover:text-slate-900"
                     } animate-fade-slide-in`}
                     style={{
-                      animationDelay: `${navLinks.length * 50 + 100}ms`,
+                      animationDelay: `${navLinks.length * 50 + 150}ms`,
                     }}
                   >
-                    <LogIn size={22} className="mr-4 sm:mr-5 sm:w-7 sm:h-7 flex-shrink-0" />
+                    <LogIn
+                      size={22}
+                      className="mr-4 sm:mr-5 sm:w-7 sm:h-7 flex-shrink-0"
+                    />
                     Admin Login
                     <span
                       className={`absolute bottom-4 left-5 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
-                        currentPath === "admin-login"
+                        currentPath === "/admin-login"
                           ? "w-[calc(100%-2.5rem)]"
                           : "w-0 group-hover:w-[calc(100%-2.5rem)]"
                       }`}
@@ -449,4 +511,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default DeveloperNavbar;
