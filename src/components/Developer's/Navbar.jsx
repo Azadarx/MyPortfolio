@@ -80,13 +80,13 @@ const DeveloperNavbar = () => {
       return `${baseClasses} ${
         scrolled
           ? "bg-slate-900/95 backdrop-blur-md shadow-lg shadow-teal-500/5 border-b border-teal-500/10"
-          : "bg-slate-900/80"
+          : "bg-slate-900/90"
       }`;
     } else {
       return `${baseClasses} ${
         scrolled
           ? "bg-slate-50/95 backdrop-blur-md shadow-lg border-b border-slate-200"
-          : "bg-white/80"
+          : "bg-white/90"
       }`;
     }
   };
@@ -97,14 +97,14 @@ const DeveloperNavbar = () => {
     return (
       <button
         onClick={toggleTheme}
-        className="p-1.5 sm:p-2 rounded-full hover:bg-teal-500/20 dark:hover:bg-teal-400/20 transition-all duration-300 relative overflow-hidden group flex-shrink-0"
+        className="p-1 sm:p-1.5 rounded-full hover:bg-teal-500/20 dark:hover:bg-teal-400/20 transition-all duration-300 relative overflow-hidden group flex-shrink-0"
         aria-label="Toggle theme"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-teal-500/0 via-teal-500/10 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
         {theme === "dark" && (
           <Moon
             size={18}
-            className="text-teal-600 relative z-10 group-hover:text-teal-700 transition-colors duration-300 sm:w-5 sm:h-5"
+            className="text-teal-600 relative z-10 group-hover:text-teal-700 transition-colors duration-300 sm:w-[18px] sm:h-[18px] md:w-5 md:h-5"
           />
         )}
         {theme === "light" && (
@@ -126,8 +126,8 @@ const DeveloperNavbar = () => {
   return (
     <header className={`${getNavbarClasses()}`}>
       <nav className="w-full max-w-none">
-        <div className="mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-          <div className="flex justify-between items-center h-14 sm:h-16 md:h-18 lg:h-20">
+        <div className="mx-auto px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 2xl:px-12">
+          <div className="flex justify-between items-center h-12 sm:h-14 md:h-16 lg:h-18 xl:h-20">
             <div className="flex-shrink-0 min-w-0">
               <Link
                 to="/"
@@ -135,19 +135,19 @@ const DeveloperNavbar = () => {
                   currentTheme === "dark" ? "text-white" : "text-slate-800"
                 } transition-colors group flex items-center`}
               >
-                <div className="flex items-center space-x-1 sm:space-x-2">
-                  <span className="text-teal-500 font-bold text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl relative inline-block">
+                <div className="flex items-center space-x-0.5 sm:space-x-1 md:space-x-2">
+                  <span className="text-teal-500 font-bold text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl relative inline-block">
                     <span className="hidden min-[400px]:inline">
                       SYED AZADAR HUSSAIN
                     </span>
                     <span className="inline min-[400px]:hidden">S. AZADAR</span>
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 group-hover:w-full transition-all duration-300 ease-in-out"></span>
                   </span>
-                  <span className="text-slate-400 font-light text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">
+                  <span className="text-slate-400 font-light text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
                     |
                   </span>
                   <span
-                    className={`font-bold text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl relative ${
+                    className={`font-bold text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl relative ${
                       currentTheme === "dark" ? "text-white" : "text-slate-700"
                     }`}
                   >
@@ -160,11 +160,11 @@ const DeveloperNavbar = () => {
 
             {/* DESKTOP NAVIGATION */}
             <div className="hidden lg:flex items-center">
-              <div className="flex items-center space-x-2 xl:space-x-4 2xl:space-x-6">
+              <div className="flex items-center space-x-1 xl:space-x-2 2xl:space-x-4">
                 {/* Portfolio Switcher Button */}
                 <Link
                   to="/"
-                  className={`text-xs xl:text-sm font-medium transition-all duration-300 relative overflow-hidden group px-3 xl:px-4 py-1.5 xl:py-2 whitespace-nowrap rounded-lg ${
+                  className={`text-[10px] xl:text-xs 2xl:text-sm font-medium transition-all duration-300 relative overflow-hidden group px-2 xl:px-3 2xl:px-4 py-1 xl:py-1.5 2xl:py-2 whitespace-nowrap rounded-lg ${
                     currentTheme === "dark"
                       ? "bg-gradient-to-r from-teal-500/10 to-cyan-500/10 text-teal-400 hover:from-teal-500/20 hover:to-cyan-500/20 border border-teal-400/20 hover:border-teal-400/40"
                       : "bg-gradient-to-r from-teal-50 to-cyan-50 text-teal-600 hover:from-teal-100 hover:to-cyan-100 border border-teal-200 hover:border-teal-300"
@@ -181,7 +181,7 @@ const DeveloperNavbar = () => {
                   <Link
                     key={link.id}
                     to={link.href}
-                    className={`text-xs xl:text-sm 2xl:text-base font-medium transition-all duration-300 relative group px-2 xl:px-3 2xl:px-4 py-2 whitespace-nowrap ${
+                    className={`text-[10px] xl:text-xs 2xl:text-sm font-medium transition-all duration-300 relative group px-1.5 xl:px-2 2xl:px-3 py-1.5 xl:py-2 whitespace-nowrap ${
                       currentPath === link.id
                         ? "text-teal-500 dark:text-teal-400"
                         : currentTheme === "dark"
@@ -252,12 +252,12 @@ const DeveloperNavbar = () => {
 
             {/* TABLET NAVIGATION */}
             <div className="hidden md:flex lg:hidden items-center">
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-0.5 sm:space-x-1">
                 {baseNavLinks.slice(0, 3).map((link) => (
                   <Link
                     key={link.id}
                     to={link.href}
-                    className={`text-xs font-medium transition-all duration-300 relative group px-2 py-2 whitespace-nowrap ${
+                    className={`text-[10px] sm:text-xs font-medium transition-all duration-300 relative group px-2 py-2 whitespace-nowrap ${
                       currentPath === link.id
                         ? "text-teal-500 dark:text-teal-400"
                         : currentTheme === "dark"
@@ -280,7 +280,7 @@ const DeveloperNavbar = () => {
                 </div>
                 <button
                   onClick={toggleMenu}
-                  className={`ml-2 p-2 rounded-md ${
+                  className={`ml-1 sm:ml-2 p-1.5 sm:p-2 rounded-md ${
                     currentTheme === "dark"
                       ? "text-gray-300 hover:bg-teal-400/20"
                       : "text-gray-700 hover:bg-teal-500/20"
@@ -367,15 +367,15 @@ const DeveloperNavbar = () => {
         />
 
         <div
-          className={`absolute top-0 right-0 w-full min-[400px]:w-4/5 sm:w-3/4 md:w-2/3 h-[100dvh] ${
+          className={`absolute top-0 right-0 w-full min-[360px]:w-11/12 min-[400px]:w-4/5 sm:w-3/4 md:w-2/3 h-[100dvh] ${
             currentTheme === "dark" ? "bg-slate-900" : "bg-white"
           } shadow-xl shadow-teal-900/20 flex flex-col transform transition-transform duration-300 ease-out ${
             isOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="flex justify-between items-center px-4 py-2.5 sm:px-5 sm:py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+          <div className="flex justify-between items-center px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 md:py-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
             <div
-              className={`text-base sm:text-lg font-bold ${
+              className={`text-sm sm:text-base md:text-lg font-bold ${
                 currentTheme === "dark" ? "text-white" : "text-slate-800"
               } truncate pr-2`}
             >
@@ -385,7 +385,7 @@ const DeveloperNavbar = () => {
             </div>
             <button
               onClick={closeMenu}
-              className={`p-2 rounded-md ${
+              className={`p-1.5 sm:p-2 rounded-md ${
                 currentTheme === "dark"
                   ? "text-gray-300 hover:bg-teal-400/20"
                   : "text-gray-700 hover:bg-teal-500/20"
@@ -393,7 +393,7 @@ const DeveloperNavbar = () => {
               aria-label="Close menu"
             >
               <X
-                size={24}
+                size={20}
                 className={`${
                   currentTheme === "dark" ? "text-teal-400" : "text-teal-600"
                 }`}
@@ -402,24 +402,26 @@ const DeveloperNavbar = () => {
           </div>
 
           <div
-            className="overflow-y-auto px-4 py-6 sm:px-6 sm:py-10"
+            className="overflow-y-auto px-3 py-4 sm:px-4 sm:py-6 md:px-6 md:py-10"
             style={{ maxHeight: "calc(100dvh - 64px)" }}
           >
-            <div className="flex flex-col space-y-3 sm:space-y-4">
+            <div className="flex flex-col space-y-2 sm:space-y-3 md:space-y-4">
               {/* Portfolio Switcher Button - Mobile */}
               <Link
                 to="/"
                 onClick={closeMenu}
-                className={`text-lg sm:text-xl font-bold transition-all duration-300 relative group flex items-center justify-center py-5 sm:py-6 px-5 rounded-xl border-2 ${
+                className={`text-sm sm:text-base md:text-lg font-semibold transition-all duration-300 relative overflow-hidden group flex items-center justify-center py-3 sm:py-4 md:py-5 px-3 sm:px-4 rounded-lg sm:rounded-xl ${
                   currentTheme === "dark"
-                    ? "border-teal-400/30 bg-teal-500/10 text-teal-400 hover:bg-teal-500/20"
-                    : "border-teal-500/30 bg-teal-50 text-teal-600 hover:bg-teal-100"
+                    ? "bg-gradient-to-r from-teal-500/15 to-cyan-500/15 text-teal-400 hover:from-teal-500/25 hover:to-cyan-500/25 border border-teal-400/30"
+                    : "bg-gradient-to-r from-teal-50 to-cyan-50 text-teal-600 hover:from-teal-100 hover:to-cyan-100 border border-teal-200"
                 } animate-fade-slide-in`}
                 style={{ animationDelay: "50ms" }}
               >
-                <span className="text-2xl mr-3">🥼</span>
-                💼 Medical Rep Portfolio
-                <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                <span className="flex items-center gap-2 relative z-10">
+                  <span className="text-lg sm:text-xl">💼</span>
+                  <span>Medical Rep Portfolio</span>
+                </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
               </Link>
 
               {navLinks.map((link, index) => (
@@ -427,7 +429,7 @@ const DeveloperNavbar = () => {
                   key={link.id}
                   to={link.href}
                   onClick={closeMenu}
-                  className={`text-lg sm:text-xl font-medium transition-all duration-300 relative group flex items-center py-4 sm:py-6 px-5 rounded-xl hover:bg-teal-500/5 ${
+                  className={`text-base sm:text-lg md:text-xl font-medium transition-all duration-300 relative group flex items-center py-3 sm:py-4 md:py-5 px-3 sm:px-4 md:px-5 rounded-lg sm:rounded-xl hover:bg-teal-500/5 ${
                     currentPath === link.id
                       ? currentTheme === "dark"
                         ? "text-teal-400 bg-teal-500/10"
@@ -442,10 +444,10 @@ const DeveloperNavbar = () => {
                 >
                   {link.title}
                   <span
-                    className={`absolute bottom-4 left-5 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
+                    className={`absolute bottom-3 sm:bottom-4 left-3 sm:left-4 md:left-5 h-0.5 bg-gradient-to-r from-teal-500 to-cyan-400 transition-all duration-300 ease-in-out ${
                       currentPath === link.id
-                        ? "w-[calc(100%-2.5rem)]"
-                        : "w-0 group-hover:w-[calc(100%-2.5rem)]"
+                        ? "w-[calc(100%-1.5rem)] sm:w-[calc(100%-2rem)] md:w-[calc(100%-2.5rem)]"
+                        : "w-0 group-hover:w-[calc(100%-1.5rem)] sm:group-hover:w-[calc(100%-2rem)] md:group-hover:w-[calc(100%-2.5rem)]"
                     }`}
                   ></span>
                 </Link>
