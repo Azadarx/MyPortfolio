@@ -220,7 +220,7 @@ const MedicalRepHome = () => {
               Field Sales Officer (FSO)
             </p>
 
-            <div className="flex items-center justify-center gap-2 mb-8">
+            <div className="flex items-center justify-center gap-2 mb-6">
               <div className="h-px w-12 bg-gradient-to-r from-transparent to-blue-600"></div>
               <span
                 className={`text-sm font-medium ${
@@ -231,6 +231,17 @@ const MedicalRepHome = () => {
               </span>
               <div className="h-px w-12 bg-gradient-to-l from-transparent to-blue-600"></div>
             </div>
+
+            {/* Professional Tagline */}
+            <motion.p
+              variants={itemVariants}
+              className={`text-base sm:text-lg md:text-xl font-medium mb-8 max-w-3xl mx-auto ${
+                currentTheme === "dark" ? "text-slate-300" : "text-slate-600"
+              }`}
+            >
+              Delivering Evidence-Based Solutions | Building Healthcare
+              Partnerships | Driving Territory Growth
+            </motion.p>
 
             {/* Experience Counter */}
             <motion.div

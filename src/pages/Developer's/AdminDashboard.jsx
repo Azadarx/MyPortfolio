@@ -43,6 +43,10 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const { currentTheme } = useTheme();
   const gradientRef = useRef(null);
+  const [isUploadingProject, setIsUploadingProject] = useState(false);
+  const [projectUploadProgress, setProjectUploadProgress] = useState(0);
+  const [isUploadingSkill, setIsUploadingSkill] = useState(false);
+  const [skillUploadProgress, setSkillUploadProgress] = useState(0);
 
   // Animated background gradient effect
   useEffect(() => {
@@ -161,6 +165,9 @@ const AdminDashboard = () => {
 
   const handleProjectSubmit = async (e) => {
     e.preventDefault();
+    setIsUploadingProject(true);
+    setProjectUploadProgress(0);
+
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("title", projectFormData.title);
@@ -172,6 +179,17 @@ const AdminDashboard = () => {
         formDataToSend.append("projectImage", projectFormData.projectImage);
       }
 
+      // Simulate progress
+      const progressInterval = setInterval(() => {
+        setProjectUploadProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + 10;
+        });
+      }, 100);
+
       if (editingProject) {
         await api.put(`/projects/${editingProject.id}`, formDataToSend, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -182,36 +200,68 @@ const AdminDashboard = () => {
         });
       }
 
-      toast.success(
-        editingProject
-          ? "Project updated successfully!"
-          : "Project added successfully!"
-      );
-      setIsProjectModalOpen(false);
-      fetchProjects();
+      clearInterval(progressInterval);
+      setProjectUploadProgress(100);
+
+      setTimeout(() => {
+        toast.success(
+          editingProject
+            ? "Project updated successfully!"
+            : "Project added successfully!"
+        );
+        setIsProjectModalOpen(false);
+        setIsUploadingProject(false);
+        setProjectUploadProgress(0);
+        fetchProjects();
+      }, 500);
     } catch (err) {
       toast.error(err.message || "Failed to save project");
+      setIsUploadingProject(false);
+      setProjectUploadProgress(0);
     }
   };
 
   const handleSkillSubmit = async (e) => {
     e.preventDefault();
+    setIsUploadingSkill(true);
+    setSkillUploadProgress(0);
+
     try {
+      // Simulate progress
+      const progressInterval = setInterval(() => {
+        setSkillUploadProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + 15;
+        });
+      }, 80);
+
       if (editingSkill) {
         await api.put(`/skills/${editingSkill.id}`, skillFormData);
       } else {
         await api.post("/skills", skillFormData);
       }
 
-      toast.success(
-        editingSkill
-          ? "Skill updated successfully!"
-          : "Skill added successfully!"
-      );
-      setIsSkillModalOpen(false);
-      fetchSkills();
+      clearInterval(progressInterval);
+      setSkillUploadProgress(100);
+
+      setTimeout(() => {
+        toast.success(
+          editingSkill
+            ? "Skill updated successfully!"
+            : "Skill added successfully!"
+        );
+        setIsSkillModalOpen(false);
+        setIsUploadingSkill(false);
+        setSkillUploadProgress(0);
+        fetchSkills();
+      }, 500);
     } catch (err) {
       toast.error(err.message || "Failed to save skill");
+      setIsUploadingSkill(false);
+      setSkillUploadProgress(0);
     }
   };
 
@@ -726,324 +776,345 @@ const AdminDashboard = () => {
         </div>
 
         {/* Project Modal */}
-{isProjectModalOpen && (
-  <div
-    className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-    onClick={() => setIsProjectModalOpen(false)}
-  >
-    <div
-      className={`w-full max-w-4xl max-h-[85vh] overflow-hidden
-        rounded-xl ${
-        currentTheme === "dark" ? "bg-slate-800" : "bg-white"
-      } shadow-2xl shadow-teal-900/20 border ${
-        currentTheme === "dark"
-          ? "border-slate-700"
-          : "border-slate-200"
-      } transition-all duration-300 animate-fade-scale-in`}
-      onClick={(e) => e.stopPropagation()}
-    >
-      {/* Header */}
-      <div className={`flex justify-between items-center p-6 border-b ${
-        currentTheme === "dark" ? "border-slate-700" : "border-slate-200"
-      }`}>
-        <h2
-          className={`text-2xl font-bold ${
-            currentTheme === "dark" ? "text-white" : "text-slate-800"
-          }`}
-        >
-          <span className="text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 bg-clip-text">
-            {editingProject ? "Edit Project" : "Add New Project"}
-          </span>
-        </h2>
-        <button
-          onClick={() => setIsProjectModalOpen(false)}
-          className={`p-2 rounded-full ${
-            currentTheme === "dark"
-              ? "bg-slate-700 hover:bg-slate-600 text-slate-300"
-              : "bg-slate-100 hover:bg-slate-200 text-slate-700"
-          } transition-colors duration-200 hover:scale-105 active:scale-95`}
-        >
-          <X size={20} />
-        </button>
-      </div>
-
-      {/* Scrollable Content */}
-      <div className="overflow-y-auto max-h-[calc(85vh-80px)] p-6">
-        {/* Form */}
-        <form
-          onSubmit={handleProjectSubmit}
-          className="space-y-6"
-        >
-          {/* Project Title */}
-          <div className="space-y-2">
-            <label
-              className={`block text-base font-medium ${
-                currentTheme === "dark"
-                  ? "text-slate-300"
-                  : "text-slate-700"
-              }`}
-              htmlFor="title"
-            >
-              Project Title
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={projectFormData.title}
-              onChange={handleProjectChange}
-              className={`w-full px-4 py-3 rounded-lg text-base ${
-                currentTheme === "dark"
-                  ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
-                  : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
-              } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
-              required
-              placeholder="Enter project title"
-            />
-          </div>
-
-          {/* Description */}
-          <div className="space-y-2">
-            <label
-              className={`block text-base font-medium ${
-                currentTheme === "dark"
-                  ? "text-slate-300"
-                  : "text-slate-700"
-              }`}
-              htmlFor="description"
-            >
-              Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={projectFormData.description}
-              onChange={handleProjectChange}
-              rows="4"
-              className={`w-full px-4 py-3 rounded-lg text-base ${
-                currentTheme === "dark"
-                  ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
-                  : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
-              } border shadow-sm focus:ring-4 outline-none transition-all duration-200 resize-none`}
-              required
-              placeholder="Describe your project"
-            ></textarea>
-          </div>
-
-          {/* Technologies */}
-          <div className="space-y-2">
-            <label
-              className={`block text-base font-medium ${
-                currentTheme === "dark"
-                  ? "text-slate-300"
-                  : "text-slate-700"
-              }`}
-              htmlFor="technologies"
-            >
-              Technologies
-            </label>
-            <input
-              type="text"
-              id="technologies"
-              name="technologies"
-              value={projectFormData.technologies}
-              onChange={handleProjectChange}
-              className={`w-full px-4 py-3 rounded-lg text-base ${
-                currentTheme === "dark"
-                  ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
-                  : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
-              } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
-              placeholder="React, Node.js, MongoDB (comma separated)"
-              required
-            />
-          </div>
-
-          {/* Project Image Upload */}
-          <div className="space-y-2">
-            <label
-              className={`block text-base font-medium ${
-                currentTheme === "dark"
-                  ? "text-slate-300"
-                  : "text-slate-700"
-              }`}
-              htmlFor="projectImage"
-            >
-              Project Image
-            </label>
+        {isProjectModalOpen && (
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            onClick={() => setIsProjectModalOpen(false)}
+          >
             <div
-              className={`flex items-center justify-center w-full ${
+              className={`w-full max-w-4xl max-h-[85vh] overflow-hidden
+        rounded-xl ${
+          currentTheme === "dark" ? "bg-slate-800" : "bg-white"
+        } shadow-2xl shadow-teal-900/20 border ${
                 currentTheme === "dark"
-                  ? "bg-slate-700 border-slate-600"
-                  : "bg-slate-50 border-slate-300"
-              } border-2 border-dashed rounded-lg p-8 
-                hover:border-teal-500 transition-colors duration-200 cursor-pointer`}
+                  ? "border-slate-700"
+                  : "border-slate-200"
+              } transition-all duration-300 animate-fade-scale-in`}
+              onClick={(e) => e.stopPropagation()}
             >
-              <label
-                htmlFor="projectImage"
-                className="w-full cursor-pointer"
+              {/* Header */}
+              <div
+                className={`flex justify-between items-center p-6 border-b ${
+                  currentTheme === "dark"
+                    ? "border-slate-700"
+                    : "border-slate-200"
+                }`}
               >
-                <div className="flex flex-col items-center justify-center space-y-3">
-                  <Image
-                    size={32}
-                    className={`${
-                      currentTheme === "dark"
-                        ? "text-slate-400"
-                        : "text-slate-500"
-                    }`}
-                  />
-                  <div className="text-center space-y-1">
-                    <p
-                      className={`text-base font-medium ${
+                <h2
+                  className={`text-2xl font-bold ${
+                    currentTheme === "dark" ? "text-white" : "text-slate-800"
+                  }`}
+                >
+                  <span className="text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 bg-clip-text">
+                    {editingProject ? "Edit Project" : "Add New Project"}
+                  </span>
+                </h2>
+                <button
+                  onClick={() => setIsProjectModalOpen(false)}
+                  className={`p-2 rounded-full ${
+                    currentTheme === "dark"
+                      ? "bg-slate-700 hover:bg-slate-600 text-slate-300"
+                      : "bg-slate-100 hover:bg-slate-200 text-slate-700"
+                  } transition-colors duration-200 hover:scale-105 active:scale-95`}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Scrollable Content */}
+              <div className="overflow-y-auto max-h-[calc(85vh-80px)] p-6">
+                {/* Form */}
+                <form onSubmit={handleProjectSubmit} className="space-y-6">
+                  {/* Project Title */}
+                  <div className="space-y-2">
+                    <label
+                      className={`block text-base font-medium ${
                         currentTheme === "dark"
                           ? "text-slate-300"
                           : "text-slate-700"
                       }`}
+                      htmlFor="title"
                     >
-                      Click to upload project image
-                    </p>
-                    <p
-                      className={`text-sm ${
+                      Project Title
+                    </label>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      value={projectFormData.title}
+                      onChange={handleProjectChange}
+                      className={`w-full px-4 py-3 rounded-lg text-base ${
                         currentTheme === "dark"
-                          ? "text-slate-500"
-                          : "text-slate-500"
-                      } px-2`}
-                    >
-                      SVG, PNG, JPG, GIF (Recommended: 1280×720px)
-                    </p>
+                          ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
+                          : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
+                      } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
+                      required
+                      placeholder="Enter project title"
+                    />
                   </div>
-                </div>
-                <input
-                  type="file"
-                  id="projectImage"
-                  name="projectImage"
-                  onChange={handleFileChange}
-                  accept="image/*"
-                  className="hidden"
-                />
-              </label>
-            </div>
 
-            {projectFormData.projectImage && (
-              <p
-                className={`mt-2 text-sm ${
-                  currentTheme === "dark"
-                    ? "text-teal-400"
-                    : "text-teal-600"
-                } truncate`}
-              >
-                Selected: {projectFormData.projectImage.name}
-              </p>
-            )}
-          </div>
+                  {/* Description */}
+                  <div className="space-y-2">
+                    <label
+                      className={`block text-base font-medium ${
+                        currentTheme === "dark"
+                          ? "text-slate-300"
+                          : "text-slate-700"
+                      }`}
+                      htmlFor="description"
+                    >
+                      Description
+                    </label>
+                    <textarea
+                      id="description"
+                      name="description"
+                      value={projectFormData.description}
+                      onChange={handleProjectChange}
+                      rows="4"
+                      className={`w-full px-4 py-3 rounded-lg text-base ${
+                        currentTheme === "dark"
+                          ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
+                          : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
+                      } border shadow-sm focus:ring-4 outline-none transition-all duration-200 resize-none`}
+                      required
+                      placeholder="Describe your project"
+                    ></textarea>
+                  </div>
 
-          {/* Links Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Repository Link */}
-            <div className="space-y-2">
-              <label
-                className={`block text-base font-medium ${
-                  currentTheme === "dark"
-                    ? "text-slate-300"
-                    : "text-slate-700"
-                }`}
-                htmlFor="repoLink"
-              >
-                Repository Link
-              </label>
-              <div className="relative">
-                <div
-                  className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none ${
-                    currentTheme === "dark"
-                      ? "text-slate-400"
-                      : "text-slate-500"
-                  }`}
-                >
-                  <Github size={18} />
-                </div>
-                <input
-                  type="url"
-                  id="repoLink"
-                  name="repoLink"
-                  value={projectFormData.repoLink}
-                  onChange={handleProjectChange}
-                  className={`w-full pl-12 pr-4 py-3 text-base rounded-lg ${
-                    currentTheme === "dark"
-                      ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
-                      : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
-                  } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
-                  placeholder="https://github.com/username/repo"
-                />
+                  {/* Technologies */}
+                  <div className="space-y-2">
+                    <label
+                      className={`block text-base font-medium ${
+                        currentTheme === "dark"
+                          ? "text-slate-300"
+                          : "text-slate-700"
+                      }`}
+                      htmlFor="technologies"
+                    >
+                      Technologies
+                    </label>
+                    <input
+                      type="text"
+                      id="technologies"
+                      name="technologies"
+                      value={projectFormData.technologies}
+                      onChange={handleProjectChange}
+                      className={`w-full px-4 py-3 rounded-lg text-base ${
+                        currentTheme === "dark"
+                          ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
+                          : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
+                      } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
+                      placeholder="React, Node.js, MongoDB (comma separated)"
+                      required
+                    />
+                  </div>
+
+                  {/* Project Image Upload */}
+                  <div className="space-y-2">
+                    <label
+                      className={`block text-base font-medium ${
+                        currentTheme === "dark"
+                          ? "text-slate-300"
+                          : "text-slate-700"
+                      }`}
+                      htmlFor="projectImage"
+                    >
+                      Project Image
+                    </label>
+                    <div
+                      className={`flex items-center justify-center w-full ${
+                        currentTheme === "dark"
+                          ? "bg-slate-700 border-slate-600"
+                          : "bg-slate-50 border-slate-300"
+                      } border-2 border-dashed rounded-lg p-8 
+                hover:border-teal-500 transition-colors duration-200 cursor-pointer`}
+                    >
+                      <label
+                        htmlFor="projectImage"
+                        className="w-full cursor-pointer"
+                      >
+                        <div className="flex flex-col items-center justify-center space-y-3">
+                          <Image
+                            size={32}
+                            className={`${
+                              currentTheme === "dark"
+                                ? "text-slate-400"
+                                : "text-slate-500"
+                            }`}
+                          />
+                          <div className="text-center space-y-1">
+                            <p
+                              className={`text-base font-medium ${
+                                currentTheme === "dark"
+                                  ? "text-slate-300"
+                                  : "text-slate-700"
+                              }`}
+                            >
+                              Click to upload project image
+                            </p>
+                            <p
+                              className={`text-sm ${
+                                currentTheme === "dark"
+                                  ? "text-slate-500"
+                                  : "text-slate-500"
+                              } px-2`}
+                            >
+                              SVG, PNG, JPG, GIF (Recommended: 1280×720px)
+                            </p>
+                          </div>
+                        </div>
+                        <input
+                          type="file"
+                          id="projectImage"
+                          name="projectImage"
+                          onChange={handleFileChange}
+                          accept="image/*"
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+
+                    {projectFormData.projectImage && (
+                      <p
+                        className={`mt-2 text-sm ${
+                          currentTheme === "dark"
+                            ? "text-teal-400"
+                            : "text-teal-600"
+                        } truncate`}
+                      >
+                        Selected: {projectFormData.projectImage.name}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Links Section */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Repository Link */}
+                    <div className="space-y-2">
+                      <label
+                        className={`block text-base font-medium ${
+                          currentTheme === "dark"
+                            ? "text-slate-300"
+                            : "text-slate-700"
+                        }`}
+                        htmlFor="repoLink"
+                      >
+                        Repository Link
+                      </label>
+                      <div className="relative">
+                        <div
+                          className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none ${
+                            currentTheme === "dark"
+                              ? "text-slate-400"
+                              : "text-slate-500"
+                          }`}
+                        >
+                          <Github size={18} />
+                        </div>
+                        <input
+                          type="url"
+                          id="repoLink"
+                          name="repoLink"
+                          value={projectFormData.repoLink}
+                          onChange={handleProjectChange}
+                          className={`w-full pl-12 pr-4 py-3 text-base rounded-lg ${
+                            currentTheme === "dark"
+                              ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
+                              : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
+                          } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
+                          placeholder="https://github.com/username/repo"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Live Demo Link */}
+                    <div className="space-y-2">
+                      <label
+                        className={`block text-base font-medium ${
+                          currentTheme === "dark"
+                            ? "text-slate-300"
+                            : "text-slate-700"
+                        }`}
+                        htmlFor="liveLink"
+                      >
+                        Live Demo Link
+                      </label>
+                      <div className="relative">
+                        <div
+                          className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none ${
+                            currentTheme === "dark"
+                              ? "text-slate-400"
+                              : "text-slate-500"
+                          }`}
+                        >
+                          <ExternalLink size={18} />
+                        </div>
+                        <input
+                          type="url"
+                          id="liveLink"
+                          name="liveLink"
+                          value={projectFormData.liveLink}
+                          onChange={handleProjectChange}
+                          className={`w-full pl-12 pr-4 py-3 text-base rounded-lg ${
+                            currentTheme === "dark"
+                              ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
+                              : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
+                          } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
+                          placeholder="https://yourdemo.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex justify-end gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
+                    <button
+                      type="button"
+                      onClick={() => setIsProjectModalOpen(false)}
+                      className={`px-6 py-3 text-base font-medium rounded-lg ${
+                        currentTheme === "dark"
+                          ? "bg-slate-700 text-slate-300 hover:bg-slate-600"
+                          : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                      } transition-all duration-200 hover:scale-105 active:scale-95`}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isUploadingProject}
+                      className="relative px-8 py-3 text-base font-medium text-white 
+    bg-gradient-to-r from-teal-600 to-teal-500 rounded-lg 
+    shadow-lg shadow-teal-500/20 border border-teal-500/20 
+    transition-all duration-300 hover:scale-105 active:scale-95 
+    hover:shadow-xl hover:shadow-teal-500/30 disabled:opacity-70 
+    disabled:cursor-not-allowed overflow-hidden"
+                    >
+                      {isUploadingProject && (
+                        <div
+                          className="absolute text-black left-0 top-0 h-full bg-teal-400 transition-all duration-300 ease-out flex items-center justify-end pr-3"
+                          style={{ width: `${projectUploadProgress}%` }}
+                        >
+                          <span className="text-white text-sm font-bold">
+                            {projectUploadProgress}%
+                          </span>
+                        </div>
+                      )}
+                      <span className="relative z-10">
+                        {isUploadingProject
+                          ? editingProject
+                            ? "Updating..."
+                            : "Adding Project..."
+                          : editingProject
+                          ? "Update Project"
+                          : "Add Project"}
+                      </span>
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
-
-            {/* Live Demo Link */}
-            <div className="space-y-2">
-              <label
-                className={`block text-base font-medium ${
-                  currentTheme === "dark"
-                    ? "text-slate-300"
-                    : "text-slate-700"
-                }`}
-                htmlFor="liveLink"
-              >
-                Live Demo Link
-              </label>
-              <div className="relative">
-                <div
-                  className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none ${
-                    currentTheme === "dark"
-                      ? "text-slate-400"
-                      : "text-slate-500"
-                  }`}
-                >
-                  <ExternalLink size={18} />
-                </div>
-                <input
-                  type="url"
-                  id="liveLink"
-                  name="liveLink"
-                  value={projectFormData.liveLink}
-                  onChange={handleProjectChange}
-                  className={`w-full pl-12 pr-4 py-3 text-base rounded-lg ${
-                    currentTheme === "dark"
-                      ? "bg-slate-700 text-white border-slate-600 focus:border-teal-500 focus:ring-teal-500/50"
-                      : "bg-white text-slate-900 border-slate-300 focus:border-teal-500 focus:ring-teal-500/30"
-                  } border shadow-sm focus:ring-4 outline-none transition-all duration-200`}
-                  placeholder="https://yourdemo.com"
-                />
-              </div>
-            </div>
           </div>
-
-          {/* Action Buttons */}
-          <div className="flex justify-end gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
-            <button
-              type="button"
-              onClick={() => setIsProjectModalOpen(false)}
-              className={`px-6 py-3 text-base font-medium rounded-lg ${
-                currentTheme === "dark"
-                  ? "bg-slate-700 text-slate-300 hover:bg-slate-600"
-                  : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-              } transition-all duration-200 hover:scale-105 active:scale-95`}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-8 py-3 text-base font-medium text-white 
-                bg-gradient-to-r from-teal-600 to-teal-500 rounded-lg 
-                shadow-lg shadow-teal-500/20 border border-teal-500/20 
-                transition-all duration-300 hover:scale-105 active:scale-95 
-                hover:shadow-xl hover:shadow-teal-500/30"
-            >
-              {editingProject ? "Update Project" : "Add Project"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-)}
+        )}
 
         {/* Skill Modal */}
         {isSkillModalOpen && (
@@ -1204,9 +1275,28 @@ const AdminDashboard = () => {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 font-medium text-white bg-gradient-to-r from-cyan-600 to-cyan-500 rounded-lg shadow-lg shadow-cyan-500/20 border border-cyan-500/20 transition-all duration-300 hover:scale-105"
+                    disabled={isUploadingSkill}
+                    className="relative px-6 py-2 font-medium text-white bg-gradient-to-r from-cyan-600 to-cyan-500 rounded-lg shadow-lg shadow-cyan-500/20 border border-cyan-500/20 transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden"
                   >
-                    {editingSkill ? "Update Skill" : "Add Skill"}
+                    {isUploadingSkill && (
+                      <div
+                        className="absolute left-0 top-0 h-full bg-cyan-400 transition-all duration-300 ease-out flex items-center justify-end pr-2"
+                        style={{ width: `${skillUploadProgress}%` }}
+                      >
+                        <span className="text-white text-xs font-bold">
+                          {skillUploadProgress}%
+                        </span>
+                      </div>
+                    )}
+                    <span className="relative z-10">
+                      {isUploadingSkill
+                        ? editingSkill
+                          ? "Updating..."
+                          : "Adding Skill..."
+                        : editingSkill
+                        ? "Update Skill"
+                        : "Add Skill"}
+                    </span>
                   </button>
                 </div>
               </form>

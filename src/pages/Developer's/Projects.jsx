@@ -44,27 +44,29 @@ const Particles = ({ isInView }) => {
 const ProjectCard = ({ project, handleProjectClick, currentTheme }) => {
   const [hovered, setHovered] = useState(false);
 
-const getImageUrl = () => {
-  const imageField = project.imageUrl || project.imageurl;
-  
-  if (!imageField) return null;
-  
-  // If it's a Cloudinary URL, use it directly
-  if (imageField.includes('cloudinary.com')) {
-    return imageField;
-  }
-  
-  // Legacy: If it's a full URL, use it as-is
-  if (imageField.startsWith('http')) {
-    return imageField;
-  }
-  
-  // Legacy: Local uploaded files (fallback)
-  const cleanPath = imageField.startsWith('/') ? imageField.substring(1) : imageField;
-  return `${BACKEND_BASE_URL}/${cleanPath}`;
-};
+  const getImageUrl = () => {
+    const imageField = project.imageUrl || project.imageurl;
 
-const imageSrc = getImageUrl();
+    if (!imageField) return null;
+
+    // If it's a Cloudinary URL, use it directly
+    if (imageField.includes("cloudinary.com")) {
+      return imageField;
+    }
+
+    // Legacy: If it's a full URL, use it as-is
+    if (imageField.startsWith("http")) {
+      return imageField;
+    }
+
+    // Legacy: Local uploaded files (fallback)
+    const cleanPath = imageField.startsWith("/")
+      ? imageField.substring(1)
+      : imageField;
+    return `${BACKEND_BASE_URL}/${cleanPath}`;
+  };
+
+  const imageSrc = getImageUrl();
 
   return (
     <div
@@ -89,8 +91,8 @@ const imageSrc = getImageUrl();
             alt={project.title}
             className="w-full h-full object-cover"
             onError={(e) => {
-              console.error('Image load error:', imageSrc);
-              e.target.style.display = 'none';
+              console.error("Image load error:", imageSrc);
+              e.target.style.display = "none";
               e.target.parentElement.innerHTML = `<div class="w-full h-full bg-gradient-to-r from-teal-500 to-cyan-600 flex items-center justify-center"><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></div>`;
             }}
           />
@@ -106,37 +108,37 @@ const imageSrc = getImageUrl();
           }`}
         >
           {(project.repoLink || project.repolink) && (
-        <a
-          href={project.repoLink || project.repolink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`p-1.5 rounded-full ${
-            currentTheme === "dark"
-              ? "bg-slate-800/90 text-teal-400 hover:bg-slate-700"
-              : "bg-white/90 text-teal-600 hover:bg-white"
-          } backdrop-blur-sm transition-colors`}
-          onClick={(e) => e.stopPropagation()}
-          title="View Repository"
-        >
-          <Github size={14} />
-        </a>
-      )}
-        {(project.liveLink || project.livelink) && (
-        <a
-          href={project.liveLink || project.livelink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`p-1.5 rounded-full ${
-            currentTheme === "dark"
-              ? "bg-slate-800/90 text-teal-400 hover:bg-slate-700"
-              : "bg-white/90 text-teal-600 hover:bg-white"
-          } backdrop-blur-sm transition-colors`}
-          onClick={(e) => e.stopPropagation()}
-          title="View Live Demo"
-        >
-          <ExternalLink size={14} />
-        </a>
-      )}
+            <a
+              href={project.repoLink || project.repolink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-1.5 rounded-full ${
+                currentTheme === "dark"
+                  ? "bg-slate-800/90 text-teal-400 hover:bg-slate-700"
+                  : "bg-white/90 text-teal-600 hover:bg-white"
+              } backdrop-blur-sm transition-colors`}
+              onClick={(e) => e.stopPropagation()}
+              title="View Repository"
+            >
+              <Github size={14} />
+            </a>
+          )}
+          {(project.liveLink || project.livelink) && (
+            <a
+              href={project.liveLink || project.livelink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-1.5 rounded-full ${
+                currentTheme === "dark"
+                  ? "bg-slate-800/90 text-teal-400 hover:bg-slate-700"
+                  : "bg-white/90 text-teal-600 hover:bg-white"
+              } backdrop-blur-sm transition-colors`}
+              onClick={(e) => e.stopPropagation()}
+              title="View Live Demo"
+            >
+              <ExternalLink size={14} />
+            </a>
+          )}
         </div>
       </div>
 
@@ -204,6 +206,8 @@ const Projects = () => {
   const [error, setError] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isCaseStudyOpen, setIsCaseStudyOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -211,8 +215,13 @@ const Projects = () => {
     repoLink: "",
     liveLink: "",
     projectImage: null,
+    problem: "",
+    role: "",
+    outcome: "",
   });
   const [isInView, setIsInView] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const { currentTheme } = useTheme();
   const navigate = useNavigate();
 
@@ -227,7 +236,9 @@ const Projects = () => {
       const token = localStorage.getItem("jwtToken");
       if (token) {
         const { data } = await api.get("/auth/verify");
-        setIsAdmin(data.isAdmin || data.email === "syedazadarhussayn@gmail.com");
+        setIsAdmin(
+          data.isAdmin || data.email === "syedazadarhussayn@gmail.com"
+        );
       }
     } catch (err) {
       console.error("Auth check error:", err);
@@ -240,21 +251,23 @@ const Projects = () => {
       setLoading(true);
       setError(null);
       const { data } = await api.get("/projects");
-      
+
       // ✅ Ensure technologies is always an array
-      const formattedProjects = data.map(project => ({
+      const formattedProjects = data.map((project) => ({
         ...project,
         technologies: Array.isArray(project.technologies)
           ? project.technologies
-          : typeof project.technologies === 'string'
-          ? project.technologies.split(',').map(t => t.trim())
-          : []
+          : typeof project.technologies === "string"
+          ? project.technologies.split(",").map((t) => t.trim())
+          : [],
       }));
-      
+
       setProjects(formattedProjects);
     } catch (err) {
       console.error("Failed to fetch projects:", err);
-      setError(err.message || "Failed to load projects. Please try again later.");
+      setError(
+        err.message || "Failed to load projects. Please try again later."
+      );
       toast.error(err.message || "Failed to load projects");
     } finally {
       setLoading(false);
@@ -272,6 +285,9 @@ const Projects = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsUploading(true);
+    setUploadProgress(0);
+
     try {
       const token = localStorage.getItem("jwtToken");
       if (!token) {
@@ -286,10 +302,24 @@ const Projects = () => {
       formDataToSend.append("technologies", formData.technologies);
       formDataToSend.append("repoLink", formData.repoLink);
       formDataToSend.append("liveLink", formData.liveLink);
-      
+      formDataToSend.append("problem", formData.problem);
+      formDataToSend.append("role", formData.role);
+      formDataToSend.append("outcome", formData.outcome);
+
       if (formData.projectImage) {
         formDataToSend.append("projectImage", formData.projectImage);
       }
+
+      // Simulate progress
+      const progressInterval = setInterval(() => {
+        setUploadProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + 10;
+        });
+      }, 100);
 
       await api.post("/projects", formDataToSend, {
         headers: {
@@ -297,41 +327,39 @@ const Projects = () => {
         },
       });
 
-      toast.success("Project added successfully!");
-      setIsModalOpen(false);
-      setFormData({
-        title: "",
-        description: "",
-        technologies: "",
-        repoLink: "",
-        liveLink: "",
-        projectImage: null,
-      });
-      
-      fetchProjects();
+      clearInterval(progressInterval);
+      setUploadProgress(100);
+
+      setTimeout(() => {
+        toast.success("Project added successfully!");
+        setIsModalOpen(false);
+        setFormData({
+          title: "",
+          description: "",
+          technologies: "",
+          repoLink: "",
+          liveLink: "",
+          projectImage: null,
+          problem: "",
+          role: "",
+          outcome: "",
+        });
+        setIsUploading(false);
+        setUploadProgress(0);
+        fetchProjects();
+      }, 500);
     } catch (err) {
       console.error("Failed to add project:", err);
       toast.error(err.message || "Failed to add project");
+      setIsUploading(false);
+      setUploadProgress(0);
     }
   };
 
-const handleProjectClick = (project) => {
-  // Priority: liveLink first, then repoLink
-  const url = project.liveLink || project.livelink || project.repoLink || project.repolink;
-  console.log('Attempting to open URL:', {
-    liveLink: project.liveLink,
-    livelink: project.livelink,
-    repoLink: project.repoLink,
-    repolink: project.repolink,
-    finalUrl: url
-  });
-  
-  if (url) {
-    window.open(url, "_blank", "noopener,noreferrer");
-  } else {
-    console.warn('No URL available for this project');
-  }
-};
+  const handleProjectClick = (project) => {
+    setSelectedProject(project);
+    setIsCaseStudyOpen(true);
+  };
 
   if (loading) {
     return (
@@ -520,7 +548,224 @@ const handleProjectClick = (project) => {
           </div>
         )}
       </div>
+      {/* Case Study Modal */}
+      {isCaseStudyOpen && selectedProject && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto"
+          onClick={() => setIsCaseStudyOpen(false)}
+        >
+          <div
+            className={`rounded-xl md:rounded-2xl p-4 md:p-6 lg:p-8 max-w-3xl w-full my-4 md:my-8 max-h-[85vh] md:max-h-[90vh] overflow-y-auto ${
+              currentTheme === "dark"
+                ? "bg-slate-800 border border-slate-700"
+                : "bg-white border border-slate-100 shadow-2xl"
+            }`}
+            style={{
+              scrollbarWidth: "thin",
+              scrollbarColor:
+                currentTheme === "dark" ? "#0d9488 #1e293b" : "#14b8a6 #f1f5f9",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-0 mb-4 md:mb-6">
+              <div className="flex-1">
+                <h2
+                  className={`text-xl md:text-2xl lg:text-3xl font-bold mb-1 md:mb-2 ${
+                    currentTheme === "dark" ? "text-white" : "text-slate-800"
+                  }`}
+                >
+                  {selectedProject.title}
+                </h2>
+                {selectedProject.role && (
+                  <p
+                    className={`text-xs md:text-sm font-medium ${
+                      currentTheme === "dark"
+                        ? "text-teal-400"
+                        : "text-teal-600"
+                    }`}
+                  >
+                    {selectedProject.role}
+                  </p>
+                )}
+              </div>
+              <button
+                onClick={() => setIsCaseStudyOpen(false)}
+                className={`p-1.5 md:p-2 rounded-full flex-shrink-0 ${
+                  currentTheme === "dark"
+                    ? "text-slate-400 hover:bg-slate-700"
+                    : "text-slate-500 hover:bg-slate-100"
+                } transition-colors duration-300`}
+              >
+                <X size={18} className="md:w-5 md:h-5" />
+              </button>
+            </div>
 
+            {(selectedProject.imageUrl || selectedProject.imageurl) && (
+              <div className="mb-4 md:mb-6 rounded-lg overflow-hidden">
+                <img
+                  src={
+                    (
+                      selectedProject.imageUrl || selectedProject.imageurl
+                    ).includes("cloudinary.com")
+                      ? selectedProject.imageUrl || selectedProject.imageurl
+                      : (
+                          selectedProject.imageUrl || selectedProject.imageurl
+                        ).startsWith("http")
+                      ? selectedProject.imageUrl || selectedProject.imageurl
+                      : `${BACKEND_BASE_URL}/${
+                          (
+                            selectedProject.imageUrl || selectedProject.imageurl
+                          ).startsWith("/")
+                            ? (
+                                selectedProject.imageUrl ||
+                                selectedProject.imageurl
+                              ).substring(1)
+                            : selectedProject.imageUrl ||
+                              selectedProject.imageurl
+                        }`
+                  }
+                  alt={selectedProject.title}
+                  className="w-full h-48 sm:h-56 md:h-64 object-cover"
+                />
+              </div>
+            )}
+
+            <div className="space-y-4 md:space-y-6">
+              {selectedProject.problem && (
+                <div>
+                  <h3
+                    className={`text-base md:text-lg font-semibold mb-1.5 md:mb-2 ${
+                      currentTheme === "dark"
+                        ? "text-teal-400"
+                        : "text-teal-600"
+                    }`}
+                  >
+                    Problem Statement
+                  </h3>
+                  <div
+                    className={`text-sm md:text-base whitespace-pre-line ${
+                      currentTheme === "dark"
+                        ? "text-slate-300"
+                        : "text-slate-600"
+                    }`}
+                  >
+                    {selectedProject.problem}
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <h3
+                  className={`text-base md:text-lg font-semibold mb-1.5 md:mb-2 ${
+                    currentTheme === "dark" ? "text-teal-400" : "text-teal-600"
+                  }`}
+                >
+                  Overview
+                </h3>
+                <div
+                  className={`text-sm md:text-base whitespace-pre-line ${
+                    currentTheme === "dark"
+                      ? "text-slate-300"
+                      : "text-slate-600"
+                  }`}
+                >
+                  {selectedProject.description}
+                </div>
+              </div>
+
+              {selectedProject.technologies && (
+                <div>
+                  <h3
+                    className={`text-base md:text-lg font-semibold mb-2 md:mb-3 ${
+                      currentTheme === "dark"
+                        ? "text-teal-400"
+                        : "text-teal-600"
+                    }`}
+                  >
+                    Tech Stack
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5 md:gap-2">
+                    {selectedProject.technologies.map((tech, idx) => (
+                      <span
+                        key={idx}
+                        className={`px-2.5 md:px-3 py-1 md:py-1.5 rounded-full text-xs md:text-sm font-medium ${
+                          currentTheme === "dark"
+                            ? "bg-teal-900/40 text-teal-300"
+                            : "bg-teal-50 text-teal-700"
+                        }`}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {selectedProject.outcome && (
+                <div>
+                  <h3
+                    className={`text-base md:text-lg font-semibold mb-1.5 md:mb-2 ${
+                      currentTheme === "dark"
+                        ? "text-teal-400"
+                        : "text-teal-600"
+                    }`}
+                  >
+                    Outcome & Impact
+                  </h3>
+                  <div
+                    className={`text-sm md:text-base whitespace-pre-line ${
+                      currentTheme === "dark"
+                        ? "text-slate-300"
+                        : "text-slate-600"
+                    }`}
+                  >
+                    {selectedProject.outcome}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-wrap gap-2 md:gap-3 pt-3 md:pt-4">
+                {(selectedProject.liveLink || selectedProject.livelink) && (
+                  <a
+                    href={selectedProject.liveLink || selectedProject.livelink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex items-center px-4 md:px-5 py-2 md:py-2.5 rounded-lg text-sm md:text-base font-medium transition-all duration-300 ${
+                      currentTheme === "dark"
+                        ? "bg-teal-600 text-white hover:bg-teal-500"
+                        : "bg-teal-600 text-white hover:bg-teal-500"
+                    }`}
+                  >
+                    <ExternalLink
+                      size={14}
+                      className="mr-1.5 md:mr-2 md:w-4 md:h-4"
+                    />
+                    Live Demo
+                  </a>
+                )}
+                {(selectedProject.repoLink || selectedProject.repolink) && (
+                  <a
+                    href={selectedProject.repoLink || selectedProject.repolink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex items-center px-4 md:px-5 py-2 md:py-2.5 rounded-lg text-sm md:text-base font-medium transition-all duration-300 ${
+                      currentTheme === "dark"
+                        ? "bg-slate-700 text-slate-300 hover:bg-slate-600"
+                        : "bg-slate-200 text-slate-700 hover:bg-slate-300"
+                    }`}
+                  >
+                    <Github
+                      size={14}
+                      className="mr-1.5 md:mr-2 md:w-4 md:h-4"
+                    />
+                    View Code
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Modal remains the same as your original code */}
       {isModalOpen && (
         <div
@@ -628,7 +873,77 @@ const handleProjectClick = (project) => {
                   required
                 />
               </div>
+              <div>
+                <label
+                  className={`block text-sm font-medium mb-1 ${
+                    currentTheme === "dark"
+                      ? "text-slate-300"
+                      : "text-slate-700"
+                  }`}
+                >
+                  Problem Statement
+                </label>
+                <textarea
+                  name="problem"
+                  value={formData.problem}
+                  onChange={handleChange}
+                  rows="3"
+                  className={`w-full px-4 py-3 rounded-lg border ${
+                    currentTheme === "dark"
+                      ? "bg-slate-700/70 border-slate-600 text-white"
+                      : "bg-slate-50 border-slate-200 text-slate-900"
+                  } focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none`}
+                  placeholder="What problem does this project solve?"
+                ></textarea>
+              </div>
 
+              <div>
+                <label
+                  className={`block text-sm font-medium mb-1 ${
+                    currentTheme === "dark"
+                      ? "text-slate-300"
+                      : "text-slate-700"
+                  }`}
+                >
+                  Your Role
+                </label>
+                <input
+                  type="text"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 rounded-lg border ${
+                    currentTheme === "dark"
+                      ? "bg-slate-700/70 border-slate-600 text-white"
+                      : "bg-slate-50 border-slate-200 text-slate-900"
+                  } focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none`}
+                  placeholder="e.g., Full-Stack Developer, Frontend Engineer"
+                />
+              </div>
+
+              <div>
+                <label
+                  className={`block text-sm font-medium mb-1 ${
+                    currentTheme === "dark"
+                      ? "text-slate-300"
+                      : "text-slate-700"
+                  }`}
+                >
+                  Outcome & Impact
+                </label>
+                <textarea
+                  name="outcome"
+                  value={formData.outcome}
+                  onChange={handleChange}
+                  rows="3"
+                  className={`w-full px-4 py-3 rounded-lg border ${
+                    currentTheme === "dark"
+                      ? "bg-slate-700/70 border-slate-600 text-white"
+                      : "bg-slate-50 border-slate-200 text-slate-900"
+                  } focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none`}
+                  placeholder="Results achieved, metrics, learnings, etc."
+                ></textarea>
+              </div>
               <div>
                 <label
                   className={`block text-sm font-medium mb-1 ${
@@ -716,10 +1031,23 @@ const handleProjectClick = (project) => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-lg font-medium text-white bg-teal-600 hover:bg-teal-500"
+                  disabled={isUploading}
+                  className="relative px-5 py-2.5 rounded-lg font-medium text-white bg-teal-600 hover:bg-teal-500 disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden"
                 >
-                  Add Project
-                </button>
+                  {isUploading && (
+                    <div
+                      className="absolute left-0 top-0 h-full bg-teal-400 transition-all duration-300 ease-out flex items-center justify-end pr-2"
+                      style={{ width: `${uploadProgress}%` }}
+                    >
+                      <span className="text-white text-xs font-bold">
+                        {uploadProgress}%
+                      </span>
+                    </div>
+                  )}
+                  <span className="relative z-10">
+                    {isUploading ? "Adding Project..." : "Add Project"}
+                  </span>
+                </button>   
               </div>
             </form>
           </div>
