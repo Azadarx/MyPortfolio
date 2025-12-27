@@ -170,7 +170,7 @@ const Contact = () => {
           transition={{ duration: 0.6 }}
         >
           <h1
-            className={`text-4xl sm:text-5xl font-bold ${
+            className={`text-3xl sm:text-4xl md:text-5xl font-bold ${
               isDark ? "text-white" : "text-slate-900"
             } mb-4 transition-colors duration-300`}
           >
@@ -189,12 +189,12 @@ const Contact = () => {
         {/* Form */}
         <motion.form
           onSubmit={handleSubmit}
-          className="mt-10 px-4"
+          className="mt-6 sm:mt-10 px-2 sm:px-4"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* Name Field */}
             <motion.div className="relative" variants={itemVariants}>
               <div className="relative">
@@ -209,7 +209,7 @@ const Contact = () => {
                     isDark
                       ? "bg-slate-800/50 backdrop-blur-sm text-white border-slate-700 focus:border-blue-600 focus:ring-blue-600"
                       : "bg-white/80 backdrop-blur-sm text-slate-900 border-slate-200 focus:border-blue-600 focus:ring-blue-600"
-                  } px-4 pt-6 pb-2 text-base ${
+                  } px-3 sm:px-4 pt-5 sm:pt-6 pb-2 text-sm sm:text-base ${
                     touched.name && !validation.name
                       ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                       : ""
@@ -219,7 +219,7 @@ const Contact = () => {
                 />
                 <label
                   htmlFor="name"
-                  className={`absolute left-4 top-5 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm duration-200 ${
+                  className={`px-3 sm:px-4 pt-5 sm:pt-6 pb-2 text-sm sm:text-base z-10 origin-[0] -translate-y-4 scale-75 transform text-sm duration-200 ${
                     touched.name && !validation.name
                       ? "text-red-500"
                       : formData.name
@@ -253,7 +253,7 @@ const Contact = () => {
                     isDark
                       ? "bg-slate-800/50 backdrop-blur-sm text-white border-slate-700 focus:border-blue-600 focus:ring-blue-600"
                       : "bg-white/80 backdrop-blur-sm text-slate-900 border-slate-200 focus:border-blue-600 focus:ring-blue-600"
-                  } px-4 pt-6 pb-2 text-base ${
+                  } px-3 sm:px-4 pt-5 sm:pt-6 pb-2 text-sm sm:text-base ${
                     touched.email && !validation.email
                       ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                       : ""
@@ -263,7 +263,7 @@ const Contact = () => {
                 />
                 <label
                   htmlFor="email"
-                  className={`absolute left-4 top-5 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm duration-200 ${
+                  className={`px-3 sm:px-4 pt-5 sm:pt-6 pb-2 text-sm sm:text-base z-10 origin-[0] -translate-y-4 scale-75 transform text-sm duration-200 ${
                     touched.email && !validation.email
                       ? "text-red-500"
                       : formData.email
@@ -299,7 +299,7 @@ const Contact = () => {
                     isDark
                       ? "bg-slate-800/50 backdrop-blur-sm text-white border-slate-700 focus:border-blue-600 focus:ring-blue-600"
                       : "bg-white/80 backdrop-blur-sm text-slate-900 border-slate-200 focus:border-blue-600 focus:ring-blue-600"
-                  } px-4 pt-6 pb-2 text-base ${
+                  } px-3 sm:px-4 pt-5 sm:pt-6 pb-2 text-sm sm:text-base ${
                     touched.phone && !validation.phone
                       ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                       : ""
@@ -308,7 +308,7 @@ const Contact = () => {
                 />
                 <label
                   htmlFor="phone"
-                  className={`absolute left-4 top-5 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm duration-200 ${
+                  className={`px-3 sm:px-4 pt-5 sm:pt-6 pb-2 text-sm sm:text-base z-10 origin-[0] -translate-y-4 scale-75 transform text-sm duration-200 ${
                     touched.phone && !validation.phone
                       ? "text-red-500"
                       : formData.phone
@@ -342,7 +342,7 @@ const Contact = () => {
                     isDark
                       ? "bg-slate-800/50 backdrop-blur-sm text-white border-slate-700 focus:border-blue-600 focus:ring-blue-600"
                       : "bg-white/80 backdrop-blur-sm text-slate-900 border-slate-200 focus:border-blue-600 focus:ring-blue-600"
-                  } px-4 pt-6 pb-2 text-base ${
+                  } px-3 sm:px-4 pt-5 sm:pt-6 pb-2 text-sm sm:text-base ${
                     touched.subject && !validation.subject
                       ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                       : ""
@@ -352,7 +352,7 @@ const Contact = () => {
                 />
                 <label
                   htmlFor="subject"
-                  className={`absolute left-4 top-5 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm duration-200 ${
+                  className={`px-3 sm:px-4 pt-5 sm:pt-6 pb-2 text-sm sm:text-base z-10 origin-[0] -translate-y-4 scale-75 transform text-sm duration-200 ${
                     touched.subject && !validation.subject
                       ? "text-red-500"
                       : formData.subject
@@ -387,7 +387,7 @@ const Contact = () => {
                   isDark
                     ? "bg-slate-800/50 backdrop-blur-sm text-white border-slate-700 focus:border-blue-600 focus:ring-blue-600"
                     : "bg-white/80 backdrop-blur-sm text-slate-900 border-slate-200 focus:border-blue-600 focus:ring-blue-600"
-                } px-4 pt-6 pb-2 text-base ${
+                } px-3 sm:px-4 pt-5 sm:pt-6 pb-2 text-sm sm:text-base ${
                   touched.message && !validation.message
                     ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                     : ""
@@ -397,7 +397,7 @@ const Contact = () => {
               />
               <label
                 htmlFor="message"
-                className={`absolute left-4 top-5 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm duration-200 ${
+                className={`px-3 sm:px-4 pt-5 sm:pt-6 pb-2 text-sm sm:text-base z-10 origin-[0] -translate-y-4 scale-75 transform text-sm duration-200 ${
                   touched.message && !validation.message
                     ? "text-red-500"
                     : formData.message
@@ -464,7 +464,7 @@ const Contact = () => {
 
         {/* Contact Info Cards */}
         <motion.div
-          className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-4"
+          className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -474,7 +474,7 @@ const Contact = () => {
               isDark
                 ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
                 : "bg-white/70 backdrop-blur-sm border-slate-200/70"
-            } p-6 text-center shadow-lg border transition-all duration-300`}
+            } p-4 sm:p-6 text-center shadow-lg border transition-all duration-300`}
             variants={itemVariants}
           >
             <div
@@ -505,7 +505,7 @@ const Contact = () => {
               isDark
                 ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
                 : "bg-white/70 backdrop-blur-sm border-slate-200/70"
-            } p-6 text-center shadow-lg border transition-all duration-300`}
+            } p-4 sm:p-6 text-center shadow-lg border transition-all duration-300`}
             variants={itemVariants}
           >
             <div
@@ -536,7 +536,7 @@ const Contact = () => {
               isDark
                 ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
                 : "bg-white/70 backdrop-blur-sm border-slate-200/70"
-            } p-6 text-center shadow-lg border transition-all duration-300`}
+            } p-4 sm:p-6 text-center shadow-lg border transition-all duration-300`}
             variants={itemVariants}
           >
             <div
@@ -567,7 +567,7 @@ const Contact = () => {
               isDark
                 ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
                 : "bg-white/70 backdrop-blur-sm border-slate-200/70"
-            } p-6 text-center shadow-lg border transition-all duration-300`}
+            } p-4 sm:p-6 text-center shadow-lg border transition-all duration-300`}
             variants={itemVariants}
           >
             <div

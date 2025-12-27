@@ -42,6 +42,7 @@ import MRContact from "./pages/MR/Contact";
 // Admin
 import AdminLogin from "./components/Developer's/AdminLogin";
 import Products from "./pages/MR/Products";
+import Companies from "./pages/MR/Companies";
 
 // Page layout wrapper
 const PageLayout = ({ children }) => {
@@ -190,6 +191,14 @@ const AnimatedRoutes = () => {
           element={
             <PageLayout>
               <Products />
+            </PageLayout>
+          }
+        />
+        <Route
+          path="/medical-rep/companies"
+          element={
+            <PageLayout>
+              <Companies />
             </PageLayout>
           }
         />

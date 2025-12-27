@@ -144,7 +144,7 @@ const Coverage = () => {
       <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600 rounded-full filter blur-3xl opacity-5 animate-pulse"></div>
       <div className="absolute -bottom-16 -left-16 w-72 h-72 bg-indigo-600 rounded-full filter blur-3xl opacity-5 animate-pulse"></div>
 
-      <div className="relative mt-10 z-10 w-full max-w-6xl mx-auto">
+      <div className="relative mt-6 sm:mt-8 md:mt-10 z-10 w-full max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         {/* Header */}
         <motion.div
           className="text-center mb-12"
@@ -153,7 +153,7 @@ const Coverage = () => {
           transition={{ duration: 0.6 }}
         >
           <h1
-            className={`text-4xl sm:text-5xl font-bold ${
+            className={`text-3xl sm:text-4xl md:text-5xl font-bold ${
               isDark ? "text-white" : "text-slate-900"
             } mb-4 transition-colors duration-300`}
           >
@@ -184,7 +184,7 @@ const Coverage = () => {
             >
               Doctor Coverage Approach
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {doctorCoverage.map((item, index) => {
                 const Icon = item.icon;
                 return (
@@ -197,7 +197,7 @@ const Coverage = () => {
                       isDark
                         ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
                         : "bg-white/80 backdrop-blur-sm border-slate-200/70"
-                    } border p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
+                    } border p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
                   >
                     <div
                       className={`p-3 rounded-lg mb-4 inline-block ${
@@ -374,7 +374,7 @@ const Coverage = () => {
             >
               Chemist & Market Coordination
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {chemistResponsibilities.map((item, index) => {
                 const Icon = item.icon;
                 return (
@@ -387,7 +387,7 @@ const Coverage = () => {
                       isDark
                         ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
                         : "bg-white/80 backdrop-blur-sm border-slate-200/70"
-                    } border p-6 shadow-lg transition-all duration-300`}
+                    } border p-4 sm:p-6 shadow-lg transition-all duration-300`}
                   >
                     <div
                       className={`p-3 rounded-lg mb-4 inline-block ${
@@ -453,7 +453,7 @@ const Coverage = () => {
             >
               Field Contributions
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               {fieldContributions.map((contribution, index) => {
                 const Icon = contribution.icon;
                 return (
@@ -466,7 +466,7 @@ const Coverage = () => {
                       isDark
                         ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
                         : "bg-white/80 backdrop-blur-sm border-slate-200/70"
-                    } border p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
+                    } border p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
                   >
                     <div
                       className={`w-12 h-12 rounded-lg ${

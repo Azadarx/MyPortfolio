@@ -102,7 +102,7 @@ const Experience = () => {
       <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600 rounded-full filter blur-3xl opacity-5 animate-pulse"></div>
       <div className="absolute -bottom-16 -left-16 w-72 h-72 bg-indigo-600 rounded-full filter blur-3xl opacity-5 animate-pulse"></div>
 
-      <div className="relative mt-10 z-10 w-full max-w-6xl mx-auto">
+      <div className="relative mt-6 sm:mt-8 md:mt-10 z-10 w-full max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         {/* Header */}
         <motion.div
           className="text-center mb-12"
@@ -111,7 +111,7 @@ const Experience = () => {
           transition={{ duration: 0.6 }}
         >
           <h1
-            className={`text-4xl sm:text-5xl font-bold ${
+            className={`text-3xl sm:text-4xl md:text-5xl font-bold ${
               isDark ? "text-white" : "text-slate-900"
             } mb-4 transition-colors duration-300`}
           >
@@ -141,9 +141,9 @@ const Experience = () => {
               isDark
                 ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
                 : "bg-white/80 backdrop-blur-sm border-slate-200/70"
-            } border p-8 shadow-xl transition-all duration-300`}
+            } border p-4 sm:p-6 md:p-8 shadow-xl transition-all duration-300`}
           >
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
               <div className="flex items-start space-x-4 mb-4 md:mb-0">
                 <div
                   className={`p-3 rounded-lg ${
@@ -154,7 +154,7 @@ const Experience = () => {
                 </div>
                 <div>
                   <h2
-                    className={`text-2xl font-bold ${
+                    className={`text-xl sm:text-2xl font-bold ${
                       isDark ? "text-white" : "text-slate-900"
                     }`}
                   >
@@ -242,7 +242,7 @@ const Experience = () => {
             >
               Key Achievements
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {achievements.map((achievement, index) => {
                 const Icon = achievement.icon;
                 return (
@@ -291,7 +291,7 @@ const Experience = () => {
               isDark
                 ? "bg-slate-800/60 backdrop-blur-sm border-slate-700/50"
                 : "bg-white/80 backdrop-blur-sm border-slate-200/70"
-            } border p-8 shadow-xl transition-all duration-300`}
+            } border p-4 sm:p-6 md:p-8 shadow-xl transition-all duration-300`}
           >
             <h3
               className={`text-xl font-bold mb-6 ${
@@ -300,7 +300,7 @@ const Experience = () => {
             >
               Professional Skills & Expertise
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
               {[
                 "Doctor Detailing",
                 "Territory Management",

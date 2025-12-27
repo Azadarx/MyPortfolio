@@ -103,7 +103,7 @@ const MedicalRepHome = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="mb-20 mt-16"
+          className="mb-12 sm:mb-16 md:mb-20 mt-12 sm:mt-16"
         >
           <motion.div variants={itemVariants} className="text-center mb-12">
             <div className="inline-flex items-center justify-center mb-8">
@@ -143,7 +143,7 @@ const MedicalRepHome = () => {
                       } shadow-xl`}
                     >
                       {/* Image container */}
-                      <div className="relative w-32 h-32 group-hover:scale-105 transition-transform duration-500">
+                      <div className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 group-hover:scale-105 transition-transform duration-500">
                         <img
                           src={MRProfileImg}
                           alt="Syed Azadar Hussain"
@@ -201,14 +201,14 @@ const MedicalRepHome = () => {
             </div>
 
             <h1
-              className={`text-5xl sm:text-6xl lg:text-7xl font-bold mb-4 ${
+              className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 ${
                 currentTheme === "dark" ? "text-white" : "text-slate-900"
               }`}
             >
               Syed Azadar Hussain
             </h1>
 
-            <p className="text-2xl sm:text-3xl font-semibold mb-3 text-blue-600">
+            <p className="text-xl sm:text-2xl md:text-3xl font-semibold mb-3 text-blue-600">
               Medical Representative
             </p>
 
@@ -235,7 +235,7 @@ const MedicalRepHome = () => {
             {/* Experience Counter */}
             <motion.div
               variants={itemVariants}
-              className={`inline-flex items-center gap-6 px-8 py-4 rounded-xl ${
+              className={`inline-flex items-center gap-3 sm:gap-4 md:gap-6 px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl ${
                 currentTheme === "dark"
                   ? "bg-slate-800/70 border border-blue-900/30"
                   : "bg-white border border-blue-100"
@@ -245,7 +245,7 @@ const MedicalRepHome = () => {
               <div className="flex gap-6 text-center">
                 <div>
                   <div
-                    className={`text-3xl font-bold ${
+                    className={`text-2xl sm:text-3xl font-bold ${
                       currentTheme === "dark" ? "text-white" : "text-slate-900"
                     }`}
                   >
@@ -268,7 +268,7 @@ const MedicalRepHome = () => {
                 ></div>
                 <div>
                   <div
-                    className={`text-3xl font-bold ${
+                    className={`text-2xl sm:text-3xl font-bold ${
                       currentTheme === "dark" ? "text-white" : "text-slate-900"
                     }`}
                   >
@@ -291,7 +291,7 @@ const MedicalRepHome = () => {
                 ></div>
                 <div>
                   <div
-                    className={`text-3xl font-bold ${
+                    className={`text-2xl sm:text-3xl font-bold ${
                       currentTheme === "dark" ? "text-white" : "text-slate-900"
                     }`}
                   >
@@ -313,11 +313,11 @@ const MedicalRepHome = () => {
             {/* CTA Buttons */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-wrap gap-4 justify-center"
+              className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center"
             >
               <a
                 href="/medical-rep/experience"
-                className={`group inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold transition-all duration-300 ${
+                className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 ${
                   currentTheme === "dark"
                     ? "bg-blue-600 hover:bg-blue-700 text-white"
                     : "bg-blue-600 hover:bg-blue-700 text-white"
@@ -328,7 +328,7 @@ const MedicalRepHome = () => {
               </a>
               <a
                 href="/medical-rep/coverage"
-                className={`group inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold transition-all duration-300 ${
+                className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 ${
                   currentTheme === "dark"
                     ? "bg-slate-800 hover:bg-slate-700 text-white border-2 border-slate-700"
                     : "bg-white hover:bg-slate-50 text-slate-900 border-2 border-slate-200"
@@ -339,7 +339,7 @@ const MedicalRepHome = () => {
               </a>
               <a
                 href="/medical-rep/contact"
-                className={`group inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold transition-all duration-300 ${
+                className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 ${
                   currentTheme === "dark"
                     ? "bg-slate-800 hover:bg-slate-700 text-white border-2 border-slate-700"
                     : "bg-white hover:bg-slate-50 text-slate-900 border-2 border-slate-200"
@@ -369,7 +369,7 @@ const MedicalRepHome = () => {
             Core Competencies
           </motion.h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {[
               {
                 icon: Users,
@@ -508,7 +508,7 @@ const MedicalRepHome = () => {
               </div>
               <div className="flex-1">
                 <h3
-                  className={`text-3xl font-bold mb-2 ${
+                  className={`text-2xl sm:text-3xl font-bold mb-2 ${
                     currentTheme === "dark" ? "text-white" : "text-slate-900"
                   }`}
                 >

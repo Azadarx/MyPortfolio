@@ -41,7 +41,8 @@ const MRFooter = () => {
   };
 
   const getFooterClasses = () => {
-    const baseClasses = "py-8 sm:py-12 px-4 sm:px-6 relative border-t";
+    const baseClasses =
+      "py-6 sm:py-8 md:py-10 lg:py-12 px-3 sm:px-4 md:px-6 relative border-t";
 
     if (currentTheme === "dark") {
       return `${baseClasses} bg-slate-900 text-gray-200 border-slate-700/50`;
@@ -62,8 +63,8 @@ const MRFooter = () => {
     <motion.footer className={getFooterClasses()}>
       <div className="max-w-6xl mx-auto">
         {/* Footer Top Section with Logo */}
-        <div className="flex flex-col items-center mb-6 sm:mb-8">
-          <h2 className="text-xl sm:text-2xl font-bold mb-2 text-center">
+        <div className="flex flex-col items-center mb-4 sm:mb-6 md:mb-8">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-1.5 sm:mb-2 text-center">
             <span className="text-blue-500">SYED AZADAR HUSSAIN</span> |
             <span
               className={
@@ -74,9 +75,9 @@ const MRFooter = () => {
               MR
             </span>
           </h2>
-          <div className="h-1 w-20 sm:w-24 bg-gradient-to-r from-blue-500 to-green-400 rounded-full mb-3 sm:mb-4"></div>
+          <div className="h-1 w-16 sm:w-20 md:w-24 bg-gradient-to-r from-blue-500 to-green-400 rounded-full mb-3 sm:mb-4"></div>
           <p
-            className={`text-center max-w-md text-sm sm:text-base px-2 ${
+            className={`text-center max-w-md text-xs sm:text-sm md:text-base px-2 sm:px-4 ${
               currentTheme === "dark" ? "text-gray-400" : "text-gray-600"
             }`}
           >
@@ -86,11 +87,11 @@ const MRFooter = () => {
         </div>
 
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
           {/* Quick Links Section */}
           <div className="text-center sm:text-left">
             <h3
-              className={`text-lg font-bold mb-3 sm:mb-4 ${
+              className={`text-base sm:text-lg font-bold mb-2 sm:mb-3 md:mb-4 ${
                 currentTheme === "dark" ? "text-white" : "text-slate-800"
               } relative inline-block`}
             >
@@ -122,7 +123,7 @@ const MRFooter = () => {
           {/* Contact Information */}
           <div className="text-center">
             <h3
-              className={`text-lg font-bold mb-3 sm:mb-4 ${
+              className={`text-base sm:text-lg font-bold mb-2 sm:mb-3 md:mb-4 ${
                 currentTheme === "dark" ? "text-white" : "text-slate-800"
               } relative inline-block`}
             >
@@ -133,25 +134,34 @@ const MRFooter = () => {
               <p
                 className={`${
                   currentTheme === "dark" ? "text-gray-400" : "text-gray-600"
-                } flex items-center justify-center gap-2 text-sm sm:text-base break-all px-2 sm:px-0`}
+                } flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base break-all px-2 sm:px-0`}
               >
-                <Mail size={16} className="text-blue-500 flex-shrink-0" />
+                <Mail
+                  size={16}
+                  className="text-blue-500 flex-shrink-0 sm:w-4 sm:h-4 sm:w-4 sm:h-4"
+                />
                 <span>syedazadarhussayn@gmail.com</span>
               </p>
               <p
                 className={`${
                   currentTheme === "dark" ? "text-gray-400" : "text-gray-600"
-                } flex items-center justify-center gap-2`}
+                } flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base`}
               >
-                <Phone size={16} className="text-blue-500 flex-shrink-0" />
+                <Phone
+                  size={16}
+                  className="text-blue-500 flex-shrink-0 sm:w-4 sm:h-4 sm:w-4 sm:h-4"
+                />
                 <span>Available on request</span>
               </p>
               <p
                 className={`${
                   currentTheme === "dark" ? "text-gray-400" : "text-gray-600"
-                } flex items-center justify-center gap-2`}
+                } flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base`}
               >
-                <Briefcase size={16} className="text-blue-500 flex-shrink-0" />
+                <Briefcase
+                  size={16}
+                  className="text-blue-500 flex-shrink-0 sm:w-4 sm:h-4 sm:w-4 sm:h-4"
+                />
                 <span>Medical Representative</span>
               </p>
             </div>
@@ -160,14 +170,14 @@ const MRFooter = () => {
           {/* Social Links */}
           <div className="text-center lg:text-right">
             <h3
-              className={`text-lg font-bold mb-3 sm:mb-4 ${
+              className={`text-base sm:text-lg font-bold mb-2 sm:mb-3 md:mb-4 ${
                 currentTheme === "dark" ? "text-white" : "text-slate-800"
               } relative inline-block`}
             >
               Connect
               <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500 to-green-400"></span>
             </h3>
-            <div className="flex justify-center lg:justify-end space-x-3 sm:space-x-4">
+            <div className="flex justify-center lg:justify-end space-x-2 sm:space-x-3 md:space-x-4">
               <motion.a
                 href="https://www.linkedin.com/in/syed-azadar-hussain-94325a291/"
                 target="_blank"
@@ -177,14 +187,16 @@ const MRFooter = () => {
                   currentTheme === "dark"
                     ? "bg-slate-800 hover:bg-blue-500/20"
                     : "bg-slate-200 hover:bg-blue-500/10"
-                } p-2 sm:p-3 rounded-full transition-colors duration-300`}
+                } p-2 sm:p-2.5 md:p-3 rounded-full transition-colors duration-300`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <Linkedin
-                  size={18}
+                  size={16}
                   className={
-                    currentTheme === "dark" ? "text-white" : "text-slate-700"
+                    "sm:w-[18px] sm:h-[18px]" + currentTheme === "dark"
+                      ? "text-white"
+                      : "text-slate-700"
                   }
                 />
               </motion.a>
@@ -197,7 +209,7 @@ const MRFooter = () => {
                   currentTheme === "dark"
                     ? "bg-slate-800 hover:bg-blue-500/20"
                     : "bg-slate-200 hover:bg-blue-500/10"
-                } p-2 sm:p-3 rounded-full transition-colors duration-300`}
+                } p-2 sm:p-2.5 md:p-3 rounded-full transition-colors duration-300`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -215,7 +227,7 @@ const MRFooter = () => {
                   currentTheme === "dark"
                     ? "bg-slate-800 hover:bg-blue-500/20"
                     : "bg-slate-200 hover:bg-blue-500/10"
-                } p-2 sm:p-3 rounded-full transition-colors duration-300`}
+                } p-2 sm:p-2.5 md:p-3 rounded-full transition-colors duration-300`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -233,7 +245,7 @@ const MRFooter = () => {
                   currentTheme === "dark"
                     ? "bg-slate-800 hover:bg-blue-500/20"
                     : "bg-slate-200 hover:bg-blue-500/10"
-                } p-2 sm:p-3 rounded-full transition-colors duration-300`}
+                } p-2 sm:p-2.5 md:p-3 rounded-full transition-colors duration-300`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -250,12 +262,12 @@ const MRFooter = () => {
 
         {/* Copyright Section */}
         <div
-          className={`mt-8 sm:mt-10 pt-4 sm:pt-6 border-t ${
+          className={`mt-6 sm:mt-8 md:mt-10 pt-3 sm:pt-4 md:pt-6 border-t ${
             currentTheme === "dark" ? "border-gray-800" : "border-gray-300"
           } text-center`}
         >
           <p
-            className={`text-xs sm:text-sm ${
+            className={`text-[10px] sm:text-xs md:text-sm ${
               currentTheme === "dark" ? "text-gray-400" : "text-gray-600"
             }`}
           >
@@ -276,7 +288,7 @@ const MRFooter = () => {
         <motion.button
           onClick={scrollToTop}
           aria-label="Scroll to top"
-          className={`fixed bottom-4 right-4 sm:bottom-8 sm:right-8 bg-blue-500 text-white p-2 sm:p-3 rounded-full ${
+          className={`fixed bottom-3 right-3 sm:bottom-6 sm:right-6 md:bottom-8 md:right-8 bg-blue-500 text-white p-2 sm:p-2.5 md:p-3 rounded-full ${
             currentTheme === "dark"
               ? "shadow-lg shadow-blue-500/20"
               : "shadow-md shadow-blue-500/30"
@@ -287,8 +299,9 @@ const MRFooter = () => {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
-          <ArrowUp size={20} className="sm:hidden" />
-          <ArrowUp size={24} className="hidden sm:block" />
+          <ArrowUp size={18} className="sm:hidden" />
+          <ArrowUp size={20} className="hidden sm:block md:hidden" />
+          <ArrowUp size={24} className="hidden md:block" />
         </motion.button>
       )}
     </motion.footer>

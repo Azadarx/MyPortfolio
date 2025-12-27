@@ -171,25 +171,25 @@ const ProfileSelector = () => {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-4 md:mb-6"
+          className="text-center mb-3 sm:mb-4 md:mb-6"
         >
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 backdrop-blur-sm border border-blue-500/20 rounded-full mb-2"
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-500/10 backdrop-blur-sm border border-blue-500/20 rounded-full mb-2"
           >
             <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-            <span className="text-xs font-medium text-blue-400">
+            <span className="text-[10px] sm:text-xs font-medium text-blue-400">
               Choose Your Profile
             </span>
           </motion.div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold text-white mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
             Welcome
           </h1>
-          <div className="h-1 w-24 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 mx-auto mb-2" />
-          <p className="text-sm md:text-base text-slate-400 max-w-2xl mx-auto">
+          <div className="h-1 w-16 sm:w-20 md:w-24 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 mx-auto mb-2" />
+          <p className="text-xs sm:text-sm md:text-base text-slate-400 max-w-2xl mx-auto">
             Select a profile to explore the professional journey
           </p>
         </motion.div>
@@ -199,7 +199,7 @@ const ProfileSelector = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 max-w-4xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 max-w-4xl mx-auto px-2 sm:px-0"
         >
           {profiles.map((profile, index) => {
             const Icon = profile.icon;
@@ -219,9 +219,9 @@ const ProfileSelector = () => {
                   />
 
                   {/* Card */}
-                  <div className="relative bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-6 transition-all duration-500 group-hover:border-blue-500/50 group-hover:shadow-2xl group-hover:shadow-blue-500/20 group-hover:-translate-y-2">
+                  <div className="relative bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl sm:rounded-3xl p-4 sm:p-6 transition-all duration-500 group-hover:border-blue-500/50 group-hover:shadow-2xl group-hover:shadow-blue-500/20 group-hover:-translate-y-2">
                     {/* Profile Image */}
-                    <div className="relative mx-auto w-36 h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 mb-4">
+                    <div className="relative mx-auto w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 mb-3 sm:mb-4">
                       {/* Animated rings */}
                       <div
                         className={`absolute -inset-4 rounded-full bg-gradient-to-r ${profile.gradient} opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500`}
@@ -231,7 +231,7 @@ const ProfileSelector = () => {
                       />
 
                       {/* Image container */}
-                      <div className="relative w-full h-full rounded-full overflow-hidden ring-2 ring-blue-500/30 ring-offset-4 ring-offset-slate-800 group-hover:ring-blue-400/60 transition-all duration-500 group-hover:ring-offset-8 group-hover:scale-105">
+                      <div className="relative w-full h-full rounded-full overflow-hidden ring-2 ring-blue-500/30 ring-offset-2 sm:ring-offset-4 ring-offset-slate-800 group-hover:ring-blue-400/60 transition-all duration-500 group-hover:ring-offset-8 group-hover:scale-105">
                         <img
                           src={profile.image}
                           alt={profile.title}
@@ -245,9 +245,9 @@ const ProfileSelector = () => {
 
                         {/* Icon badge */}
                         <div
-                          className={`absolute bottom-1 right-1 w-10 h-10 rounded-full bg-gradient-to-br ${profile.gradient} flex items-center justify-center shadow-lg transform translate-y-16 group-hover:translate-y-0 transition-transform duration-500`}
+                          className={`absolute bottom-0.5 sm:bottom-1 right-0.5 sm:right-1 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br ${profile.gradient} flex items-center justify-center shadow-lg transform translate-y-16 group-hover:translate-y-0 transition-transform duration-500`}
                         >
-                          <Icon className="w-5 h-5 text-white" />
+                          <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                         </div>
                       </div>
 
@@ -258,19 +258,19 @@ const ProfileSelector = () => {
 
                     {/* Content */}
                     <div className="text-center">
-                      <h2 className="text-xl md:text-2xl font-bold text-white mb-1.5 group-hover:bg-clip-text group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-indigo-400 transition-all duration-300">
+                      <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1.5 group-hover:bg-clip-text group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-indigo-400 transition-all duration-300">
                         {profile.title}
                       </h2>
-                      <p className="text-slate-400 mb-4 text-xs md:text-sm font-medium">
+                      <p className="text-slate-400 mb-3 sm:mb-4 text-xs sm:text-sm font-medium">
                         {profile.subtitle}
                       </p>
 
                       {/* Explore Button */}
-                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-700/50 backdrop-blur-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-500/25">
-                        <span className="text-sm text-slate-300 group-hover:text-white font-medium transition-colors duration-300">
+                      <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-700/50 backdrop-blur-sm rounded-xl group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-500/25">
+                        <span className="text-xs sm:text-sm text-slate-300 group-hover:text-white font-medium transition-colors duration-300">
                           Explore Profile
                         </span>
-                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+                        <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
                       </div>
                     </div>
 
@@ -294,11 +294,11 @@ const ProfileSelector = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
-          className="text-center mt-4 md:mt-6"
+          className="text-center mt-3 sm:mt-4 md:mt-6"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800/40 backdrop-blur-sm border border-slate-700/30 rounded-full">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-800/40 backdrop-blur-sm border border-slate-700/30 rounded-full">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <p className="text-sm text-slate-500">
+            <p className="text-xs sm:text-sm text-slate-500">
               Click on any profile to continue
             </p>
           </div>
